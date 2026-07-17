@@ -1,0 +1,15 @@
+{
+  "name": "@aescion/constants",
+  "version": "0.0.0",
+  "private": true,
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "devDependencies": {
+    "@aescion/typescript-config": "*",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,1142 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ======================================================
+// ENUMS
+// ======================================================
+
+enum RecordStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  ARCHIVED
+  SUSPENDED
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+  UNDER_REVIEW
+}
+
+enum LeadSource {
+  WEBSITE
+  INTERNSHIP
+  TRAINING
+  CONTACT_FORM
+  CORPORATE
+  MANUAL
+  REFERRAL
+  SOCIAL_MEDIA
+}
+
+enum LeadPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum LeadPipelineStage {
+  NEW
+  CONTACTED
+  MEETING_SCHEDULED
+  PROPOSAL_SENT
+  NEGOTIATION
+  APPROVED
+  REJECTED
+  CONVERTED
+  LOST
+}
+
+enum ApplicationType {
+  INTERNSHIP
+  CAREER
+  TRAINING
+  CORPORATE_INQUIRY
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  SHORTLISTED
+  INTERVIEW_SCHEDULED
+  SELECTED
+  REJECTED
+  WITHDRAWN
+}
+
+enum NotificationChannel {
+  EMAIL
+  IN_APP
+  SMS
+  WHATSAPP
+  PUSH
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+  DISMISSED
+}
+
+enum EmailStatus {
+  QUEUED
+  SENDING
+  SENT
+  FAILED
+  BOUNCED
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  PDF
+  DOCUMENT
+  SPREADSHEET
+  PRESENTATION
+  ARCHIVE
+  SVG
+  OTHER
+}
+
+// Enterprise Enums
+enum OrganizationUnitType {
+  COMPANY
+  BRANCH
+  DEPARTMENT
+  BUSINESS_UNIT
+  ACADEMIC_UNIT
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PARTIAL
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  HALF_DAY
+  ON_LEAVE
+  LATE
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnrollmentStatus {
+  ENROLLED
+  IN_PROGRESS
+  COMPLETED
+  DROPPED
+}
+
+// ======================================================
+// MULTI-TENANT / ORGANIZATION
+// ======================================================
+
+model Tenant {
+  id          String       @id @default(uuid()) @db.Uuid
+  name        String
+  domain      String?      @unique
+  logo        String?
+  status      RecordStatus @default(ACTIVE)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+  createdBy   String?      @db.Uuid
+  updatedBy   String?      @db.Uuid
+  deletedBy   String?      @db.Uuid
+
+  // Relations
+  users          User[]
+  roles          Role[]
+  auditLogs      AuditLog[]
+  blogs          Blog[]
+  services       Service[]
+  pages          Page[]
+  categories     Category[]
+  tags           Tag[]
+  mediaFolders   MediaFolder[]
+  mediaFiles     MediaFile[]
+  leads          Lead[]
+  applications   Application[]
+  emailTemplates EmailTemplate[]
+  emailLogs      EmailLog[]
+  notifications  Notification[]
+  settings       SystemSetting[]
+
+  // Enterprise / OS Relations
+  orgUnits       OrganizationUnit[]
+  subscriptions  Subscription[]
+  invoices       Invoice[]
+  payments       Payment[]
+  assets         Asset[]
+  leaveRequests  LeaveRequest[]
+  courses        Course[]
+  enrollments    Enrollment[]
+  prompts        AIPrompt[]
+  agents         AIAgent[]
+  integrations   IntegrationConfig[]
+
+  @@index([status])
+}
+
+// ======================================================
+// USER & AUTHENTICATION
+// ======================================================
+
+model User {
+  id             String       @id @default(uuid()) @db.Uuid
+  tenantId       String       @db.Uuid
+  email          String       @unique
+  password       String
+  firstName      String
+  lastName       String
+  avatar         String?
+  bio            String?      @db.Text
+  phone          String?
+  timezone       String?      @default("UTC")
+  language       String?      @default("en")
+  lastLoginAt    DateTime?
+  failedAttempts Int          @default(0)
+  isLocked       Boolean      @default(false)
+  isVerified     Boolean      @default(false)
+  status         RecordStatus @default(ACTIVE)
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  deletedAt      DateTime?
+  createdBy      String?      @db.Uuid
+  updatedBy      String?      @db.Uuid
+  deletedBy      String?      @db.Uuid
+
+  // Relations
+  tenant            Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  role              Role?           @relation(fields: [roleId], references: [id])
+  roleId            String?         @db.Uuid
+  auditLogs         AuditLog[]
+  blogs             Blog[]          @relation("BlogAuthor")
+  assignedLeads     Lead[]          @relation("LeadOwner")
+  leadActivities    LeadActivity[]
+  leadNotes         LeadNote[]
+  notifications     Notification[]
+  assignedApps      Application[]   @relation("AppAssignee")
+
+  // HRMS & LMS Relations
+  employeeProfile   EmployeeProfile?
+  leaveRequests     LeaveRequest[]
+  attendances       AttendanceRecord[]
+  enrollments       Enrollment[]
+
+  @@index([tenantId])
+  @@index([email])
+  @@index([status])
+}
+
+// ======================================================
+// RBAC (ROLE-BASED ACCESS CONTROL)
+// ======================================================
+
+model Role {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String?      @db.Uuid
+  name        String
+  description String?
+  isSystem    Boolean      @default(false)
+  status      RecordStatus @default(ACTIVE)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+  createdBy   String?      @db.Uuid
+  updatedBy   String?      @db.Uuid
+  deletedBy   String?      @db.Uuid
+
+  // Relations
+  tenant      Tenant?      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  permissions RolePermission[]
+  users       User[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+}
+
+model Permission {
+  id          String       @id @default(uuid()) @db.Uuid
+  module      String
+  action      String
+  description String?
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  roles       RolePermission[]
+
+  @@unique([module, action])
+  @@index([module])
+}
+
+model RolePermission {
+  id           String     @id @default(uuid()) @db.Uuid
+  roleId       String     @db.Uuid
+  permissionId String     @db.Uuid
+
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+}
+
+// ======================================================
+// AUDIT LOGGING
+// ======================================================
+
+model AuditLog {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String?  @db.Uuid
+  userId      String?  @db.Uuid
+  module      String
+  action      String
+  entityId    String?
+  entityType  String?
+  oldValue    Json?
+  newValue    Json?
+  ipAddress   String?
+  userAgent   String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  tenant      Tenant?  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@index([userId])
+  @@index([module])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
+
+// ======================================================
+// CMS - PAGES & PAGE BUILDER
+// ======================================================
+
+model Page {
+  id          String        @id @default(uuid()) @db.Uuid
+  tenantId    String        @db.Uuid
+  title       String
+  slug        String        @unique
+  description String?       @db.Text
+  status      ContentStatus @default(DRAFT)
+  publishedAt DateTime?
+  scheduledAt DateTime?
+  template    String?
+
+  // SEO
+  metaTitle   String?
+  metaDesc    String?
+  ogImage     String?
+  canonical   String?
+  noIndex     Boolean       @default(false)
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+  createdBy   String?       @db.Uuid
+  updatedBy   String?       @db.Uuid
+  deletedBy   String?       @db.Uuid
+
+  // Relations
+  tenant      Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  blocks      PageBlock[]
+  versions    PageVersion[]
+
+  @@index([tenantId])
+  @@index([slug])
+  @@index([status])
+}
+
+model PageBlock {
+  id          String   @id @default(uuid()) @db.Uuid
+  pageId      String   @db.Uuid
+  blockType   String   // hero, features, stats, gallery, cta, faq, testimonials, timeline, cards, partners
+  content     Json     // Flexible JSON for any block type
+  order       Int      @default(0)
+  isVisible   Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  page        Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+  @@index([order])
+}
+
+model PageVersion {
+  id          String   @id @default(uuid()) @db.Uuid
+  pageId      String   @db.Uuid
+  version     Int
+  snapshot    Json     // Full snapshot of page + blocks at that point
+  changedBy   String?  @db.Uuid
+  changeNote  String?
+  createdAt   DateTime @default(now())
+
+  // Relations
+  page        Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, version])
+  @@index([pageId])
+}
+
+// ======================================================
+// BLOG ENGINE
+// ======================================================
+
+model Blog {
+  id            String        @id @default(uuid()) @db.Uuid
+  tenantId      String        @db.Uuid
+  authorId      String?       @db.Uuid
+  categoryId    String?       @db.Uuid
+  title         String
+  slug          String        @unique
+  content       String        @db.Text
+  excerpt       String?       @db.Text
+  readTime      String?
+  isFeatured    Boolean       @default(false)
+  status        ContentStatus @default(DRAFT)
+  publishedAt   DateTime?
+  scheduledAt   DateTime?
+
+  // SEO & Media
+  coverImage    String?
+  metaTitle     String?
+  metaDesc      String?
+  ogImage       String?
+  canonical     String?
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  deletedAt     DateTime?
+  createdBy     String?       @db.Uuid
+  updatedBy     String?       @db.Uuid
+  deletedBy     String?       @db.Uuid
+
+  // Relations
+  tenant        Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  author        User?         @relation("BlogAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  category      Category?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags          BlogTag[]
+
+  @@index([tenantId])
+  @@index([slug])
+  @@index([status])
+  @@index([authorId])
+  @@index([categoryId])
+  @@index([publishedAt])
+}
+
+model Category {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  name        String
+  slug        String       @unique
+  description String?
+  icon        String?
+  order       Int          @default(0)
+  status      RecordStatus @default(ACTIVE)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  blogs       Blog[]
+
+  @@unique([tenantId, slug])
+  @@index([tenantId])
+}
+
+model Tag {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  name        String
+  slug        String       @unique
+  status      RecordStatus @default(ACTIVE)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relations
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  blogs       BlogTag[]
+
+  @@unique([tenantId, slug])
+  @@index([tenantId])
+}
+
+model BlogTag {
+  id     String @id @default(uuid()) @db.Uuid
+  blogId String @db.Uuid
+  tagId  String @db.Uuid
+
+  blog   Blog   @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([blogId, tagId])
+}
+
+// ======================================================
+// MEDIA LIBRARY (DAM)
+// ======================================================
+
+model MediaFolder {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  name        String
+  parentId    String?      @db.Uuid
+  path        String       // e.g., /images/blog
+  status      RecordStatus @default(ACTIVE)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  createdBy   String?      @db.Uuid
+
+  // Relations
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent      MediaFolder? @relation("FolderHierarchy", fields: [parentId], references: [id])
+  children    MediaFolder[] @relation("FolderHierarchy")
+  files       MediaFile[]
+
+  @@index([tenantId])
+  @@index([parentId])
+}
+
+model MediaFile {
+  id           String       @id @default(uuid()) @db.Uuid
+  tenantId     String       @db.Uuid
+  folderId     String?      @db.Uuid
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int          // bytes
+  url          String
+  thumbnailUrl String?
+  altText      String?
+  caption      String?
+  width        Int?
+  height       Int?
+  mediaType    MediaType    @default(OTHER)
+  metadata     Json?
+  status       RecordStatus @default(ACTIVE)
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
+  createdBy    String?      @db.Uuid
+
+  // Relations
+  tenant       Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  folder       MediaFolder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@index([folderId])
+  @@index([mediaType])
+  @@index([mimeType])
+}
+
+// ======================================================
+// CRM - LEAD MANAGEMENT
+// ======================================================
+
+model Lead {
+  id            String            @id @default(uuid()) @db.Uuid
+  tenantId      String            @db.Uuid
+  ownerId       String?           @db.Uuid
+  firstName     String
+  lastName      String
+  email         String
+  phone         String?
+  company       String?
+  designation   String?
+  source        LeadSource        @default(WEBSITE)
+  priority      LeadPriority      @default(MEDIUM)
+  stage         LeadPipelineStage @default(NEW)
+  tags          String[]
+  budget        String?
+  requirement   String?           @db.Text
+  status        RecordStatus      @default(ACTIVE)
+
+  convertedAt   DateTime?
+  lastContactAt DateTime?
+
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  deletedAt     DateTime?
+  createdBy     String?           @db.Uuid
+  updatedBy     String?           @db.Uuid
+  deletedBy     String?           @db.Uuid
+
+  // Relations
+  tenant        Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  owner         User?             @relation("LeadOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  activities    LeadActivity[]
+  notes         LeadNote[]
+  tasks         LeadTask[]
+
+  @@index([tenantId])
+  @@index([ownerId])
+  @@index([source])
+  @@index([stage])
+  @@index([priority])
+  @@index([email])
+}
+
+model LeadActivity {
+  id          String   @id @default(uuid()) @db.Uuid
+  leadId      String   @db.Uuid
+  userId      String?  @db.Uuid
+  type        String   // email, call, meeting, note, stage_change, assignment
+  description String   @db.Text
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([leadId])
+  @@index([createdAt])
+}
+
+model LeadNote {
+  id        String   @id @default(uuid()) @db.Uuid
+  leadId    String   @db.Uuid
+  userId    String?  @db.Uuid
+  content   String   @db.Text
+  isPinned  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([leadId])
+}
+
+model LeadTask {
+  id          String       @id @default(uuid()) @db.Uuid
+  leadId      String       @db.Uuid
+  title       String
+  description String?      @db.Text
+  dueDate     DateTime?
+  priority    LeadPriority @default(MEDIUM)
+  isCompleted Boolean      @default(false)
+  completedAt DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  lead        Lead         @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+  @@index([dueDate])
+}
+
+// ======================================================
+// APPLICATION MODULE (Careers, Internships, Training)
+// ======================================================
+
+model Application {
+  id            String            @id @default(uuid()) @db.Uuid
+  tenantId      String            @db.Uuid
+  assigneeId    String?           @db.Uuid
+  type          ApplicationType
+  firstName     String
+  lastName      String
+  email         String
+  phone         String?
+  college       String?
+  degree        String?
+  position      String?
+  resumeUrl     String?
+  portfolioUrl  String?
+  coverLetter   String?           @db.Text
+  documents     String[]
+  status        ApplicationStatus @default(SUBMITTED)
+  notes         String?           @db.Text
+  interviewDate DateTime?
+  metadata      Json?
+
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  deletedAt     DateTime?
+  createdBy     String?           @db.Uuid
+  updatedBy     String?           @db.Uuid
+  deletedBy     String?           @db.Uuid
+
+  // Relations
+  tenant        Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  assignee      User?             @relation("AppAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@index([type])
+  @@index([status])
+  @@index([email])
+}
+
+// ======================================================
+// EMAIL MODULE
+// ======================================================
+
+model EmailTemplate {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  name        String
+  slug        String       @unique
+  subject     String
+  body        String       @db.Text
+  variables   String[]     // e.g., {{firstName}}, {{resetLink}}
+  type        String       // welcome, verification, forgot_password, lead, newsletter
+  isActive    Boolean      @default(true)
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  createdBy   String?      @db.Uuid
+
+  // Relations
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  logs        EmailLog[]
+
+  @@unique([tenantId, slug])
+  @@index([tenantId])
+  @@index([type])
+}
+
+model EmailLog {
+  id           String      @id @default(uuid()) @db.Uuid
+  tenantId     String      @db.Uuid
+  templateId   String?     @db.Uuid
+  to           String
+  cc           String?
+  bcc          String?
+  subject      String
+  body         String      @db.Text
+  status       EmailStatus @default(QUEUED)
+  attempts     Int         @default(0)
+  sentAt       DateTime?
+  errorMessage String?
+  metadata     Json?
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  // Relations
+  tenant       Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  template     EmailTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([to])
+  @@index([createdAt])
+}
+
+// ======================================================
+// NOTIFICATION MODULE
+// ======================================================
+
+model Notification {
+  id          String             @id @default(uuid()) @db.Uuid
+  tenantId    String             @db.Uuid
+  userId      String             @db.Uuid
+  title       String
+  message     String
+  channel     NotificationChannel @default(IN_APP)
+  status      NotificationStatus  @default(UNREAD)
+  type        String             // login, lead, application, approval, publish, assignment, reminder
+  actionUrl   String?
+  metadata    Json?
+  readAt      DateTime?
+
+  createdAt   DateTime           @default(now())
+
+  // Relations
+  tenant      Tenant             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ======================================================
+// SETTINGS MODULE
+// ======================================================
+
+model SystemSetting {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  group       String   // organization, branding, smtp, storage, social, theme, features
+  key         String
+  value       Json
+  description String?
+  isPublic    Boolean  @default(false) // If true, can be fetched by public API
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  updatedBy   String?  @db.Uuid
+
+  // Relations
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, group, key])
+  @@index([tenantId])
+  @@index([group])
+}
+
+// ======================================================
+// SERVICES (Existing - Enhanced)
+// ======================================================
+
+model Service {
+  id               String        @id @default(uuid()) @db.Uuid
+  tenantId         String        @db.Uuid
+  title            String
+  slug             String        @unique
+  shortDescription String
+  content          String        @db.Text
+  icon             String?
+  features         String[]
+  order            Int           @default(0)
+  status           ContentStatus @default(DRAFT)
+
+  metaTitle        String?
+  metaDesc         String?
+
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  deletedAt        DateTime?
+  createdBy        String?       @db.Uuid
+  updatedBy        String?       @db.Uuid
+  deletedBy        String?       @db.Uuid
+
+  // Relations
+  tenant           Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([slug])
+  @@index([status])
+}
+
+// ======================================================
+// ORGANIZATION MODULE
+// ======================================================
+
+model OrganizationUnit {
+  id          String               @id @default(uuid()) @db.Uuid
+  tenantId    String               @db.Uuid
+  name        String
+  type        OrganizationUnitType
+  parentId    String?              @db.Uuid
+  status      RecordStatus         @default(ACTIVE)
+  
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  tenant      Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  parent      OrganizationUnit?    @relation("OrgHierarchy", fields: [parentId], references: [id])
+  children    OrganizationUnit[]   @relation("OrgHierarchy")
+  employees   EmployeeProfile[]
+
+  @@index([tenantId])
+  @@index([parentId])
+}
+
+model Subscription {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  planId      String
+  status      RecordStatus @default(ACTIVE)
+  startDate   DateTime
+  endDate     DateTime?
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+// ======================================================
+// ERP FOUNDATION
+// ======================================================
+
+model Invoice {
+  id          String        @id @default(uuid()) @db.Uuid
+  tenantId    String        @db.Uuid
+  invoiceNo   String
+  status      InvoiceStatus @default(DRAFT)
+  amount      Float
+  currency    String        @default("USD")
+  dueDate     DateTime?
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  tenant      Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  payments    Payment[]
+
+  @@unique([tenantId, invoiceNo])
+  @@index([tenantId])
+}
+
+model Payment {
+  id          String        @id @default(uuid()) @db.Uuid
+  tenantId    String        @db.Uuid
+  invoiceId   String?       @db.Uuid
+  amount      Float
+  status      PaymentStatus @default(PENDING)
+  reference   String?
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  tenant      Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoice     Invoice?      @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@index([invoiceId])
+}
+
+model Asset {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  name        String
+  tagNumber   String?
+  status      RecordStatus @default(ACTIVE)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+// ======================================================
+// HRMS FOUNDATION
+// ======================================================
+
+model EmployeeProfile {
+  id          String            @id @default(uuid()) @db.Uuid
+  userId      String            @unique @db.Uuid
+  orgUnitId   String?           @db.Uuid
+  employeeId  String?
+  designation String?
+  joiningDate DateTime?
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orgUnit     OrganizationUnit? @relation(fields: [orgUnitId], references: [id], onDelete: SetNull)
+
+  @@index([orgUnitId])
+}
+
+model LeaveRequest {
+  id          String      @id @default(uuid()) @db.Uuid
+  tenantId    String      @db.Uuid
+  userId      String      @db.Uuid
+  type        String
+  startDate   DateTime
+  endDate     DateTime
+  status      LeaveStatus @default(PENDING)
+  reason      String?     @db.Text
+  
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  tenant      Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([userId])
+}
+
+model AttendanceRecord {
+  id          String           @id @default(uuid()) @db.Uuid
+  userId      String           @db.Uuid
+  date        DateTime         @db.Date
+  status      AttendanceStatus @default(PRESENT)
+  checkIn     DateTime?
+  checkOut    DateTime?
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId])
+}
+
+// ======================================================
+// LMS FOUNDATION
+// ======================================================
+
+model Course {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  title       String
+  slug        String       @unique
+  description String?      @db.Text
+  status      CourseStatus @default(DRAFT)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  modules     CourseModule[]
+  enrollments Enrollment[]
+
+  @@index([tenantId])
+  @@index([slug])
+}
+
+model CourseModule {
+  id          String   @id @default(uuid()) @db.Uuid
+  courseId    String   @db.Uuid
+  title       String
+  order       Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons     Lesson[]
+
+  @@index([courseId])
+}
+
+model Lesson {
+  id          String       @id @default(uuid()) @db.Uuid
+  moduleId    String       @db.Uuid
+  title       String
+  content     String?      @db.Text
+  videoUrl    String?
+  order       Int          @default(0)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  module      CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@index([moduleId])
+}
+
+model Enrollment {
+  id          String           @id @default(uuid()) @db.Uuid
+  tenantId    String           @db.Uuid
+  courseId    String           @db.Uuid
+  userId      String           @db.Uuid
+  status      EnrollmentStatus @default(ENROLLED)
+  progress    Int              @default(0)
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  tenant      Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  course      Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, userId])
+  @@index([tenantId])
+}
+
+// ======================================================
+// AI MODULE
+// ======================================================
+
+model AIPrompt {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @db.Uuid
+  name        String
+  content     String   @db.Text
+  model       String   @default("gpt-4")
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+model AIAgent {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  name        String
+  role        String
+  status      RecordStatus @default(ACTIVE)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+// ======================================================
+// INTEGRATION LAYER
+// ======================================================
+
+model IntegrationConfig {
+  id          String       @id @default(uuid()) @db.Uuid
+  tenantId    String       @db.Uuid
+  provider    String       // e.g., 'STRIPE', 'AWS', 'SLACK'
+  credentials Json
+  status      RecordStatus @default(ACTIVE)
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, provider])
+  @@index([tenantId])
+}
