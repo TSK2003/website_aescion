@@ -1,86 +1,105 @@
 # AESCION Enterprise Software Ecosystem
 
+## Project Overview
 Welcome to the **AESCION Enterprise Software Ecosystem**. This repository represents the definitive, production-ready architecture powering the entirety of AESCION's digital footprint. It integrates a public-facing website, a comprehensive Admin Operating System (Admin OS), and a highly scalable, secure NestJS backend.
 
-## 🏛️ Repository Structure
-
+## Architecture Diagram
 The system relies on a strict, clean separation of concerns into two primary domains:
 
+- **Frontend Domain**: Next.js 14/15, React 19, Tailwind CSS v4, Zustand, TanStack Query, Shadcn/Radix UI.
+- **Backend Domain**: NestJS, TypeScript, PostgreSQL, Prisma ORM, JWT, bcrypt.
+- **Infrastructure**: AWS EC2, PM2, GitHub Actions (CI/CD).
+
+## Repository Structure
 ```text
 AESCION
 ├── .github/            # GitHub Actions CI/CD workflows
-├── Frontend/           # All client applications (Next.js)
-│   ├── admin/          # Admin OS (Port 3002)
-│   ├── website/        # Public Website (Port 3000)
-│   ├── packages/       # Shared TS packages (types, constants)
-│   └── package.json    # Frontend Workspace configuration
-├── Backend/            # NestJS API & Database Operations (Port 3001)
-│   ├── prisma/         # Database schemas and seed scripts
-│   ├── src/            # Core business logic and controllers
-│   └── ecosystem.config.js # PM2 deployment configuration
+├── Frontend/           # All client applications and Next.js workspaces
+├── Backend/            # NestJS API, Database operations & PM2 configs
 ├── .gitignore
 └── README.md
 ```
 
-## 🛠️ Technology Stack
+## Folder Explanation
+- **Frontend/admin/**: Admin OS portal running on Port 3002.
+- **Frontend/website/**: Public-facing Website running on Port 3000.
+- **Frontend/packages/**: Shared TypeScript packages, constants, and utilities for the frontend workspace.
+- **Backend/src/**: Core business logic, controllers, and services for the NestJS API.
+- **Backend/prisma/**: Database schemas, migration files, and seed scripts.
+- **.github/workflows/**: CI/CD automation pipelines for continuous deployment.
 
-- **Frontend**: Next.js 14/15, React 19, Tailwind CSS v4, Zustand, TanStack Query, Shadcn/Radix UI.
-- **Backend**: NestJS, TypeScript, PostgreSQL, Prisma ORM, JWT, bcrypt.
-- **Infrastructure**: AWS EC2, PM2, GitHub Actions (CI/CD).
+## Installation
+Ensure you have Node.js (v20+), PostgreSQL (v14+), and Git installed.
 
-## 🚀 Setup & Installation Guide
-
-### Prerequisites
-- Node.js (v20+)
-- PostgreSQL (v14+)
-- Git
-
-### 1. Development Setup
-Clone the repository and install dependencies in their respective isolated environments:
+## Frontend Setup
+Clone the repository and install the frontend ecosystem (which utilizes npm workspaces for independent dependency management):
 ```bash
-git clone https://github.com/your-org/aescion.git
-cd aescion
-
-# Install Frontend ecosystem
-cd Frontend
+git clone https://github.com/TSK2003/website_aescion.git
+cd website_aescion/Frontend
 npm install
+```
 
-# Install Backend ecosystem
+## Backend Setup
+Install the backend ecosystem independently:
+```bash
 cd ../Backend
 npm install
 ```
 
-### 2. Environment Configuration
-Copy the provided environment templates:
+## Environment Variables
+Environment variables are strictly isolated between the domains.
+Copy the provided environment templates and configure them accordingly:
+
+**Frontend**:
 ```bash
 cp Frontend/.env.example Frontend/.env
+```
+Ensure `NEXT_PUBLIC_API_URL` is configured correctly.
+
+**Backend**:
+```bash
 cp Backend/.env.example Backend/.env
 ```
-Ensure you set your PostgreSQL connection string in `Backend/.env` (`DATABASE_URL`).
+Ensure your PostgreSQL connection string in `Backend/.env` (`DATABASE_URL`) is properly set.
 
-### 3. Database Migration & Seeding
-From the `Backend/` directory, generate the client, migrate, and securely seed the Super Admin:
+## Database Commands
+From the `Backend/` directory, perform database migrations and generate the Prisma client:
 ```bash
 cd Backend
 npx prisma generate
 npx prisma migrate dev --name init
+```
+
+## Seed Commands
+From the `Backend/` directory, seed the database with initial required data (e.g., Super Admin):
+```bash
+cd Backend
 npm run prisma db seed
 ```
 
-## 💻 Development Commands
+## Development Commands
+- **Run API (Backend)**: `cd Backend && npm run start:dev` (Runs on Port 3001)
+- **Run Admin (Frontend)**: `cd Frontend && npm run dev:admin` (Runs on Port 3002)
+- **Run Website (Frontend)**: `cd Frontend && npm run dev:website` (Runs on Port 3000)
+- **TypeScript Verification**: Run `npx tsc --noEmit` inside the respective directories.
+- **Linter**: Run `npm run lint` inside the respective directories.
 
-- **Run API (Backend)**: `cd Backend && npm run start:dev`
-- **Run Admin (Frontend)**: `cd Frontend && npm run dev:admin`
-- **Run Website (Frontend)**: `cd Frontend && npm run dev:website`
-- **TypeScript Verification**: Run `npx tsc --noEmit` inside respective directories.
-- **Linter**: Run `npm run lint` inside respective directories.
+## Production Commands
+Run isolated production builds:
+```bash
+cd Backend && npm run build
+cd ../Frontend/admin && npm run build
+cd ../website && npm run build
+```
 
-## 🌍 Production Setup (AWS EC2 + PM2)
+## Deployment Guide
+The deployment is automated via GitHub Actions (`.github/workflows/deploy.yml`).
+The pipeline will lint, test, build, and deploy the application to your EC2 instance via SSH, executing a zero-downtime PM2 reload.
 
-This architecture utilizes a blazingly fast native Node.js runtime managed by PM2 cluster mode.
+## PM2 Guide
+The architecture utilizes a blazingly fast native Node.js runtime managed by PM2 cluster mode. The PM2 configuration (`ecosystem.config.js`) lives inside the `Backend/` directory.
 
 ### Start via PM2
-The PM2 configuration lives inside the `Backend/` directory and orchestrates the entire platform:
 ```bash
 cd Backend
 pm2 start ecosystem.config.js
@@ -91,13 +110,19 @@ pm2 startup
 ### PM2 Commands
 - **Check Status**: `pm2 status`
 - **View Logs**: `pm2 logs`
-- **Zero-Downtime Reload**: `pm2 reload ecosystem.config.js`
+- **Zero-Downtime Reload**: `pm2 reload ecosystem.config.js --update-env`
 
-### CI/CD Pipeline
-`.github/workflows/deploy.yml` automates the release:
-- Lints and tests both `Frontend` and `Backend`.
-- Executes isolated builds.
-- Deploys to EC2 via SSH and triggers a PM2 zero-downtime reload.
+## Troubleshooting
+- **Git Push Error on `Frontend/admin`**: The repository is set up with independent frontend/backend environments but tracked by a single `.git` repository at the root. Do not initialize a separate `.git` folder inside subdirectories.
+- **Missing Environment Variables**: Make sure to always copy from `.env.example` when cloning on a new machine.
 
----
-*Developed for the AESCION Enterprise. See internal roadmap documentation for ERP and HRMS milestones.*
+## FAQ
+- **Why are dependencies separated?** To maintain true isolation and ensure clean micro-architectural boundaries between the frontend Next.js workspace and the backend NestJS environment.
+
+## Contribution Guide
+Please ensure that your PRs follow the established directory structure. Do not place root-level configuration files unless absolutely necessary. Run Linters and TypeScript verification locally before submitting any pull requests.
+
+## Future Roadmap
+- Implementation of comprehensive ERP and HRMS features.
+- Advanced monitoring and telemetry integration.
+- Automated API documentation syncing and deployment.
