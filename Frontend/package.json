@@ -11,9 +11,13 @@
   "scripts": {
     "dev:admin": "npm run dev --workspace=admin",
     "dev:website": "npm run dev --workspace=website",
+    "build": "npm run build --workspaces --if-present",
     "build:admin": "npm run build --workspace=admin",
     "build:website": "npm run build --workspace=website",
     "lint": "npm run lint --workspaces",
     "install:all": "npm install"
+  },
+  "dependencies": {
+    "minipass": "^7.1.3"
   }
 }

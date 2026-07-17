@@ -59,9 +59,11 @@
   }
 
   * {
-    @apply border-border;
+    border-color: var(--surface-border);
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary-100 selection:text-primary-900;
+    background-color: var(--bg-primary);
+    color: var(--color-neutral-900);
+    @apply antialiased;
   }
 }

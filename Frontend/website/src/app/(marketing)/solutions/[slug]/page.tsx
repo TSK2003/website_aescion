@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { CheckCircle2, ArrowRight, BarChart3, Layers, Settings2 } from 'lucide-react';
 
 interface SolutionDetailPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 // Mock data — will be replaced by CMS in production
@@ -64,7 +64,8 @@ const DEFAULT_SOLUTION = {
   ],
 };
 
-export async function generateMetadata({ params }: SolutionDetailPageProps): Promise<Metadata> {
+export async function generateMetadata(props: SolutionDetailPageProps): Promise<Metadata> {
+  const params = await props.params;
   const data = SOLUTIONS_DATA[params.slug] || DEFAULT_SOLUTION;
   return {
     title: `${data.title} | AESCION Solutions`,
@@ -72,7 +73,8 @@ export async function generateMetadata({ params }: SolutionDetailPageProps): Pro
   };
 }
 
-export default function SolutionDetailPage({ params }: SolutionDetailPageProps) {
+export default async function SolutionDetailPage(props: SolutionDetailPageProps) {
+  const params = await props.params;
   const data = SOLUTIONS_DATA[params.slug] || DEFAULT_SOLUTION;
 
   return (

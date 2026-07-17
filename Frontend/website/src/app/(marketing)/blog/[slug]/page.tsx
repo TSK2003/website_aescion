@@ -8,10 +8,11 @@ import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { Calendar, User, Clock, ArrowLeft, Share2, Linkedin, Twitter } from 'lucide-react';
 
 interface BlogPostPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata(props: BlogPostPageProps): Promise<Metadata> {
+  const params = await props.params;
   const post = await cmsClient.blogs.getBySlug(params.slug);
   if (!post) return { title: 'Blog Post Not Found | AESCION' };
   return {
@@ -27,7 +28,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   };
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function BlogPostPage(props: BlogPostPageProps) {
+  const params = await props.params;
   const post = await cmsClient.blogs.getBySlug(params.slug);
   if (!post) notFound();
 

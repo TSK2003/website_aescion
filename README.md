@@ -68,13 +68,16 @@ From the `Backend/` directory, perform database migrations and generate the Pris
 cd Backend
 npx prisma generate
 npx prisma migrate dev --name init
+npx prisma migrate reset
+npx prisma db seed
 ```
 
 ## Seed Commands
 From the `Backend/` directory, seed the database with initial required data (e.g., Super Admin):
 ```bash
 cd Backend
-npm run prisma db seed
+npx prisma migrate reset
+npx prisma db seed
 ```
 
 ## Development Commands

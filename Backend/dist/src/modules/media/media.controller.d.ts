@@ -1,0 +1,126 @@
+import { MediaService } from './media.service';
+export declare class MediaController {
+    private readonly mediaService;
+    constructor(mediaService: MediaService);
+    getFolders(user: any, parentId?: string): Promise<{
+        status: import("@prisma/client").$Enums.RecordStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        createdBy: string | null;
+        name: string;
+        parentId: string | null;
+        path: string;
+    }[]>;
+    createFolder(user: any, body: {
+        name: string;
+        parentId?: string;
+    }): Promise<{
+        status: import("@prisma/client").$Enums.RecordStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        createdBy: string | null;
+        name: string;
+        parentId: string | null;
+        path: string;
+    }>;
+    getFiles(user: any, page?: number, limit?: number, folderId?: string, mediaType?: string, search?: string): Promise<{
+        items: {
+            status: import("@prisma/client").$Enums.RecordStatus;
+            id: string;
+            tenantId: string;
+            createdAt: Date;
+            updatedAt: Date;
+            deletedAt: Date | null;
+            createdBy: string | null;
+            metadata: import("@prisma/client/runtime/client").JsonValue | null;
+            folderId: string | null;
+            mediaType: import("@prisma/client").$Enums.MediaType;
+            altText: string | null;
+            originalName: string;
+            filename: string;
+            mimeType: string;
+            size: number;
+            url: string;
+            thumbnailUrl: string | null;
+            caption: string | null;
+            width: number | null;
+            height: number | null;
+        }[];
+        meta: {
+            total: number;
+            page: number;
+            limit: number;
+            totalPages: number;
+        };
+    }>;
+    registerFile(user: any, body: any): Promise<{
+        status: import("@prisma/client").$Enums.RecordStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+        createdBy: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        folderId: string | null;
+        mediaType: import("@prisma/client").$Enums.MediaType;
+        altText: string | null;
+        originalName: string;
+        filename: string;
+        mimeType: string;
+        size: number;
+        url: string;
+        thumbnailUrl: string | null;
+        caption: string | null;
+        width: number | null;
+        height: number | null;
+    }>;
+    updateFile(id: string, body: any): Promise<{
+        status: import("@prisma/client").$Enums.RecordStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+        createdBy: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        folderId: string | null;
+        mediaType: import("@prisma/client").$Enums.MediaType;
+        altText: string | null;
+        originalName: string;
+        filename: string;
+        mimeType: string;
+        size: number;
+        url: string;
+        thumbnailUrl: string | null;
+        caption: string | null;
+        width: number | null;
+        height: number | null;
+    }>;
+    deleteFile(id: string, user: any): Promise<{
+        status: import("@prisma/client").$Enums.RecordStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+        createdBy: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        folderId: string | null;
+        mediaType: import("@prisma/client").$Enums.MediaType;
+        altText: string | null;
+        originalName: string;
+        filename: string;
+        mimeType: string;
+        size: number;
+        url: string;
+        thumbnailUrl: string | null;
+        caption: string | null;
+        width: number | null;
+        height: number | null;
+    }>;
+}

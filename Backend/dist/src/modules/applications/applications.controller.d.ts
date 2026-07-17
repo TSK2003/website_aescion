@@ -1,0 +1,165 @@
+import { ApplicationsService } from './applications.service';
+export declare class ApplicationsController {
+    private readonly appsService;
+    constructor(appsService: ApplicationsService);
+    submitApplication(body: any): Promise<{
+        status: import("@prisma/client").$Enums.ApplicationStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        type: import("@prisma/client").$Enums.ApplicationType;
+        email: string;
+        lastName: string;
+        firstName: string;
+        phone: string | null;
+        notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        assigneeId: string | null;
+        position: string | null;
+        college: string | null;
+        degree: string | null;
+        resumeUrl: string | null;
+        portfolioUrl: string | null;
+        coverLetter: string | null;
+        documents: string[];
+        interviewDate: Date | null;
+    }>;
+    getAllApplications(user: any, page?: number, limit?: number, type?: string, status?: string, search?: string): Promise<{
+        items: ({
+            assignee: {
+                id: string;
+                lastName: string;
+                firstName: string;
+            } | null;
+        } & {
+            status: import("@prisma/client").$Enums.ApplicationStatus;
+            id: string;
+            tenantId: string;
+            createdAt: Date;
+            updatedAt: Date;
+            deletedAt: Date | null;
+            createdBy: string | null;
+            updatedBy: string | null;
+            deletedBy: string | null;
+            type: import("@prisma/client").$Enums.ApplicationType;
+            email: string;
+            lastName: string;
+            firstName: string;
+            phone: string | null;
+            notes: string | null;
+            metadata: import("@prisma/client/runtime/client").JsonValue | null;
+            assigneeId: string | null;
+            position: string | null;
+            college: string | null;
+            degree: string | null;
+            resumeUrl: string | null;
+            portfolioUrl: string | null;
+            coverLetter: string | null;
+            documents: string[];
+            interviewDate: Date | null;
+        })[];
+        meta: {
+            total: number;
+            page: number;
+            limit: number;
+            totalPages: number;
+        };
+    }>;
+    getApplicationById(id: string): Promise<{
+        assignee: {
+            id: string;
+            email: string;
+            lastName: string;
+            firstName: string;
+        } | null;
+    } & {
+        status: import("@prisma/client").$Enums.ApplicationStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        type: import("@prisma/client").$Enums.ApplicationType;
+        email: string;
+        lastName: string;
+        firstName: string;
+        phone: string | null;
+        notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        assigneeId: string | null;
+        position: string | null;
+        college: string | null;
+        degree: string | null;
+        resumeUrl: string | null;
+        portfolioUrl: string | null;
+        coverLetter: string | null;
+        documents: string[];
+        interviewDate: Date | null;
+    }>;
+    updateStatus(id: string, user: any, body: {
+        status: string;
+    }): Promise<{
+        status: import("@prisma/client").$Enums.ApplicationStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        type: import("@prisma/client").$Enums.ApplicationType;
+        email: string;
+        lastName: string;
+        firstName: string;
+        phone: string | null;
+        notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        assigneeId: string | null;
+        position: string | null;
+        college: string | null;
+        degree: string | null;
+        resumeUrl: string | null;
+        portfolioUrl: string | null;
+        coverLetter: string | null;
+        documents: string[];
+        interviewDate: Date | null;
+    }>;
+    assignUser(id: string, user: any, body: {
+        assigneeId: string;
+    }): Promise<{
+        status: import("@prisma/client").$Enums.ApplicationStatus;
+        id: string;
+        tenantId: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+        createdBy: string | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        type: import("@prisma/client").$Enums.ApplicationType;
+        email: string;
+        lastName: string;
+        firstName: string;
+        phone: string | null;
+        notes: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        assigneeId: string | null;
+        position: string | null;
+        college: string | null;
+        degree: string | null;
+        resumeUrl: string | null;
+        portfolioUrl: string | null;
+        coverLetter: string | null;
+        documents: string[];
+        interviewDate: Date | null;
+    }>;
+}

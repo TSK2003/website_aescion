@@ -9,10 +9,11 @@ import { notFound } from 'next/navigation';
 import { CheckCircle2, ArrowRight, Code, Settings, Rocket, Shield, Headset } from 'lucide-react';
 
 interface ServiceDetailPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: ServiceDetailPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ServiceDetailPageProps): Promise<Metadata> {
+  const params = await props.params;
   const service = await cmsClient.services.getBySlug(params.slug);
   if (!service) return { title: 'Service Not Found | AESCION' };
   return {
@@ -36,7 +37,8 @@ const faqs = [
   { question: 'How do you ensure code quality?', answer: 'We enforce strict code review policies, maintain 80%+ test coverage, use automated CI/CD pipelines, and follow clean architecture principles.' },
 ];
 
-export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
+export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
+  const params = await props.params;
   const service = await cmsClient.services.getBySlug(params.slug);
   if (!service) notFound();
 
