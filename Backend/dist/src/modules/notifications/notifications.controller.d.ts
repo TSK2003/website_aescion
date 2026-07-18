@@ -9,9 +9,9 @@ export declare class NotificationsController {
         title: string;
         createdAt: Date;
         type: string;
+        message: string;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
         userId: string;
-        message: string;
         channel: import("@prisma/client").$Enums.NotificationChannel;
         actionUrl: string | null;
         readAt: Date | null;
@@ -23,9 +23,9 @@ export declare class NotificationsController {
         title: string;
         createdAt: Date;
         type: string;
+        message: string;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
         userId: string;
-        message: string;
         channel: import("@prisma/client").$Enums.NotificationChannel;
         actionUrl: string | null;
         readAt: Date | null;

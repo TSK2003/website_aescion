@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { Metadata } from 'next';
 import { PageHero } from '@/components/ui/page-hero';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
@@ -86,9 +87,9 @@ export default function ContactPage() {
                 <div className="p-8 bg-neutral-900 rounded-3xl text-white">
                   <h3 className="text-xl font-bold mb-3">Careers Inquiry?</h3>
                   <p className="text-neutral-400 mb-6 text-sm">Please do not use this form for job applications. Visit our careers portal instead.</p>
-                  <a href="/careers" className="inline-block px-6 py-2 border border-neutral-700 hover:border-neutral-500 rounded-lg text-sm font-semibold transition-colors">
+                  <Link href="/careers" className="inline-block px-6 py-2 border border-neutral-700 hover:border-neutral-500 rounded-lg text-sm font-semibold transition-colors">
                     View Open Positions
-                  </a>
+                  </Link>
                 </div>
                 
               </div>

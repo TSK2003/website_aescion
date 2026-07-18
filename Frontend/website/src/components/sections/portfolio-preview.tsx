@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
@@ -17,56 +20,97 @@ const projects = [
   }
 ];
 
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.2 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }
+};
+
 export function PortfolioPreview() {
   return (
-    <section className="py-24 bg-white">
-      <div className="container mx-auto px-6 max-w-7xl">
+    <section className="py-32 bg-neutral-50 relative overflow-hidden">
+      {/* Decorative gradients */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary-100/50 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary-100/50 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4 tracking-tight">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl"
+          >
+            <h2 className="text-3xl md:text-5xl font-extrabold text-neutral-900 mb-6 tracking-tight">
               Featured Case Studies
             </h2>
-            <p className="text-lg text-neutral-600">
+            <p className="text-xl text-neutral-600 leading-relaxed">
               Explore how we've helped leading organizations solve complex technical challenges.
             </p>
-          </div>
-          <Link 
-            href="/solutions" 
-            className="inline-flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-700 transition-colors group"
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            View All Projects
-            <ArrowUpRight className="w-5 h-5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
+            <Link 
+              href="/solutions" 
+              className="inline-flex items-center gap-2 text-primary-600 font-bold hover:text-primary-700 transition-colors group text-lg"
+            >
+              View All Projects
+              <ArrowUpRight className="w-6 h-6 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10"
+        >
           {projects.map((project, idx) => (
-            <div key={idx} className="group rounded-2xl overflow-hidden border border-neutral-200 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-500 bg-neutral-50">
-              <div className="aspect-video bg-neutral-200 relative overflow-hidden">
-                {/* Placeholder for project image */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-neutral-300 to-neutral-100 group-hover:scale-105 transition-transform duration-700"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-neutral-400 font-medium">Project Visual</div>
-              </div>
-              <div className="p-8 bg-white">
-                <div className="text-sm font-semibold text-primary-600 mb-3">{project.category}</div>
-                <h3 className="text-2xl font-bold text-neutral-900 mb-4 group-hover:text-primary-600 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-neutral-600 mb-6 leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, tIdx) => (
-                    <span key={tIdx} className="px-3 py-1 rounded-full bg-neutral-100 text-neutral-600 text-xs font-medium">
-                      {tag}
-                    </span>
-                  ))}
+            <motion.div variants={itemVariants} key={idx}>
+              <Link href="/solutions" className="group block rounded-[2.5rem] overflow-hidden border border-neutral-200/60 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-500 bg-white shadow-xl shadow-neutral-200/20">
+                <div className="aspect-[16/10] bg-neutral-900 relative overflow-hidden">
+                  {/* Abstract Project Visual */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-neutral-800 to-neutral-950 group-hover:scale-105 transition-transform duration-700 flex items-center justify-center">
+                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-500/40 to-secondary-500/40 blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center text-white/50 font-medium font-mono text-sm tracking-widest uppercase">
+                    Project Visual
+                  </div>
                 </div>
-              </div>
-            </div>
+                <div className="p-10 bg-white">
+                  <div className="text-sm font-bold text-primary-600 mb-4 tracking-wider uppercase">{project.category}</div>
+                  <h3 className="text-3xl font-extrabold text-neutral-900 mb-4 group-hover:text-primary-600 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-neutral-600 mb-8 leading-relaxed text-lg">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, tIdx) => (
+                      <span key={tIdx} className="px-4 py-1.5 rounded-full bg-neutral-100 text-neutral-700 text-sm font-semibold border border-neutral-200/60">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
     </section>

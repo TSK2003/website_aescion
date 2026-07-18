@@ -3,21 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "admin",
     "website",
     "packages/*",
     "packages/config/*"
   ],
   "scripts": {
-    "dev:admin": "npm run dev --workspace=admin",
+    "dev": "npm run dev:website",
     "dev:website": "npm run dev --workspace=website",
     "build": "npm run build --workspaces --if-present",
-    "build:admin": "npm run build --workspace=admin",
     "build:website": "npm run build --workspace=website",
     "lint": "npm run lint --workspaces",
     "install:all": "npm install"
   },
   "dependencies": {
     "minipass": "^7.1.3"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
   }
 }

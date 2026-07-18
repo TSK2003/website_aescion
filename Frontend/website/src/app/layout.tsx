@@ -39,8 +39,9 @@ export default function RootLayout({
     url: 'https://aescion.com',
     logo: 'https://aescion.com/logo.png',
     sameAs: [
-      'https://linkedin.com/company/aescion',
-      'https://twitter.com/aescion',
+      'https://www.linkedin.com/company/aescion-edtech/',
+      'https://www.instagram.com/aescion_edtech_solutions?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+      'https://www.facebook.com/profile.php?id=61585357586915'
     ],
   };
 

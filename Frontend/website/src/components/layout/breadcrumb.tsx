@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ChevronRight, Home } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 interface BreadcrumbProps {
   items: {
@@ -15,8 +15,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
       <ol className="flex items-center space-x-2">
         <li>
           <Link href="/" className="hover:text-primary-600 transition-colors flex items-center">
-            <Home className="w-4 h-4" />
-            <span className="sr-only">Home</span>
+            <span>Home</span>
           </Link>
         </li>
         {items.map((item, idx) => (

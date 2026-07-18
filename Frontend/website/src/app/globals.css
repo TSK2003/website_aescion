@@ -4,17 +4,18 @@
 
 @layer base {
   :root {
-    /* ── Primary ── */
-    --color-primary-50:  #EBE8FA;
-    --color-primary-100: #C9C1F2;
-    --color-primary-200: #9E90E6;
-    --color-primary-300: #7360DA;
-    --color-primary-400: #5238D1;
-    --color-primary-500: #2E17C2;
-    --color-primary-600: #2812A8;
-    --color-primary-700: #200D8A;
-    --color-primary-800: #18096C;
-    --color-primary-900: #100550;
+    /* ── Primary (Deep Blue) ── */
+    --color-primary-50:  #EFF6FF;
+    --color-primary-100: #DBEAFE;
+    --color-primary-200: #BFDBFE;
+    --color-primary-300: #93C5FD;
+    --color-primary-400: #60A5FA;
+    --color-primary-500: #3B82F6;
+    --color-primary-600: #1D4ED8;
+    --color-primary-700: #1E40AF;
+    --color-primary-800: #1E3A8A;
+    --color-primary-900: #172554;
+    --color-primary-950: #080D27;
 
     /* ── Secondary (Orange) ── */
     --color-secondary-50:  #FFF3E6;
@@ -34,12 +35,12 @@
     --color-neutral-200: #E5E5E5;
     --color-neutral-300: #D4D4D4;
     --color-neutral-400: #A3A3A3;
-    --color-neutral-500: #737373;
-    --color-neutral-600: #525252;
-    --color-neutral-700: #404040;
-    --color-neutral-800: #262626;
-    --color-neutral-900: #171717;
-    --color-neutral-950: #0A0A0A;
+    --color-neutral-500: #8A8A8A;
+    --color-neutral-600: #737373;
+    --color-neutral-700: #525252;
+    --color-neutral-800: #4A4A4A;
+    --color-neutral-900: #404040;
+    --color-neutral-950: #2B2B2B;
 
     /* ── Semantic ── */
     --color-success: #16A34A;

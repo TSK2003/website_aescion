@@ -1,4 +1,7 @@
+'use client';
+
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const stats = [
   { value: "50+", label: "Enterprise Clients", suffix: "" },
@@ -9,23 +12,31 @@ const stats = [
 
 export function Statistics() {
   return (
-    <section className="py-20 bg-primary-500 text-white relative overflow-hidden">
+    <section className="py-24 bg-neutral-950 text-white relative overflow-hidden border-b border-neutral-900">
       {/* Decorative patterns */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-primary-400 rounded-full blur-[80px] opacity-50 translate-x-1/2 -translate-y-1/2"></div>
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary-600 rounded-full blur-[80px] opacity-50 -translate-x-1/2 translate-y-1/2"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-primary-900/40 via-primary-800/20 to-secondary-900/40 mix-blend-overlay"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500 rounded-full blur-[120px] opacity-20 translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary-500 rounded-full blur-[120px] opacity-20 -translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center divide-x-0 lg:divide-x lg:divide-primary-400/50">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 text-center divide-x-0 lg:divide-x lg:divide-white/10">
           {stats.map((stat, idx) => (
-            <div key={idx} className="flex flex-col items-center justify-center py-4">
-              <div className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 flex items-baseline tracking-tight">
+            <motion.div 
+              key={idx} 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.5 }}
+              className="flex flex-col items-center justify-center py-6 px-4 group"
+            >
+              <div className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-3 flex items-baseline tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white to-white/70 group-hover:scale-105 transition-transform duration-300">
                 {stat.value}
-                {stat.suffix && <span className="text-3xl lg:text-4xl text-primary-200 font-medium ml-1">{stat.suffix}</span>}
+                {stat.suffix && <span className="text-3xl lg:text-4xl text-primary-400 font-medium ml-1">{stat.suffix}</span>}
               </div>
-              <div className="text-primary-100 font-medium uppercase tracking-wider text-sm">
+              <div className="text-neutral-400 font-semibold uppercase tracking-widest text-sm group-hover:text-primary-300 transition-colors">
                 {stat.label}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

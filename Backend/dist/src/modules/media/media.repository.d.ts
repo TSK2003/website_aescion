@@ -4,6 +4,7 @@ export declare class MediaRepository {
     private readonly prisma;
     constructor(prisma: PrismaService);
     findAllFolders(tenantId: string, parentId?: string): Promise<{
+        path: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -12,10 +13,10 @@ export declare class MediaRepository {
         createdBy: string | null;
         name: string;
         parentId: string | null;
-        path: string;
     }[]>;
     findFolderById(id: string): Promise<({
         children: {
+            path: string;
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
@@ -24,9 +25,9 @@ export declare class MediaRepository {
             createdBy: string | null;
             name: string;
             parentId: string | null;
-            path: string;
         }[];
     } & {
+        path: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -35,9 +36,9 @@ export declare class MediaRepository {
         createdBy: string | null;
         name: string;
         parentId: string | null;
-        path: string;
     }) | null>;
     createFolder(data: Prisma.MediaFolderCreateInput): Promise<{
+        path: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -46,9 +47,9 @@ export declare class MediaRepository {
         createdBy: string | null;
         name: string;
         parentId: string | null;
-        path: string;
     }>;
     updateFolder(id: string, data: Prisma.MediaFolderUpdateInput): Promise<{
+        path: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -57,9 +58,9 @@ export declare class MediaRepository {
         createdBy: string | null;
         name: string;
         parentId: string | null;
-        path: string;
     }>;
     deleteFolder(id: string): Promise<{
+        path: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -68,7 +69,6 @@ export declare class MediaRepository {
         createdBy: string | null;
         name: string;
         parentId: string | null;
-        path: string;
     }>;
     findAllFiles(tenantId: string, options?: {
         folderId?: string;
@@ -78,6 +78,7 @@ export declare class MediaRepository {
         take?: number;
     }): Promise<{
         data: {
+            url: string;
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
@@ -93,7 +94,6 @@ export declare class MediaRepository {
             filename: string;
             mimeType: string;
             size: number;
-            url: string;
             thumbnailUrl: string | null;
             caption: string | null;
             width: number | null;
@@ -102,6 +102,7 @@ export declare class MediaRepository {
         total: number;
     }>;
     findFileById(id: string): Promise<{
+        url: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -117,13 +118,13 @@ export declare class MediaRepository {
         filename: string;
         mimeType: string;
         size: number;
-        url: string;
         thumbnailUrl: string | null;
         caption: string | null;
         width: number | null;
         height: number | null;
     } | null>;
     createFile(data: Prisma.MediaFileCreateInput): Promise<{
+        url: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -139,13 +140,13 @@ export declare class MediaRepository {
         filename: string;
         mimeType: string;
         size: number;
-        url: string;
         thumbnailUrl: string | null;
         caption: string | null;
         width: number | null;
         height: number | null;
     }>;
     updateFile(id: string, data: Prisma.MediaFileUpdateInput): Promise<{
+        url: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -161,13 +162,13 @@ export declare class MediaRepository {
         filename: string;
         mimeType: string;
         size: number;
-        url: string;
         thumbnailUrl: string | null;
         caption: string | null;
         width: number | null;
         height: number | null;
     }>;
     softDeleteFile(id: string, deletedBy: string): Promise<{
+        url: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -183,7 +184,6 @@ export declare class MediaRepository {
         filename: string;
         mimeType: string;
         size: number;
-        url: string;
         thumbnailUrl: string | null;
         caption: string | null;
         width: number | null;

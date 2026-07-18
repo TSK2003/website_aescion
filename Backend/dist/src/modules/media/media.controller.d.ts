@@ -3,6 +3,7 @@ export declare class MediaController {
     private readonly mediaService;
     constructor(mediaService: MediaService);
     getFolders(user: any, parentId?: string): Promise<{
+        path: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -11,12 +12,12 @@ export declare class MediaController {
         createdBy: string | null;
         name: string;
         parentId: string | null;
-        path: string;
     }[]>;
     createFolder(user: any, body: {
         name: string;
         parentId?: string;
     }): Promise<{
+        path: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -25,10 +26,10 @@ export declare class MediaController {
         createdBy: string | null;
         name: string;
         parentId: string | null;
-        path: string;
     }>;
     getFiles(user: any, page?: number, limit?: number, folderId?: string, mediaType?: string, search?: string): Promise<{
         items: {
+            url: string;
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
@@ -44,7 +45,6 @@ export declare class MediaController {
             filename: string;
             mimeType: string;
             size: number;
-            url: string;
             thumbnailUrl: string | null;
             caption: string | null;
             width: number | null;
@@ -58,6 +58,7 @@ export declare class MediaController {
         };
     }>;
     registerFile(user: any, body: any): Promise<{
+        url: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -73,13 +74,13 @@ export declare class MediaController {
         filename: string;
         mimeType: string;
         size: number;
-        url: string;
         thumbnailUrl: string | null;
         caption: string | null;
         width: number | null;
         height: number | null;
     }>;
     updateFile(id: string, body: any): Promise<{
+        url: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -95,13 +96,13 @@ export declare class MediaController {
         filename: string;
         mimeType: string;
         size: number;
-        url: string;
         thumbnailUrl: string | null;
         caption: string | null;
         width: number | null;
         height: number | null;
     }>;
     deleteFile(id: string, user: any): Promise<{
+        url: string;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -117,7 +118,6 @@ export declare class MediaController {
         filename: string;
         mimeType: string;
         size: number;
-        url: string;
         thumbnailUrl: string | null;
         caption: string | null;
         width: number | null;

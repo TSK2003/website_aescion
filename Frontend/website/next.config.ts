@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  devIndicators: {
+    appIsrStatus: false,
+  },
   reactStrictMode: true,
   transpilePackages: ["@aescion/ui", "@aescion/utils", "@aescion/types", "@aescion/constants", "@aescion/api-client"],
   images: {

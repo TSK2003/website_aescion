@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Search, Menu, X } from 'lucide-react';
 import { MobileNav } from './mobile-nav';
 import { GlobalSearch } from '../ui/global-search';
@@ -20,14 +21,20 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      // On home page, wait until text is fully revealed (about 35vh) before showing header
+      const threshold = isHomePage ? window.innerHeight * 0.35 : 20;
+      setIsScrolled(window.scrollY > threshold);
     };
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check immediately on mount
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   // Cmd+K / Ctrl+K shortcut
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -42,22 +49,23 @@ export function Header() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
+  const shouldHideHeader = isHomePage && !isScrolled;
+
   return (
     <>
       <header 
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white/80 backdrop-blur-md shadow-sm border-b border-neutral-200 py-3' 
-            : 'bg-white py-5'
+        className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+          shouldHideHeader
+            ? '-translate-y-full opacity-0 py-5 pointer-events-none'
+            : isScrolled
+              ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-neutral-200 py-3 translate-y-0 opacity-100 pointer-events-auto' 
+              : 'bg-white py-5 border-b border-neutral-100 translate-y-0 opacity-100 pointer-events-auto'
         }`}
       >
         <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg leading-none">A</span>
-            </div>
-            <span className="font-bold text-xl tracking-tight text-neutral-900">AESCION</span>
+            <img src="/logo_with_name.png" alt="Aescion Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
 
           {/* Desktop Nav */}

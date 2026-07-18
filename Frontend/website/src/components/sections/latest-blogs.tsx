@@ -50,7 +50,7 @@ export function LatestBlogs() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog, idx) => (
-            <article key={idx} className="group flex flex-col bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:shadow-xl hover:shadow-primary-500/5 hover:border-primary-200 transition-all duration-300">
+            <article key={idx} className="relative group flex flex-col bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:shadow-xl hover:shadow-primary-500/5 hover:border-primary-200 transition-all duration-300">
               <div className="aspect-[16/10] bg-neutral-100 relative overflow-hidden">
                  <div className="absolute inset-0 bg-gradient-to-br from-neutral-200 to-neutral-100 group-hover:scale-105 transition-transform duration-700"></div>
                  <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-primary-600 shadow-sm z-10">

@@ -34,10 +34,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
       <div className="relative w-full max-w-sm bg-white h-full shadow-2xl flex flex-col transform transition-transform duration-300">
         <div className="flex items-center justify-between p-6 border-b border-neutral-100">
           <Link href="/" className="flex items-center gap-2" onClick={onClose}>
-            <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg leading-none">A</span>
-            </div>
-            <span className="font-bold text-xl tracking-tight text-neutral-900">AESCION</span>
+            <img src="/logo_with_name.png" alt="Aescion Logo" className="h-8 w-auto object-contain" />
           </Link>
           <button 
             onClick={onClose}
