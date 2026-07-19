@@ -1,5 +1,20 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { MediaService } from './media.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -19,15 +34,26 @@ export class MediaController {
   @Roles('SUPER_ADMIN', 'ADMIN', 'EDITOR')
   @ApiOperation({ summary: 'List media folders' })
   @ApiQuery({ name: 'parentId', required: false })
-  async getFolders(@CurrentUser() user: any, @Query('parentId') parentId?: string) {
+  async getFolders(
+    @CurrentUser() user: any,
+    @Query('parentId') parentId?: string,
+  ) {
     return this.mediaService.getFolders(user.tenantId, parentId);
   }
 
   @Post('folders')
   @Roles('SUPER_ADMIN', 'ADMIN', 'EDITOR')
   @ApiOperation({ summary: 'Create a new folder' })
-  async createFolder(@CurrentUser() user: any, @Body() body: { name: string; parentId?: string }) {
-    return this.mediaService.createFolder(user.tenantId, body.name, body.parentId, user.id);
+  async createFolder(
+    @CurrentUser() user: any,
+    @Body() body: { name: string; parentId?: string },
+  ) {
+    return this.mediaService.createFolder(
+      user.tenantId,
+      body.name,
+      body.parentId,
+      user.id,
+    );
   }
 
   // ==================== FILES ====================
@@ -48,7 +74,13 @@ export class MediaController {
     @Query('mediaType') mediaType?: string,
     @Query('search') search?: string,
   ) {
-    return this.mediaService.getFiles(user.tenantId, { page, limit, folderId, mediaType, search });
+    return this.mediaService.getFiles(user.tenantId, {
+      page,
+      limit,
+      folderId,
+      mediaType,
+      search,
+    });
   }
 
   @Post('files/register')

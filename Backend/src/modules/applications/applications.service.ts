@@ -5,19 +5,26 @@ import { ApplicationsRepository } from './applications.repository';
 export class ApplicationsService {
   constructor(private readonly appsRepo: ApplicationsRepository) {}
 
-  async getAllApplications(tenantId: string, options: {
-    page?: number;
-    limit?: number;
-    type?: string;
-    status?: string;
-    assigneeId?: string;
-    search?: string;
-  }) {
+  async getAllApplications(
+    tenantId: string,
+    options: {
+      page?: number;
+      limit?: number;
+      type?: string;
+      status?: string;
+      assigneeId?: string;
+      search?: string;
+    },
+  ) {
     const page = options.page || 1;
     const limit = options.limit || 10;
     const skip = (page - 1) * limit;
 
-    const result = await this.appsRepo.findAll(tenantId, { ...options, skip, take: limit });
+    const result = await this.appsRepo.findAll(tenantId, {
+      ...options,
+      skip,
+      take: limit,
+    });
 
     return {
       items: result.data,
@@ -57,11 +64,17 @@ export class ApplicationsService {
 
   async updateStatus(id: string, status: string, userId: string) {
     await this.getApplicationById(id);
-    return this.appsRepo.update(id, { status: status as any, updatedBy: userId });
+    return this.appsRepo.update(id, {
+      status: status as any,
+      updatedBy: userId,
+    });
   }
 
   async assignUser(id: string, assigneeId: string, userId: string) {
     await this.getApplicationById(id);
-    return this.appsRepo.update(id, { assignee: { connect: { id: assigneeId } }, updatedBy: userId });
+    return this.appsRepo.update(id, {
+      assignee: { connect: { id: assigneeId } },
+      updatedBy: userId,
+    });
   }
 }

@@ -1,4 +1,6 @@
 import { BlogsRepository } from './blogs.repository';
+import { CreateBlogDto } from './dto/create-blog.dto';
+import { UpdateBlogDto } from './dto/update-blog.dto';
 export declare class BlogsService {
     private readonly blogsRepo;
     constructor(blogsRepo: BlogsRepository);
@@ -188,7 +190,7 @@ export declare class BlogsService {
         readTime: string | null;
         coverImage: string | null;
     }>;
-    create(tenantId: string, dto: any, userId: string): Promise<{
+    create(tenantId: string, dto: CreateBlogDto, userId: string): Promise<{
         category: {
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
@@ -248,7 +250,7 @@ export declare class BlogsService {
         readTime: string | null;
         coverImage: string | null;
     }>;
-    update(id: string, dto: any, userId: string): Promise<{
+    update(id: string, dto: UpdateBlogDto, userId: string): Promise<{
         category: {
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;

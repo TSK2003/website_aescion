@@ -19,7 +19,11 @@ let CmsService = class CmsService {
     }
     async getAllPages(tenantId, page = 1, limit = 10, status) {
         const skip = (page - 1) * limit;
-        const result = await this.cmsRepo.findAllPages(tenantId, { status, skip, take: limit });
+        const result = await this.cmsRepo.findAllPages(tenantId, {
+            status,
+            skip,
+            take: limit,
+        });
         return {
             items: result.data,
             meta: {

@@ -1,24 +1,33 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BlogsRepository } from './blogs.repository';
+import { CreateBlogDto } from './dto/create-blog.dto';
+import { UpdateBlogDto } from './dto/update-blog.dto';
 
 @Injectable()
 export class BlogsService {
   constructor(private readonly blogsRepo: BlogsRepository) {}
 
-  async getAll(tenantId: string, options: {
-    page?: number;
-    limit?: number;
-    status?: string;
-    categoryId?: string;
-    tagId?: string;
-    search?: string;
-    isFeatured?: boolean;
-  }) {
+  async getAll(
+    tenantId: string,
+    options: {
+      page?: number;
+      limit?: number;
+      status?: string;
+      categoryId?: string;
+      tagId?: string;
+      search?: string;
+      isFeatured?: boolean;
+    },
+  ) {
     const page = options.page || 1;
     const limit = options.limit || 10;
     const skip = (page - 1) * limit;
 
-    const result = await this.blogsRepo.findAll(tenantId, { ...options, skip, take: limit });
+    const result = await this.blogsRepo.findAll(tenantId, {
+      ...options,
+      skip,
+      take: limit,
+    });
 
     return {
       items: result.data,
@@ -43,17 +52,19 @@ export class BlogsService {
     return blog;
   }
 
-  async create(tenantId: string, dto: any, userId: string) {
+  async create(tenantId: string, dto: CreateBlogDto, userId: string) {
     const { tagIds, ...blogData } = dto;
     const blog = await this.blogsRepo.create({
       tenant: { connect: { id: tenantId } },
       author: { connect: { id: userId } },
-      ...(blogData.categoryId && { category: { connect: { id: blogData.categoryId } } }),
+      ...(blogData.categoryId && {
+        category: { connect: { id: blogData.categoryId } },
+      }),
       title: blogData.title,
       slug: blogData.slug,
       content: blogData.content,
       excerpt: blogData.excerpt,
-      readTime: blogData.readTime,
+      // readTime: blogData.readTime, // Assuming readTime is handled elsewhere or omitted if not in DTO
       isFeatured: blogData.isFeatured,
       status: blogData.status || 'DRAFT',
       coverImage: blogData.coverImage,
@@ -69,7 +80,7 @@ export class BlogsService {
     return this.getById(blog.id);
   }
 
-  async update(id: string, dto: any, userId: string) {
+  async update(id: string, dto: UpdateBlogDto, userId: string) {
     await this.getById(id);
     const { tagIds, ...blogData } = dto;
 

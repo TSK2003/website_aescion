@@ -1,5 +1,20 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { ApplicationsService } from './applications.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -15,7 +30,8 @@ export class ApplicationsController {
   @ApiOperation({ summary: 'Submit a new application (Public Website Form)' })
   async submitApplication(@Body() body: any) {
     // In production, we'd extract tenantId from origin or API key.
-    const defaultTenantId = process.env.DEFAULT_TENANT_ID || '00000000-0000-0000-0000-000000000001';
+    const defaultTenantId =
+      process.env.DEFAULT_TENANT_ID || '00000000-0000-0000-0000-000000000001';
     return this.appsService.submitApplication(defaultTenantId, body);
   }
 
@@ -37,7 +53,13 @@ export class ApplicationsController {
     @Query('status') status?: string,
     @Query('search') search?: string,
   ) {
-    return this.appsService.getAllApplications(user.tenantId, { page, limit, type, status, search });
+    return this.appsService.getAllApplications(user.tenantId, {
+      page,
+      limit,
+      type,
+      status,
+      search,
+    });
   }
 
   @Get(':id')
@@ -54,7 +76,11 @@ export class ApplicationsController {
   @Roles('SUPER_ADMIN', 'ADMIN', 'HR')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update application status' })
-  async updateStatus(@Param('id') id: string, @CurrentUser() user: any, @Body() body: { status: string }) {
+  async updateStatus(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+    @Body() body: { status: string },
+  ) {
     return this.appsService.updateStatus(id, body.status, user.id);
   }
 
@@ -63,7 +89,11 @@ export class ApplicationsController {
   @Roles('SUPER_ADMIN', 'ADMIN', 'HR')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Assign application to HR member' })
-  async assignUser(@Param('id') id: string, @CurrentUser() user: any, @Body() body: { assigneeId: string }) {
+  async assignUser(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+    @Body() body: { assigneeId: string },
+  ) {
     return this.appsService.assignUser(id, body.assigneeId, user.id);
   }
 }

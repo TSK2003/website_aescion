@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Put, Body, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Body,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { SettingsService } from './settings.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -14,7 +22,8 @@ export class SettingsController {
   @Get('public')
   @ApiOperation({ summary: 'Get public system settings' })
   async getPublicSettings() {
-    const defaultTenantId = process.env.DEFAULT_TENANT_ID || '00000000-0000-0000-0000-000000000001';
+    const defaultTenantId =
+      process.env.DEFAULT_TENANT_ID || '00000000-0000-0000-0000-000000000001';
     return this.settingsService.getPublicSettings(defaultTenantId);
   }
 
@@ -32,7 +41,11 @@ export class SettingsController {
   @Roles('SUPER_ADMIN', 'ADMIN')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a specific setting by group and key' })
-  async getSetting(@Param('group') group: string, @Param('key') key: string, @CurrentUser() user: any) {
+  async getSetting(
+    @Param('group') group: string,
+    @Param('key') key: string,
+    @CurrentUser() user: any,
+  ) {
     return this.settingsService.getSetting(user.tenantId, group, key);
   }
 
@@ -45,9 +58,17 @@ export class SettingsController {
     @Param('group') group: string,
     @Param('key') key: string,
     @CurrentUser() user: any,
-    @Body() body: { value: any; isPublic?: boolean; description?: string }
+    @Body() body: { value: any; isPublic?: boolean; description?: string },
   ) {
-    return this.settingsService.updateSetting(user.tenantId, group, key, body.value, body.isPublic || false, body.description || '', user.id);
+    return this.settingsService.updateSetting(
+      user.tenantId,
+      group,
+      key,
+      body.value,
+      body.isPublic || false,
+      body.description || '',
+      user.id,
+    );
   }
 
   @Post('bulk')
@@ -55,7 +76,14 @@ export class SettingsController {
   @Roles('SUPER_ADMIN', 'ADMIN')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update multiple settings in bulk' })
-  async updateBulkSettings(@CurrentUser() user: any, @Body() body: { settings: any[] }) {
-    return this.settingsService.updateBulkSettings(user.tenantId, body.settings, user.id);
+  async updateBulkSettings(
+    @CurrentUser() user: any,
+    @Body() body: { settings: any[] },
+  ) {
+    return this.settingsService.updateBulkSettings(
+      user.tenantId,
+      body.settings,
+      user.id,
+    );
   }
 }

@@ -61,13 +61,37 @@ __decorate([
     __metadata("design:type", String)
 ], CreateLeadDto.prototype, "designation", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ enum: ['WEBSITE', 'INTERNSHIP', 'TRAINING', 'CONTACT_FORM', 'CORPORATE', 'MANUAL', 'REFERRAL', 'SOCIAL_MEDIA'], default: 'WEBSITE' }),
+    (0, swagger_1.ApiPropertyOptional)({
+        enum: [
+            'WEBSITE',
+            'INTERNSHIP',
+            'TRAINING',
+            'CONTACT_FORM',
+            'CORPORATE',
+            'MANUAL',
+            'REFERRAL',
+            'SOCIAL_MEDIA',
+        ],
+        default: 'WEBSITE',
+    }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEnum)(['WEBSITE', 'INTERNSHIP', 'TRAINING', 'CONTACT_FORM', 'CORPORATE', 'MANUAL', 'REFERRAL', 'SOCIAL_MEDIA']),
+    (0, class_validator_1.IsEnum)([
+        'WEBSITE',
+        'INTERNSHIP',
+        'TRAINING',
+        'CONTACT_FORM',
+        'CORPORATE',
+        'MANUAL',
+        'REFERRAL',
+        'SOCIAL_MEDIA',
+    ]),
     __metadata("design:type", String)
 ], CreateLeadDto.prototype, "source", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ enum: ['LOW', 'MEDIUM', 'HIGH', 'URGENT'], default: 'MEDIUM' }),
+    (0, swagger_1.ApiPropertyOptional)({
+        enum: ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
+        default: 'MEDIUM',
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(['LOW', 'MEDIUM', 'HIGH', 'URGENT']),
     __metadata("design:type", String)

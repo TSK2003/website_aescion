@@ -31,29 +31,43 @@ __decorate([
     (0, swagger_1.ApiProperty)({ example: 'about', description: 'URL-friendly slug' }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Matches)(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Slug must be lowercase alphanumeric with hyphens' }),
+    (0, class_validator_1.Matches)(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
+        message: 'Slug must be lowercase alphanumeric with hyphens',
+    }),
     __metadata("design:type", String)
 ], CreatePageDto.prototype, "slug", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ example: 'Learn about our company', description: 'Page description' }),
+    (0, swagger_1.ApiPropertyOptional)({
+        example: 'Learn about our company',
+        description: 'Page description',
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreatePageDto.prototype, "description", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ enum: ['DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED'], default: 'DRAFT' }),
+    (0, swagger_1.ApiPropertyOptional)({
+        enum: ['DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED'],
+        default: 'DRAFT',
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(['DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED']),
     __metadata("design:type", String)
 ], CreatePageDto.prototype, "status", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ example: 'About AESCION | Enterprise Software', description: 'SEO Meta Title' }),
+    (0, swagger_1.ApiPropertyOptional)({
+        example: 'About AESCION | Enterprise Software',
+        description: 'SEO Meta Title',
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreatePageDto.prototype, "metaTitle", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ example: 'AESCION builds enterprise software solutions', description: 'SEO Meta Description' }),
+    (0, swagger_1.ApiPropertyOptional)({
+        example: 'AESCION builds enterprise software solutions',
+        description: 'SEO Meta Description',
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)

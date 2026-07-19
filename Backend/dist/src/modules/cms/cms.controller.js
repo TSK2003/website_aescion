@@ -69,7 +69,11 @@ __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'List all pages (admin)' }),
     (0, swagger_1.ApiQuery)({ name: 'page', required: false, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'limit', required: false, type: Number }),
-    (0, swagger_1.ApiQuery)({ name: 'status', required: false, enum: ['DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED'] }),
+    (0, swagger_1.ApiQuery)({
+        name: 'status',
+        required: false,
+        enum: ['DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED'],
+    }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Query)('page')),
     __param(2, (0, common_1.Query)('limit')),

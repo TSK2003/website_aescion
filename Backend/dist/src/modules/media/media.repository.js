@@ -36,10 +36,12 @@ let MediaRepository = class MediaRepository {
         return this.prisma.mediaFolder.update({ where: { id }, data });
     }
     async deleteFolder(id) {
-        return this.prisma.mediaFolder.update({
+        return this.prisma.mediaFolder
+            .update({
             where: { id },
             data: { status: 'DELETED' },
-        }).catch(() => this.prisma.mediaFolder.delete({ where: { id } }));
+        })
+            .catch(() => this.prisma.mediaFolder.delete({ where: { id } }));
     }
     async findAllFiles(tenantId, options) {
         const where = {
@@ -49,9 +51,21 @@ let MediaRepository = class MediaRepository {
             ...(options?.mediaType && { mediaType: options.mediaType }),
             ...(options?.search && {
                 OR: [
-                    { filename: { contains: options.search, mode: 'insensitive' } },
-                    { originalName: { contains: options.search, mode: 'insensitive' } },
-                    { altText: { contains: options.search, mode: 'insensitive' } },
+                    {
+                        filename: {
+                            contains: options.search,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        originalName: {
+                            contains: options.search,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        altText: { contains: options.search, mode: 'insensitive' },
+                    },
                 ],
             }),
         };

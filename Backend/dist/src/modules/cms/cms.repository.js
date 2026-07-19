@@ -56,7 +56,11 @@ let CmsRepository = class CmsRepository {
         return this.prisma.page.create({ data, include: { blocks: true } });
     }
     async updatePage(id, data) {
-        return this.prisma.page.update({ where: { id }, data, include: { blocks: true } });
+        return this.prisma.page.update({
+            where: { id },
+            data,
+            include: { blocks: true },
+        });
     }
     async softDeletePage(id, deletedBy) {
         return this.prisma.page.update({

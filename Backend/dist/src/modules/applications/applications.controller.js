@@ -30,7 +30,13 @@ let ApplicationsController = class ApplicationsController {
         return this.appsService.submitApplication(defaultTenantId, body);
     }
     async getAllApplications(user, page, limit, type, status, search) {
-        return this.appsService.getAllApplications(user.tenantId, { page, limit, type, status, search });
+        return this.appsService.getAllApplications(user.tenantId, {
+            page,
+            limit,
+            type,
+            status,
+            search,
+        });
     }
     async getApplicationById(id) {
         return this.appsService.getApplicationById(id);

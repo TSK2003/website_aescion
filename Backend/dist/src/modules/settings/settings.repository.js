@@ -38,7 +38,12 @@ let SettingsRepository = class SettingsRepository {
         return this.prisma.systemSetting.upsert({
             where: { tenantId_group_key: { tenantId, group, key } },
             create: { ...data, updatedBy },
-            update: { value: data.value, isPublic: data.isPublic, description: data.description, updatedBy },
+            update: {
+                value: data.value,
+                isPublic: data.isPublic,
+                description: data.description,
+                updatedBy,
+            },
         });
     }
 };

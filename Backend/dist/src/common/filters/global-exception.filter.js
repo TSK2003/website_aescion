@@ -21,10 +21,12 @@ let GlobalExceptionFilter = class GlobalExceptionFilter {
         if (exception instanceof common_1.HttpException) {
             status = exception.getStatus();
             const exceptionResponse = exception.getResponse();
-            message = typeof exceptionResponse === 'string'
-                ? exceptionResponse
-                : exceptionResponse.message || message;
-            errors = typeof exceptionResponse === 'object' ? exceptionResponse.error : null;
+            message =
+                typeof exceptionResponse === 'string'
+                    ? exceptionResponse
+                    : exceptionResponse.message || message;
+            errors =
+                typeof exceptionResponse === 'object' ? exceptionResponse.error : null;
         }
         const errorResponse = {
             success: false,

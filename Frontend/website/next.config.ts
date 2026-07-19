@@ -7,7 +7,14 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@aescion/ui", "@aescion/utils", "@aescion/types", "@aescion/constants", "@aescion/api-client"],
   images: {
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      }
+    ],
   },
   async headers() {
     return [

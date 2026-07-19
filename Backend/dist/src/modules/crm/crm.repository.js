@@ -27,17 +27,33 @@ let CrmRepository = class CrmRepository {
             ...(options?.ownerId && { ownerId: options.ownerId }),
             ...(options?.search && {
                 OR: [
-                    { firstName: { contains: options.search, mode: 'insensitive' } },
-                    { lastName: { contains: options.search, mode: 'insensitive' } },
+                    {
+                        firstName: {
+                            contains: options.search,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        lastName: {
+                            contains: options.search,
+                            mode: 'insensitive',
+                        },
+                    },
                     { email: { contains: options.search, mode: 'insensitive' } },
-                    { company: { contains: options.search, mode: 'insensitive' } },
+                    {
+                        company: { contains: options.search, mode: 'insensitive' },
+                    },
                 ],
             }),
         };
         const [data, total] = await this.prisma.$transaction([
             this.prisma.lead.findMany({
                 where,
-                include: { owner: { select: { id: true, firstName: true, lastName: true, email: true } } },
+                include: {
+                    owner: {
+                        select: { id: true, firstName: true, lastName: true, email: true },
+                    },
+                },
                 skip: options?.skip,
                 take: options?.take,
                 orderBy: { createdAt: 'desc' },
@@ -50,7 +66,9 @@ let CrmRepository = class CrmRepository {
         return this.prisma.lead.findUnique({
             where: { id },
             include: {
-                owner: { select: { id: true, firstName: true, lastName: true, email: true } },
+                owner: {
+                    select: { id: true, firstName: true, lastName: true, email: true },
+                },
                 activities: { orderBy: { createdAt: 'desc' }, take: 20 },
                 notes: { orderBy: { createdAt: 'desc' } },
                 tasks: { orderBy: { dueDate: 'asc' } },
@@ -90,7 +108,7 @@ let CrmRepository = class CrmRepository {
             where: { tenantId, deletedAt: null },
             _count: { id: true },
         });
-        return stages.map(s => ({ stage: s.stage, count: s._count.id }));
+        return stages.map((s) => ({ stage: s.stage, count: s._count.id }));
     }
     async getLeadSourceStats(tenantId) {
         const sources = await this.prisma.lead.groupBy({
@@ -98,7 +116,7 @@ let CrmRepository = class CrmRepository {
             where: { tenantId, deletedAt: null },
             _count: { id: true },
         });
-        return sources.map(s => ({ source: s.source, count: s._count.id }));
+        return sources.map((s) => ({ source: s.source, count: s._count.id }));
     }
 };
 exports.CrmRepository = CrmRepository;

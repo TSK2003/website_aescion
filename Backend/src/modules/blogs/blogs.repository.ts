@@ -6,26 +6,33 @@ import { Prisma } from '@prisma/client';
 export class BlogsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(tenantId: string, options?: {
-    status?: string;
-    categoryId?: string;
-    tagId?: string;
-    search?: string;
-    isFeatured?: boolean;
-    skip?: number;
-    take?: number;
-  }) {
+  async findAll(
+    tenantId: string,
+    options?: {
+      status?: string;
+      categoryId?: string;
+      tagId?: string;
+      search?: string;
+      isFeatured?: boolean;
+      skip?: number;
+      take?: number;
+    },
+  ) {
     const where: Prisma.BlogWhereInput = {
       tenantId,
       deletedAt: null,
       ...(options?.status && { status: options.status as any }),
       ...(options?.categoryId && { categoryId: options.categoryId }),
-      ...(options?.isFeatured !== undefined && { isFeatured: options.isFeatured }),
+      ...(options?.isFeatured !== undefined && {
+        isFeatured: options.isFeatured,
+      }),
       ...(options?.tagId && { tags: { some: { tagId: options.tagId } } }),
       ...(options?.search && {
         OR: [
           { title: { contains: options.search, mode: 'insensitive' as const } },
-          { excerpt: { contains: options.search, mode: 'insensitive' as const } },
+          {
+            excerpt: { contains: options.search, mode: 'insensitive' as const },
+          },
         ],
       }),
     };
@@ -34,9 +41,13 @@ export class BlogsRepository {
       this.prisma.blog.findMany({
         where,
         include: {
-          author: { select: { id: true, firstName: true, lastName: true, avatar: true } },
+          author: {
+            select: { id: true, firstName: true, lastName: true, avatar: true },
+          },
           category: { select: { id: true, name: true, slug: true } },
-          tags: { include: { tag: { select: { id: true, name: true, slug: true } } } },
+          tags: {
+            include: { tag: { select: { id: true, name: true, slug: true } } },
+          },
         },
         skip: options?.skip,
         take: options?.take,
@@ -52,7 +63,15 @@ export class BlogsRepository {
     return this.prisma.blog.findUnique({
       where: { slug },
       include: {
-        author: { select: { id: true, firstName: true, lastName: true, avatar: true, bio: true } },
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            avatar: true,
+            bio: true,
+          },
+        },
         category: true,
         tags: { include: { tag: true } },
       },
@@ -63,7 +82,9 @@ export class BlogsRepository {
     return this.prisma.blog.findUnique({
       where: { id },
       include: {
-        author: { select: { id: true, firstName: true, lastName: true, avatar: true } },
+        author: {
+          select: { id: true, firstName: true, lastName: true, avatar: true },
+        },
         category: true,
         tags: { include: { tag: true } },
       },
@@ -89,7 +110,7 @@ export class BlogsRepository {
     await this.prisma.blogTag.deleteMany({ where: { blogId } });
     if (tagIds.length > 0) {
       await this.prisma.blogTag.createMany({
-        data: tagIds.map(tagId => ({ blogId, tagId })),
+        data: tagIds.map((tagId) => ({ blogId, tagId })),
       });
     }
   }

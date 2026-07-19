@@ -28,7 +28,14 @@ let CrmController = class CrmController {
         this.crmService = crmService;
     }
     async getAllLeads(user, page, limit, stage, source, priority, search) {
-        return this.crmService.getAllLeads(user.tenantId, { page, limit, stage, source, priority, search });
+        return this.crmService.getAllLeads(user.tenantId, {
+            page,
+            limit,
+            stage,
+            source,
+            priority,
+            search,
+        });
     }
     async getPipelineStats(user) {
         return this.crmService.getPipelineStats(user.tenantId);

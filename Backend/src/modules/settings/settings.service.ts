@@ -15,19 +15,34 @@ export class SettingsService {
 
   async getSetting(tenantId: string, group: string, key: string) {
     const setting = await this.settingsRepo.getSetting(tenantId, group, key);
-    if (!setting) throw new NotFoundException(`Setting ${group}.${key} not found`);
+    if (!setting)
+      throw new NotFoundException(`Setting ${group}.${key} not found`);
     return setting;
   }
 
-  async updateSetting(tenantId: string, group: string, key: string, value: any, isPublic: boolean, description: string, userId: string) {
-    return this.settingsRepo.upsertSetting(tenantId, group, key, {
-      tenant: { connect: { id: tenantId } },
+  async updateSetting(
+    tenantId: string,
+    group: string,
+    key: string,
+    value: any,
+    isPublic: boolean,
+    description: string,
+    userId: string,
+  ) {
+    return this.settingsRepo.upsertSetting(
+      tenantId,
       group,
       key,
-      value,
-      isPublic,
-      description,
-    } as any, userId);
+      {
+        tenant: { connect: { id: tenantId } },
+        group,
+        key,
+        value,
+        isPublic,
+        description,
+      } as any,
+      userId,
+    );
   }
 
   async updateBulkSettings(tenantId: string, settings: any[], userId: string) {
@@ -45,7 +60,7 @@ export class SettingsService {
           isPublic: setting.isPublic ?? false,
           description: setting.description,
         } as any,
-        userId
+        userId,
       );
       results.push(res);
     }

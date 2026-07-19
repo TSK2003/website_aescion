@@ -26,11 +26,22 @@ export class SettingsRepository {
     });
   }
 
-  async upsertSetting(tenantId: string, group: string, key: string, data: Prisma.SystemSettingCreateInput, updatedBy: string) {
+  async upsertSetting(
+    tenantId: string,
+    group: string,
+    key: string,
+    data: Prisma.SystemSettingCreateInput,
+    updatedBy: string,
+  ) {
     return this.prisma.systemSetting.upsert({
       where: { tenantId_group_key: { tenantId, group, key } },
       create: { ...data, updatedBy },
-      update: { value: data.value, isPublic: data.isPublic, description: data.description, updatedBy },
+      update: {
+        value: data.value,
+        isPublic: data.isPublic,
+        description: data.description,
+        updatedBy,
+      },
     });
   }
 }

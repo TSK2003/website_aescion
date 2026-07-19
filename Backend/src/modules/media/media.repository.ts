@@ -29,13 +29,24 @@ export class MediaRepository {
   }
 
   async deleteFolder(id: string) {
-    return this.prisma.mediaFolder.update({
-      where: { id },
-      data: { status: 'DELETED' as any }, // Assuming DELETED might be added or we just hard delete, for now hard delete.
-    }).catch(() => this.prisma.mediaFolder.delete({ where: { id } })); // Fallback if no DELETED status
+    return this.prisma.mediaFolder
+      .update({
+        where: { id },
+        data: { status: 'DELETED' as any }, // Assuming DELETED might be added or we just hard delete, for now hard delete.
+      })
+      .catch(() => this.prisma.mediaFolder.delete({ where: { id } })); // Fallback if no DELETED status
   }
 
-  async findAllFiles(tenantId: string, options?: { folderId?: string; mediaType?: string; search?: string; skip?: number; take?: number }) {
+  async findAllFiles(
+    tenantId: string,
+    options?: {
+      folderId?: string;
+      mediaType?: string;
+      search?: string;
+      skip?: number;
+      take?: number;
+    },
+  ) {
     const where: Prisma.MediaFileWhereInput = {
       tenantId,
       deletedAt: null,
@@ -43,9 +54,21 @@ export class MediaRepository {
       ...(options?.mediaType && { mediaType: options.mediaType as any }),
       ...(options?.search && {
         OR: [
-          { filename: { contains: options.search, mode: 'insensitive' as const } },
-          { originalName: { contains: options.search, mode: 'insensitive' as const } },
-          { altText: { contains: options.search, mode: 'insensitive' as const } },
+          {
+            filename: {
+              contains: options.search,
+              mode: 'insensitive' as const,
+            },
+          },
+          {
+            originalName: {
+              contains: options.search,
+              mode: 'insensitive' as const,
+            },
+          },
+          {
+            altText: { contains: options.search, mode: 'insensitive' as const },
+          },
         ],
       }),
     };

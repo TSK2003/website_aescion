@@ -21,7 +21,11 @@ let BlogsService = class BlogsService {
         const page = options.page || 1;
         const limit = options.limit || 10;
         const skip = (page - 1) * limit;
-        const result = await this.blogsRepo.findAll(tenantId, { ...options, skip, take: limit });
+        const result = await this.blogsRepo.findAll(tenantId, {
+            ...options,
+            skip,
+            take: limit,
+        });
         return {
             items: result.data,
             meta: {
@@ -49,12 +53,13 @@ let BlogsService = class BlogsService {
         const blog = await this.blogsRepo.create({
             tenant: { connect: { id: tenantId } },
             author: { connect: { id: userId } },
-            ...(blogData.categoryId && { category: { connect: { id: blogData.categoryId } } }),
+            ...(blogData.categoryId && {
+                category: { connect: { id: blogData.categoryId } },
+            }),
             title: blogData.title,
             slug: blogData.slug,
             content: blogData.content,
             excerpt: blogData.excerpt,
-            readTime: blogData.readTime,
             isFeatured: blogData.isFeatured,
             status: blogData.status || 'DRAFT',
             coverImage: blogData.coverImage,

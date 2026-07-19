@@ -21,7 +21,11 @@ let ApplicationsService = class ApplicationsService {
         const page = options.page || 1;
         const limit = options.limit || 10;
         const skip = (page - 1) * limit;
-        const result = await this.appsRepo.findAll(tenantId, { ...options, skip, take: limit });
+        const result = await this.appsRepo.findAll(tenantId, {
+            ...options,
+            skip,
+            take: limit,
+        });
         return {
             items: result.data,
             meta: {
@@ -57,11 +61,17 @@ let ApplicationsService = class ApplicationsService {
     }
     async updateStatus(id, status, userId) {
         await this.getApplicationById(id);
-        return this.appsRepo.update(id, { status: status, updatedBy: userId });
+        return this.appsRepo.update(id, {
+            status: status,
+            updatedBy: userId,
+        });
     }
     async assignUser(id, assigneeId, userId) {
         await this.getApplicationById(id);
-        return this.appsRepo.update(id, { assignee: { connect: { id: assigneeId } }, updatedBy: userId });
+        return this.appsRepo.update(id, {
+            assignee: { connect: { id: assigneeId } },
+            updatedBy: userId,
+        });
     }
 };
 exports.ApplicationsService = ApplicationsService;

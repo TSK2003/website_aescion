@@ -14,7 +14,12 @@ export class EmailService {
   }
 
   // Placeholder for SMTP sending and BullMQ enqueueing
-  async sendEmail(tenantId: string, to: string, templateSlug: string, variables: any) {
+  async sendEmail(
+    tenantId: string,
+    to: string,
+    templateSlug: string,
+    variables: any,
+  ) {
     return { status: 'QUEUED', message: 'Email queued for sending.' };
   }
 }

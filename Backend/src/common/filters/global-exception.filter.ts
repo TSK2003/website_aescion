@@ -1,4 +1,10 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 import { randomUUID } from 'crypto';
 import { ApiResponse } from '../interfaces/api-response.interface';
@@ -9,9 +15,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    
+
     const requestId = request.headers['x-request-id'] || randomUUID();
-    
+
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
     let errors = null;
@@ -19,13 +25,15 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       const exceptionResponse: any = exception.getResponse();
-      
-      message = typeof exceptionResponse === 'string' 
-        ? exceptionResponse 
-        : exceptionResponse.message || message;
-        
-      errors = typeof exceptionResponse === 'object' ? exceptionResponse.error : null;
-    } 
+
+      message =
+        typeof exceptionResponse === 'string'
+          ? exceptionResponse
+          : exceptionResponse.message || message;
+
+      errors =
+        typeof exceptionResponse === 'object' ? exceptionResponse.error : null;
+    }
     // Handle Prisma specific errors here in a real production app without exposing raw details
 
     const errorResponse: ApiResponse<null> = {

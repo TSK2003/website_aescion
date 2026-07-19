@@ -7,15 +7,18 @@ import { UpdateLeadDto } from './dto/update-lead.dto';
 export class CrmService {
   constructor(private readonly crmRepo: CrmRepository) {}
 
-  async getAllLeads(tenantId: string, options: {
-    page?: number;
-    limit?: number;
-    stage?: string;
-    source?: string;
-    priority?: string;
-    ownerId?: string;
-    search?: string;
-  }) {
+  async getAllLeads(
+    tenantId: string,
+    options: {
+      page?: number;
+      limit?: number;
+      stage?: string;
+      source?: string;
+      priority?: string;
+      ownerId?: string;
+      search?: string;
+    },
+  ) {
     const page = options.page || 1;
     const limit = options.limit || 10;
     const skip = (page - 1) * limit;
@@ -73,7 +76,10 @@ export class CrmService {
     const lead = await this.getLeadById(id);
     const oldStage = lead.stage;
 
-    await this.crmRepo.updateLead(id, { stage: stage as any, updatedBy: userId });
+    await this.crmRepo.updateLead(id, {
+      stage: stage as any,
+      updatedBy: userId,
+    });
     await this.crmRepo.addActivity({
       lead: { connect: { id } },
       user: { connect: { id: userId } },
@@ -93,7 +99,12 @@ export class CrmService {
     });
   }
 
-  async addTask(leadId: string, title: string, description: string, dueDate?: Date) {
+  async addTask(
+    leadId: string,
+    title: string,
+    description: string,
+    dueDate?: Date,
+  ) {
     await this.getLeadById(leadId);
     return this.crmRepo.addTask({
       lead: { connect: { id: leadId } },

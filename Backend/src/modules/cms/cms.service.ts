@@ -9,7 +9,11 @@ export class CmsService {
 
   async getAllPages(tenantId: string, page = 1, limit = 10, status?: string) {
     const skip = (page - 1) * limit;
-    const result = await this.cmsRepo.findAllPages(tenantId, { status, skip, take: limit });
+    const result = await this.cmsRepo.findAllPages(tenantId, {
+      status,
+      skip,
+      take: limit,
+    });
 
     return {
       items: result.data,
@@ -24,7 +28,8 @@ export class CmsService {
 
   async getPageBySlug(slug: string) {
     const page = await this.cmsRepo.findPageBySlug(slug);
-    if (!page) throw new NotFoundException(`Page with slug "${slug}" not found`);
+    if (!page)
+      throw new NotFoundException(`Page with slug "${slug}" not found`);
     return page;
   }
 

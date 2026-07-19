@@ -1,5 +1,20 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { CrmService } from './crm.service';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
@@ -33,7 +48,14 @@ export class CrmController {
     @Query('priority') priority?: string,
     @Query('search') search?: string,
   ) {
-    return this.crmService.getAllLeads(user.tenantId, { page, limit, stage, source, priority, search });
+    return this.crmService.getAllLeads(user.tenantId, {
+      page,
+      limit,
+      stage,
+      source,
+      priority,
+      search,
+    });
   }
 
   @Get('stats/pipeline')
@@ -67,21 +89,33 @@ export class CrmController {
   @Put(':id')
   @Roles('SUPER_ADMIN', 'ADMIN', 'MANAGER')
   @ApiOperation({ summary: 'Update an existing lead' })
-  async updateLead(@Param('id') id: string, @CurrentUser() user: any, @Body() dto: UpdateLeadDto) {
+  async updateLead(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+    @Body() dto: UpdateLeadDto,
+  ) {
     return this.crmService.updateLead(id, dto, user.id);
   }
 
   @Put(':id/stage')
   @Roles('SUPER_ADMIN', 'ADMIN', 'MANAGER')
   @ApiOperation({ summary: 'Update lead pipeline stage' })
-  async updateStage(@Param('id') id: string, @CurrentUser() user: any, @Body() body: { stage: string }) {
+  async updateStage(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+    @Body() body: { stage: string },
+  ) {
     return this.crmService.updateStage(id, body.stage, user.id);
   }
 
   @Post(':id/notes')
   @Roles('SUPER_ADMIN', 'ADMIN', 'MANAGER')
   @ApiOperation({ summary: 'Add a note to a lead' })
-  async addNote(@Param('id') id: string, @CurrentUser() user: any, @Body() body: { content: string }) {
+  async addNote(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+    @Body() body: { content: string },
+  ) {
     return this.crmService.addNote(id, body.content, user.id);
   }
 

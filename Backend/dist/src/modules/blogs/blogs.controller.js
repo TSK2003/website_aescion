@@ -20,6 +20,9 @@ const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("../auth/guards/roles.guard");
 const roles_decorator_1 = require("../auth/decorators/roles.decorator");
 const current_user_decorator_1 = require("../auth/decorators/current-user.decorator");
+const create_blog_dto_1 = require("./dto/create-blog.dto");
+const update_blog_dto_1 = require("./dto/update-blog.dto");
+const category_tag_dto_1 = require("./dto/category-tag.dto");
 let BlogsController = class BlogsController {
     blogsService;
     constructor(blogsService) {
@@ -27,7 +30,14 @@ let BlogsController = class BlogsController {
     }
     async getPublicBlogs(page, limit, categoryId, tagId, search) {
         const defaultTenantId = process.env.DEFAULT_TENANT_ID || '00000000-0000-0000-0000-000000000001';
-        return this.blogsService.getAll(defaultTenantId, { page, limit, status: 'PUBLISHED', categoryId, tagId, search });
+        return this.blogsService.getAll(defaultTenantId, {
+            page,
+            limit,
+            status: 'PUBLISHED',
+            categoryId,
+            tagId,
+            search,
+        });
     }
     async getPublicBlog(slug) {
         return this.blogsService.getBySlug(slug);
@@ -38,14 +48,14 @@ let BlogsController = class BlogsController {
     async getCategories(user) {
         return this.blogsService.getCategories(user.tenantId);
     }
-    async createCategory(user, body) {
-        return this.blogsService.createCategory(user.tenantId, body.name, body.slug);
+    async createCategory(user, dto) {
+        return this.blogsService.createCategory(user.tenantId, dto.name, dto.slug);
     }
     async getTags(user) {
         return this.blogsService.getTags(user.tenantId);
     }
-    async createTag(user, body) {
-        return this.blogsService.createTag(user.tenantId, body.name, body.slug);
+    async createTag(user, dto) {
+        return this.blogsService.createTag(user.tenantId, dto.name, dto.slug);
     }
     async getBlogById(id) {
         return this.blogsService.getById(id);
@@ -119,7 +129,7 @@ __decorate([
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, category_tag_dto_1.CreateCategoryTagDto]),
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "createCategory", null);
 __decorate([
@@ -141,7 +151,7 @@ __decorate([
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, category_tag_dto_1.CreateCategoryTagDto]),
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "createTag", null);
 __decorate([
@@ -163,7 +173,7 @@ __decorate([
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, create_blog_dto_1.CreateBlogDto]),
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "createBlog", null);
 __decorate([
@@ -176,7 +186,7 @@ __decorate([
     __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:paramtypes", [String, Object, update_blog_dto_1.UpdateBlogDto]),
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "updateBlog", null);
 __decorate([

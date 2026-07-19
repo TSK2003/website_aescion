@@ -68,7 +68,10 @@ let CrmService = class CrmService {
     async updateStage(id, stage, userId) {
         const lead = await this.getLeadById(id);
         const oldStage = lead.stage;
-        await this.crmRepo.updateLead(id, { stage: stage, updatedBy: userId });
+        await this.crmRepo.updateLead(id, {
+            stage: stage,
+            updatedBy: userId,
+        });
         await this.crmRepo.addActivity({
             lead: { connect: { id } },
             user: { connect: { id: userId } },

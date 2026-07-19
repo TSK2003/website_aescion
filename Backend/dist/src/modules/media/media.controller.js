@@ -32,7 +32,13 @@ let MediaController = class MediaController {
         return this.mediaService.createFolder(user.tenantId, body.name, body.parentId, user.id);
     }
     async getFiles(user, page, limit, folderId, mediaType, search) {
-        return this.mediaService.getFiles(user.tenantId, { page, limit, folderId, mediaType, search });
+        return this.mediaService.getFiles(user.tenantId, {
+            page,
+            limit,
+            folderId,
+            mediaType,
+            search,
+        });
     }
     async registerFile(user, body) {
         return this.mediaService.registerFile(user.tenantId, body, user.id);

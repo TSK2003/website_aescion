@@ -6,15 +6,18 @@ import { Prisma } from '@prisma/client';
 export class CrmRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAllLeads(tenantId: string, options?: {
-    stage?: string;
-    source?: string;
-    priority?: string;
-    ownerId?: string;
-    skip?: number;
-    take?: number;
-    search?: string;
-  }) {
+  async findAllLeads(
+    tenantId: string,
+    options?: {
+      stage?: string;
+      source?: string;
+      priority?: string;
+      ownerId?: string;
+      skip?: number;
+      take?: number;
+      search?: string;
+    },
+  ) {
     const where: Prisma.LeadWhereInput = {
       tenantId,
       deletedAt: null,
@@ -24,10 +27,22 @@ export class CrmRepository {
       ...(options?.ownerId && { ownerId: options.ownerId }),
       ...(options?.search && {
         OR: [
-          { firstName: { contains: options.search, mode: 'insensitive' as const } },
-          { lastName: { contains: options.search, mode: 'insensitive' as const } },
+          {
+            firstName: {
+              contains: options.search,
+              mode: 'insensitive' as const,
+            },
+          },
+          {
+            lastName: {
+              contains: options.search,
+              mode: 'insensitive' as const,
+            },
+          },
           { email: { contains: options.search, mode: 'insensitive' as const } },
-          { company: { contains: options.search, mode: 'insensitive' as const } },
+          {
+            company: { contains: options.search, mode: 'insensitive' as const },
+          },
         ],
       }),
     };
@@ -35,7 +50,11 @@ export class CrmRepository {
     const [data, total] = await this.prisma.$transaction([
       this.prisma.lead.findMany({
         where,
-        include: { owner: { select: { id: true, firstName: true, lastName: true, email: true } } },
+        include: {
+          owner: {
+            select: { id: true, firstName: true, lastName: true, email: true },
+          },
+        },
         skip: options?.skip,
         take: options?.take,
         orderBy: { createdAt: 'desc' },
@@ -50,7 +69,9 @@ export class CrmRepository {
     return this.prisma.lead.findUnique({
       where: { id },
       include: {
-        owner: { select: { id: true, firstName: true, lastName: true, email: true } },
+        owner: {
+          select: { id: true, firstName: true, lastName: true, email: true },
+        },
         activities: { orderBy: { createdAt: 'desc' }, take: 20 },
         notes: { orderBy: { createdAt: 'desc' } },
         tasks: { orderBy: { dueDate: 'asc' } },
@@ -98,7 +119,7 @@ export class CrmRepository {
       where: { tenantId, deletedAt: null },
       _count: { id: true },
     });
-    return stages.map(s => ({ stage: s.stage, count: s._count.id }));
+    return stages.map((s) => ({ stage: s.stage, count: s._count.id }));
   }
 
   async getLeadSourceStats(tenantId: string) {
@@ -107,6 +128,6 @@ export class CrmRepository {
       where: { tenantId, deletedAt: null },
       _count: { id: true },
     });
-    return sources.map(s => ({ source: s.source, count: s._count.id }));
+    return sources.map((s) => ({ source: s.source, count: s._count.id }));
   }
 }

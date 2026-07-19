@@ -26,17 +26,34 @@ let ApplicationsRepository = class ApplicationsRepository {
             ...(options?.assigneeId && { assigneeId: options.assigneeId }),
             ...(options?.search && {
                 OR: [
-                    { firstName: { contains: options.search, mode: 'insensitive' } },
-                    { lastName: { contains: options.search, mode: 'insensitive' } },
+                    {
+                        firstName: {
+                            contains: options.search,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        lastName: {
+                            contains: options.search,
+                            mode: 'insensitive',
+                        },
+                    },
                     { email: { contains: options.search, mode: 'insensitive' } },
-                    { position: { contains: options.search, mode: 'insensitive' } },
+                    {
+                        position: {
+                            contains: options.search,
+                            mode: 'insensitive',
+                        },
+                    },
                 ],
             }),
         };
         const [data, total] = await this.prisma.$transaction([
             this.prisma.application.findMany({
                 where,
-                include: { assignee: { select: { id: true, firstName: true, lastName: true } } },
+                include: {
+                    assignee: { select: { id: true, firstName: true, lastName: true } },
+                },
                 skip: options?.skip,
                 take: options?.take,
                 orderBy: { createdAt: 'desc' },
@@ -48,7 +65,11 @@ let ApplicationsRepository = class ApplicationsRepository {
     async findById(id) {
         return this.prisma.application.findUnique({
             where: { id },
-            include: { assignee: { select: { id: true, firstName: true, lastName: true, email: true } } },
+            include: {
+                assignee: {
+                    select: { id: true, firstName: true, lastName: true, email: true },
+                },
+            },
         });
     }
     async create(data) {

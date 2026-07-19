@@ -18,9 +18,15 @@ let DashboardService = class DashboardService {
         this.prisma = prisma;
     }
     async getDashboardStats(tenantId) {
-        const totalLeads = await this.prisma.lead.count({ where: { tenantId, deletedAt: null } });
-        const pendingApps = await this.prisma.application.count({ where: { tenantId, status: 'SUBMITTED', deletedAt: null } });
-        const publishedBlogs = await this.prisma.blog.count({ where: { tenantId, status: 'PUBLISHED', deletedAt: null } });
+        const totalLeads = await this.prisma.lead.count({
+            where: { tenantId, deletedAt: null },
+        });
+        const pendingApps = await this.prisma.application.count({
+            where: { tenantId, status: 'SUBMITTED', deletedAt: null },
+        });
+        const publishedBlogs = await this.prisma.blog.count({
+            where: { tenantId, status: 'PUBLISHED', deletedAt: null },
+        });
         return {
             totalLeads,
             pendingApps,

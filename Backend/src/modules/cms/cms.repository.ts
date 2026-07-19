@@ -8,7 +8,10 @@ export class CmsRepository {
 
   // ==================== PAGES ====================
 
-  async findAllPages(tenantId: string, options?: { status?: string; skip?: number; take?: number }) {
+  async findAllPages(
+    tenantId: string,
+    options?: { status?: string; skip?: number; take?: number },
+  ) {
     const where: Prisma.PageWhereInput = {
       tenantId,
       deletedAt: null,
@@ -53,7 +56,11 @@ export class CmsRepository {
   }
 
   async updatePage(id: string, data: Prisma.PageUpdateInput) {
-    return this.prisma.page.update({ where: { id }, data, include: { blocks: true } });
+    return this.prisma.page.update({
+      where: { id },
+      data,
+      include: { blocks: true },
+    });
   }
 
   async softDeletePage(id: string, deletedBy: string) {

@@ -6,14 +6,17 @@ import { Prisma } from '@prisma/client';
 export class ApplicationsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(tenantId: string, options?: {
-    type?: string;
-    status?: string;
-    assigneeId?: string;
-    search?: string;
-    skip?: number;
-    take?: number;
-  }) {
+  async findAll(
+    tenantId: string,
+    options?: {
+      type?: string;
+      status?: string;
+      assigneeId?: string;
+      search?: string;
+      skip?: number;
+      take?: number;
+    },
+  ) {
     const where: Prisma.ApplicationWhereInput = {
       tenantId,
       deletedAt: null,
@@ -22,10 +25,25 @@ export class ApplicationsRepository {
       ...(options?.assigneeId && { assigneeId: options.assigneeId }),
       ...(options?.search && {
         OR: [
-          { firstName: { contains: options.search, mode: 'insensitive' as const } },
-          { lastName: { contains: options.search, mode: 'insensitive' as const } },
+          {
+            firstName: {
+              contains: options.search,
+              mode: 'insensitive' as const,
+            },
+          },
+          {
+            lastName: {
+              contains: options.search,
+              mode: 'insensitive' as const,
+            },
+          },
           { email: { contains: options.search, mode: 'insensitive' as const } },
-          { position: { contains: options.search, mode: 'insensitive' as const } },
+          {
+            position: {
+              contains: options.search,
+              mode: 'insensitive' as const,
+            },
+          },
         ],
       }),
     };
@@ -33,7 +51,9 @@ export class ApplicationsRepository {
     const [data, total] = await this.prisma.$transaction([
       this.prisma.application.findMany({
         where,
-        include: { assignee: { select: { id: true, firstName: true, lastName: true } } },
+        include: {
+          assignee: { select: { id: true, firstName: true, lastName: true } },
+        },
         skip: options?.skip,
         take: options?.take,
         orderBy: { createdAt: 'desc' },
@@ -47,7 +67,11 @@ export class ApplicationsRepository {
   async findById(id: string) {
     return this.prisma.application.findUnique({
       where: { id },
-      include: { assignee: { select: { id: true, firstName: true, lastName: true, email: true } } },
+      include: {
+        assignee: {
+          select: { id: true, firstName: true, lastName: true, email: true },
+        },
+      },
     });
   }
 

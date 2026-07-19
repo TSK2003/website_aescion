@@ -14,7 +14,7 @@ let HealthModule = class HealthModule {
 exports.HealthModule = HealthModule;
 exports.HealthModule = HealthModule = __decorate([
     (0, common_1.Module)({
-        controllers: [health_controller_1.HealthController]
+        controllers: [health_controller_1.HealthController],
     })
 ], HealthModule);
 //# sourceMappingURL=health.module.js.map

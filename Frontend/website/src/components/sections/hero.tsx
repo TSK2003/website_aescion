@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import Link from 'next/link';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import Image from 'next/image';
 
 const heroImage = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1920&h=1080";
 
@@ -87,30 +88,42 @@ export function Hero() {
               style={{
                 position: 'absolute',
                 inset: 0,
-                backgroundImage: `url('${heroImage}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
                 clipPath: 'inset(0 50% 0 0)',
                 x: leftX,
                 opacity: doorOpacity,
               }}
-              className="z-20"
-            />
+              className="z-20 overflow-hidden"
+            >
+              <Image 
+                src={heroImage} 
+                alt="Hero Left" 
+                fill 
+                priority 
+                className="object-cover"
+                sizes="100vw"
+              />
+            </motion.div>
             {/* Right Half Image */}
             <motion.div
               initial={{ x: 0 }}
               style={{
                 position: 'absolute',
                 inset: 0,
-                backgroundImage: `url('${heroImage}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
                 clipPath: 'inset(0 0 0 50%)',
                 x: rightX,
                 opacity: doorOpacity,
               }}
-              className="z-20"
-            />
+              className="z-20 overflow-hidden"
+            >
+              <Image 
+                src={heroImage} 
+                alt="Hero Right" 
+                fill 
+                priority 
+                className="object-cover"
+                sizes="100vw"
+              />
+            </motion.div>
           </div>
         
         {/* Scroll indicator overlay */}

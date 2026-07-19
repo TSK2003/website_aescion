@@ -10,6 +10,10 @@ export class EmailRepository {
   }
 
   async getLogs(tenantId: string) {
-    return this.prisma.emailLog.findMany({ where: { tenantId }, orderBy: { createdAt: 'desc' }, take: 50 });
+    return this.prisma.emailLog.findMany({
+      where: { tenantId },
+      orderBy: { createdAt: 'desc' },
+      take: 50,
+    });
   }
 }

@@ -27,7 +27,12 @@ __decorate([
     __metadata("design:type", Number)
 ], PaginationDto.prototype, "page", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ description: 'Number of items per page', default: 10, minimum: 1, maximum: 100 }),
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Number of items per page',
+        default: 10,
+        minimum: 1,
+        maximum: 100,
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_transformer_1.Type)(() => Number),
     (0, class_validator_1.IsInt)(),

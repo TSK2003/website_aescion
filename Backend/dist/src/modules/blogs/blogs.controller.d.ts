@@ -1,4 +1,7 @@
 import { BlogsService } from './blogs.service';
+import { CreateBlogDto } from './dto/create-blog.dto';
+import { UpdateBlogDto } from './dto/update-blog.dto';
+import { CreateCategoryTagDto } from './dto/category-tag.dto';
 export declare class BlogsController {
     private readonly blogsService;
     constructor(blogsService: BlogsService);
@@ -189,10 +192,7 @@ export declare class BlogsController {
         name: string;
         icon: string | null;
     }[]>;
-    createCategory(user: any, body: {
-        name: string;
-        slug: string;
-    }): Promise<{
+    createCategory(user: any, dto: CreateCategoryTagDto): Promise<{
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -213,10 +213,7 @@ export declare class BlogsController {
         updatedAt: Date;
         name: string;
     }[]>;
-    createTag(user: any, body: {
-        name: string;
-        slug: string;
-    }): Promise<{
+    createTag(user: any, dto: CreateCategoryTagDto): Promise<{
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -285,7 +282,7 @@ export declare class BlogsController {
         readTime: string | null;
         coverImage: string | null;
     }>;
-    createBlog(user: any, dto: any): Promise<{
+    createBlog(user: any, dto: CreateBlogDto): Promise<{
         category: {
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
@@ -345,7 +342,7 @@ export declare class BlogsController {
         readTime: string | null;
         coverImage: string | null;
     }>;
-    updateBlog(id: string, user: any, dto: any): Promise<{
+    updateBlog(id: string, user: any, dto: UpdateBlogDto): Promise<{
         category: {
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;

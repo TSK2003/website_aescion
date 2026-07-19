@@ -1,5 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsOptional, IsEmail, IsEnum } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  IsEmail,
+  IsEnum,
+} from 'class-validator';
 
 export class CreateLeadDto {
   @ApiProperty({ example: 'John' })
@@ -32,12 +38,36 @@ export class CreateLeadDto {
   @IsString()
   designation?: string;
 
-  @ApiPropertyOptional({ enum: ['WEBSITE', 'INTERNSHIP', 'TRAINING', 'CONTACT_FORM', 'CORPORATE', 'MANUAL', 'REFERRAL', 'SOCIAL_MEDIA'], default: 'WEBSITE' })
+  @ApiPropertyOptional({
+    enum: [
+      'WEBSITE',
+      'INTERNSHIP',
+      'TRAINING',
+      'CONTACT_FORM',
+      'CORPORATE',
+      'MANUAL',
+      'REFERRAL',
+      'SOCIAL_MEDIA',
+    ],
+    default: 'WEBSITE',
+  })
   @IsOptional()
-  @IsEnum(['WEBSITE', 'INTERNSHIP', 'TRAINING', 'CONTACT_FORM', 'CORPORATE', 'MANUAL', 'REFERRAL', 'SOCIAL_MEDIA'])
+  @IsEnum([
+    'WEBSITE',
+    'INTERNSHIP',
+    'TRAINING',
+    'CONTACT_FORM',
+    'CORPORATE',
+    'MANUAL',
+    'REFERRAL',
+    'SOCIAL_MEDIA',
+  ])
   source?: string;
 
-  @ApiPropertyOptional({ enum: ['LOW', 'MEDIUM', 'HIGH', 'URGENT'], default: 'MEDIUM' })
+  @ApiPropertyOptional({
+    enum: ['LOW', 'MEDIUM', 'HIGH', 'URGENT'],
+    default: 'MEDIUM',
+  })
   @IsOptional()
   @IsEnum(['LOW', 'MEDIUM', 'HIGH', 'URGENT'])
   priority?: string;

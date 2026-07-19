@@ -1,0 +1,15 @@
+import { IsString, MaxLength, MinLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
+export class CreateCategoryTagDto {
+  @ApiProperty()
+  @IsString()
+  @MinLength(2)
+  @MaxLength(100)
+  name!: string;
+
+  @ApiProperty()
+  @IsString()
+  @MaxLength(150)
+  slug!: string;
+}

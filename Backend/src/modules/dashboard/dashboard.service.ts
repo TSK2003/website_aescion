@@ -7,9 +7,15 @@ export class DashboardService {
 
   async getDashboardStats(tenantId: string) {
     // In a real app, you would aggregate these from different tables
-    const totalLeads = await this.prisma.lead.count({ where: { tenantId, deletedAt: null } });
-    const pendingApps = await this.prisma.application.count({ where: { tenantId, status: 'SUBMITTED', deletedAt: null } });
-    const publishedBlogs = await this.prisma.blog.count({ where: { tenantId, status: 'PUBLISHED', deletedAt: null } });
+    const totalLeads = await this.prisma.lead.count({
+      where: { tenantId, deletedAt: null },
+    });
+    const pendingApps = await this.prisma.application.count({
+      where: { tenantId, status: 'SUBMITTED', deletedAt: null },
+    });
+    const publishedBlogs = await this.prisma.blog.count({
+      where: { tenantId, status: 'PUBLISHED', deletedAt: null },
+    });
 
     return {
       totalLeads,

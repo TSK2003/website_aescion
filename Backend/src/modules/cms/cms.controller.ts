@@ -1,5 +1,20 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { CmsService } from './cms.service';
 import { CreatePageDto } from './dto/create-page.dto';
 import { UpdatePageDto } from './dto/update-page.dto';
@@ -30,14 +45,23 @@ export class CmsController {
   @ApiOperation({ summary: 'List all pages (admin)' })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
-  @ApiQuery({ name: 'status', required: false, enum: ['DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED'] })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    enum: ['DRAFT', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED'],
+  })
   async getAllPages(
     @CurrentUser() user: any,
     @Query('page') page?: number,
     @Query('limit') limit?: number,
     @Query('status') status?: string,
   ) {
-    return this.cmsService.getAllPages(user.tenantId, page || 1, limit || 10, status);
+    return this.cmsService.getAllPages(
+      user.tenantId,
+      page || 1,
+      limit || 10,
+      status,
+    );
   }
 
   @Get(':id')
@@ -63,7 +87,11 @@ export class CmsController {
   @Roles('SUPER_ADMIN', 'ADMIN')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update an existing page' })
-  async updatePage(@Param('id') id: string, @CurrentUser() user: any, @Body() dto: UpdatePageDto) {
+  async updatePage(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+    @Body() dto: UpdatePageDto,
+  ) {
     return this.cmsService.updatePage(id, dto, user.id);
   }
 
@@ -90,7 +118,10 @@ export class CmsController {
   @Roles('SUPER_ADMIN', 'ADMIN')
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Reorder blocks within a page' })
-  async reorderBlocks(@Param('id') id: string, @Body() body: { blockIds: string[] }) {
+  async reorderBlocks(
+    @Param('id') id: string,
+    @Body() body: { blockIds: string[] },
+  ) {
     return this.cmsService.reorderBlocks(id, body.blockIds);
   }
 }

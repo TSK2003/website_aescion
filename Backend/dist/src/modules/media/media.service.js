@@ -40,7 +40,11 @@ let MediaService = class MediaService {
         const page = options.page || 1;
         const limit = options.limit || 20;
         const skip = (page - 1) * limit;
-        const result = await this.mediaRepo.findAllFiles(tenantId, { ...options, skip, take: limit });
+        const result = await this.mediaRepo.findAllFiles(tenantId, {
+            ...options,
+            skip,
+            take: limit,
+        });
         return {
             items: result.data,
             meta: {
@@ -60,7 +64,9 @@ let MediaService = class MediaService {
     async registerFile(tenantId, fileData, userId) {
         return this.mediaRepo.createFile({
             tenant: { connect: { id: tenantId } },
-            ...(fileData.folderId && { folder: { connect: { id: fileData.folderId } } }),
+            ...(fileData.folderId && {
+                folder: { connect: { id: fileData.folderId } },
+            }),
             filename: fileData.filename,
             originalName: fileData.originalName,
             mimeType: fileData.mimeType,

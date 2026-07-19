@@ -14,8 +14,11 @@ let TransformInterceptor = class TransformInterceptor {
     intercept(context, next) {
         const request = context.switchToHttp().getRequest();
         const requestId = request.headers['x-request-id'] || (0, crypto_1.randomUUID)();
-        return next.handle().pipe((0, operators_1.map)(data => {
-            if (data && typeof data === 'object' && 'success' in data && 'timestamp' in data) {
+        return next.handle().pipe((0, operators_1.map)((data) => {
+            if (data &&
+                typeof data === 'object' &&
+                'success' in data &&
+                'timestamp' in data) {
                 return data;
             }
             return {
