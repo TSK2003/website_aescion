@@ -1,4 +1,4 @@
-name: AESCION Production Deploy Pipeline
+name: Deploy to AWS EC2
 
 on:
   push:
@@ -6,68 +6,37 @@ on:
       - main
 
 jobs:
-  lint-and-test:
-    name: Lint & Test
+  deploy:
+    name: Deploy Application
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: |
-          cd Frontend && npm install
-          cd ../Backend && npm install
-
-      - name: Run Linter
-        run: |
-          cd Frontend && npm run lint --if-present
-          cd ../Backend && npm run lint --if-present
-
-  build-and-deploy:
-    name: Build & Deploy to EC2
-    needs: lint-and-test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: |
-          cd Frontend && npm install
-          cd ../Backend && npm install
-
-      - name: Build Projects
-        run: |
-          cd Backend && npm run build
-          cd ../Frontend/admin && npm run build
-          cd ../website && npm run build
-
-      - name: Deploy via SSH
+      - name: Execute Deployment Commands via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /var/www/aescion
+            # Navigate to the project directory
+            cd ~/aescion-project
+            
+            # Pull the latest changes from GitHub
             git pull origin main
-            cd Frontend && npm install
-            cd ../Backend && npm install
+            
+            # --------------------------
+            # 1. Update & Restart Backend
+            # --------------------------
+            cd Backend
+            npm install
+            npx prisma generate
             npm run build
-            cd ../Frontend/admin && npm run build
-            cd ../website && npm run build
-            cd ../../Backend
-            pm2 reload ecosystem.config.js --update-env
-            pm2 save
+            pm2 restart ecosystem.config.js
+            
+            # --------------------------
+            # 2. Update & Restart Frontend
+            # --------------------------
+            cd ../Frontend/website
+            npm install
+            npm run build
+            pm2 restart aescion-frontend
