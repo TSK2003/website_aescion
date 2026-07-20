@@ -4,19 +4,22 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const projects = [
   {
     title: "Global Fintech Platform",
     category: "Financial Technology",
     description: "A highly secure, globally distributed ledger system processing 10k+ TPS.",
-    tags: ["React", "Go", "AWS", "Kafka"]
+    tags: ["React", "Go", "AWS", "Kafka"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=500"
   },
   {
     title: "AI Healthcare Assistant",
     category: "Healthcare",
     description: "LLM-powered diagnostic assistant used by over 50+ hospitals.",
-    tags: ["Next.js", "Python", "PyTorch", "HIPAA"]
+    tags: ["Next.js", "Python", "PyTorch", "HIPAA"],
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800&h=500"
   }
 ];
 
@@ -82,14 +85,9 @@ export function PortfolioPreview() {
           {projects.map((project, idx) => (
             <motion.div variants={itemVariants} key={idx}>
               <Link href="/solutions" className="group block rounded-[2.5rem] overflow-hidden border border-neutral-200/60 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-500 bg-white shadow-xl shadow-neutral-200/20">
-                <div className="aspect-[16/10] bg-neutral-900 relative overflow-hidden">
-                  {/* Abstract Project Visual */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-neutral-800 to-neutral-950 group-hover:scale-105 transition-transform duration-700 flex items-center justify-center">
-                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary-500/40 to-secondary-500/40 blur-2xl opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center text-white/50 font-medium font-mono text-sm tracking-widest uppercase">
-                    Project Visual
-                  </div>
+                <div className="aspect-[16/10] bg-neutral-100 relative overflow-hidden border-b border-neutral-200/60">
+                  <Image src={project.image} alt={project.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
                 <div className="p-10 bg-white">
                   <div className="text-sm font-bold text-primary-600 mb-4 tracking-wider uppercase">{project.category}</div>

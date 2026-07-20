@@ -6,9 +6,9 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-neutral-50 text-neutral-600 pt-20 pb-10 border-t border-neutral-200">
+    <footer className="bg-neutral-50 text-neutral-600 pt-12 pb-8 border-t border-neutral-200">
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Brand Col */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-6">
@@ -35,10 +35,10 @@ export function Footer() {
           <div>
             <h4 className="text-neutral-900 font-semibold mb-6">Services</h4>
             <ul className="space-y-4 text-sm">
-              <li><Link href="/services/software-development" className="hover:text-primary-600 transition-colors">Software Development</Link></li>
-              <li><Link href="/services/ai-solutions" className="hover:text-primary-600 transition-colors">AI Solutions</Link></li>
+              <li><Link href="/services/custom-software-development" className="hover:text-primary-600 transition-colors">Software Development</Link></li>
+              <li><Link href="/services/ai-automation" className="hover:text-primary-600 transition-colors">AI & Automation</Link></li>
               <li><Link href="/services/cloud-solutions" className="hover:text-primary-600 transition-colors">Cloud Architecture</Link></li>
-              <li><Link href="/services/automation" className="hover:text-primary-600 transition-colors">Automation</Link></li>
+              <li><Link href="/services/erp-software-development" className="hover:text-primary-600 transition-colors">ERP Solutions</Link></li>
             </ul>
           </div>
 
@@ -47,6 +47,7 @@ export function Footer() {
             <ul className="space-y-4 text-sm">
               <li><Link href="/about" className="hover:text-primary-600 transition-colors">About Us</Link></li>
               <li><Link href="/careers" className="hover:text-primary-600 transition-colors">Careers</Link></li>
+              <li><Link href="/gallery" className="hover:text-primary-600 transition-colors">Gallery</Link></li>
               <li><Link href="/privacy-policy" className="hover:text-primary-600 transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="hover:text-primary-600 transition-colors">Terms of Service</Link></li>
             </ul>

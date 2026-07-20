@@ -1,6 +1,6 @@
 import React from 'react';
 
-type SchemaType = 'Organization' | 'LocalBusiness' | 'FAQPage' | 'Article' | 'WebSite' | 'BreadcrumbList';
+type SchemaType = 'Organization' | 'LocalBusiness' | 'FAQPage' | 'Article' | 'WebSite' | 'BreadcrumbList' | 'Service';
 
 interface StructuredDataProps {
   type: SchemaType;

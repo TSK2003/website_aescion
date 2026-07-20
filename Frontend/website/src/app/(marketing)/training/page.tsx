@@ -85,6 +85,7 @@ export default function TrainingPage() {
           <SectionHeader
             title="Program Formats"
             description="We offer training in multiple formats to fit the needs of corporates, colleges, and individual learners."
+            isDark
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
             {programTypes.map((prog, idx) => (

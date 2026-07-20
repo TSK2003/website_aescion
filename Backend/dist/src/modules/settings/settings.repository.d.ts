@@ -4,9 +4,9 @@ export declare class SettingsRepository {
     private readonly prisma;
     constructor(prisma: PrismaService);
     findAllSettings(tenantId: string): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
@@ -16,9 +16,9 @@ export declare class SettingsRepository {
         isPublic: boolean;
     }[]>;
     findPublicSettings(tenantId: string): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
@@ -28,9 +28,9 @@ export declare class SettingsRepository {
         isPublic: boolean;
     }[]>;
     getSetting(tenantId: string, group: string, key: string): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
@@ -40,9 +40,9 @@ export declare class SettingsRepository {
         isPublic: boolean;
     } | null>;
     upsertSetting(tenantId: string, group: string, key: string, data: Prisma.SystemSettingCreateInput, updatedBy: string): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;

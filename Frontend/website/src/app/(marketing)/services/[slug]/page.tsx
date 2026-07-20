@@ -1,24 +1,43 @@
 import React from 'react';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { PageHero } from '@/components/ui/page-hero';
 import { SectionHeader } from '@/components/ui/section-header';
 import { DynamicAccordion } from '@/components/ui/dynamic-accordion';
-import { cmsClient } from '@aescion/api-client';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { StructuredData } from '@/components/seo/structured-data';
 import { CheckCircle2, ArrowRight, Code, Settings, Rocket, Shield, Headset } from 'lucide-react';
+import { servicesData } from '@/lib/cms/services-data';
+import Link from 'next/link';
 
-interface ServiceDetailPageProps {
+interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata(props: ServiceDetailPageProps): Promise<Metadata> {
-  const params = await props.params;
-  const service = await cmsClient.services.getBySlug(params.slug);
-  if (!service) return { title: 'Service Not Found | AESCION' };
+export async function generateStaticParams() {
+  return servicesData.map((service) => ({
+    slug: service.slug,
+  }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const service = servicesData.find((s) => s.slug === slug);
+  
+  if (!service) {
+    return { title: 'Service Not Found | AESCION' };
+  }
+
   return {
-    title: `${service.title} | AESCION`,
-    description: service.shortDescription,
+    title: service.seoTitle,
+    description: service.metaDescription,
+    alternates: {
+      canonical: `https://aescion.com/services/${service.slug}`
+    },
+    openGraph: {
+      title: service.seoTitle,
+      description: service.metaDescription,
+      url: `https://aescion.com/services/${service.slug}`,
+    }
   };
 }
 
@@ -30,20 +49,28 @@ const processSteps = [
   { icon: Headset, title: 'Ongoing Support', desc: 'Proactive monitoring, SLA-backed maintenance, and feature iteration.' },
 ];
 
-const faqs = [
-  { question: 'How long does a typical enterprise project take?', answer: 'Timelines depend on scope and complexity. Most MVPs ship in 8-12 weeks, while full enterprise platforms take 4-9 months. We provide detailed roadmaps during discovery.' },
-  { question: 'Do you provide post-launch support?', answer: 'Yes. Every engagement includes a warranty period, and we offer ongoing SLA-backed maintenance and support contracts with dedicated engineering hours.' },
-  { question: 'Can you work with our existing tech stack?', answer: 'Absolutely. We are stack-agnostic and have deep expertise across React, Angular, Vue, Node, Python, Go, .NET, and legacy systems like Java and PHP.' },
-  { question: 'How do you ensure code quality?', answer: 'We enforce strict code review policies, maintain 80%+ test coverage, use automated CI/CD pipelines, and follow clean architecture principles.' },
-];
+export default async function ServicePage({ params }: PageProps) {
+  const { slug } = await params;
+  const service = servicesData.find((s) => s.slug === slug);
 
-export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
-  const params = await props.params;
-  const service = await cmsClient.services.getBySlug(params.slug);
-  if (!service) notFound();
+  if (!service) {
+    notFound();
+  }
+
+  const structuredData = {
+    '@type': 'Service',
+    name: service.title,
+    provider: {
+      '@type': 'Organization',
+      name: 'AESCION EDTECH SOLUTIONS'
+    },
+    description: service.metaDescription,
+  };
 
   return (
     <>
+      <StructuredData type="Service" data={structuredData} />
+
       <PageHero
         title={service.title}
         description={service.shortDescription}
@@ -80,14 +107,41 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
                     <span className="text-neutral-700 font-medium">{feature}</span>
                   </li>
                 ))}
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-primary-500 shrink-0 mt-0.5" />
-                  <span className="text-neutral-700 font-medium">24/7 Infrastructure Monitoring</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-primary-500 shrink-0 mt-0.5" />
-                  <span className="text-neutral-700 font-medium">Enterprise Security & Compliance</span>
-                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-24 bg-neutral-50">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <SectionHeader badge="Core Capabilities" title="What's Included" align="left" />
+              <div className="space-y-6 mt-8">
+                {service.features.map((feature, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="w-6 h-6 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center shrink-0 mt-1">
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-neutral-900">{feature}</h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-3xl p-8 shadow-xl border border-neutral-100">
+              <h3 className="text-2xl font-bold mb-6">Business Benefits</h3>
+              <ul className="space-y-4">
+                {service.benefits.map((benefit, i) => (
+                  <li key={i} className="flex items-center gap-3 text-neutral-600">
+                    <ArrowRight className="w-5 h-5 text-primary-500" />
+                    {benefit}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -97,9 +151,9 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
       {/* Technology Stack */}
       <section className="py-24 bg-neutral-950 text-white">
         <div className="container mx-auto px-6 max-w-7xl">
-          <SectionHeader title="Technology Stack" description="We use the same tools trusted by leading technology companies worldwide." />
+          <SectionHeader title="Technology Stack" description="Purpose-built technologies selected for optimal performance and scale." isDark />
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-12">
-            {['React', 'Next.js', 'TypeScript', 'Node.js', 'NestJS', 'Python', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes', 'AWS', 'Terraform'].map((tech) => (
+            {service.technologies.map((tech) => (
               <div key={tech} className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-center font-medium text-neutral-300 hover:border-primary-500/50 hover:text-white transition-colors">
                 {tech}
               </div>
@@ -133,7 +187,7 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
       <section className="py-24 bg-neutral-50">
         <div className="container mx-auto px-6 max-w-4xl">
           <SectionHeader title="Frequently Asked Questions" />
-          <DynamicAccordion items={faqs} />
+          <DynamicAccordion items={service.faqs} />
         </div>
       </section>
 

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
+const swagger_1 = require("@nestjs/swagger");
 let AppController = class AppController {
     appService;
     constructor(appService) {
@@ -20,15 +21,30 @@ let AppController = class AppController {
     getHello() {
         return this.appService.getHello();
     }
+    getHealth() {
+        return {
+            status: 'ok',
+            timestamp: new Date().toISOString(),
+        };
+    }
 };
 exports.AppController = AppController;
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Welcome message' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
+__decorate([
+    (0, common_1.Get)('health'),
+    (0, swagger_1.ApiOperation)({ summary: 'System health check for load balancers' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Object)
+], AppController.prototype, "getHealth", null);
 exports.AppController = AppController = __decorate([
+    (0, swagger_1.ApiTags)('System'),
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], AppController);

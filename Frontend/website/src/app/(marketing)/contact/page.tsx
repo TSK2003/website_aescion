@@ -40,15 +40,25 @@ export default function ContactPage() {
               <div className="space-y-12">
                 
                 <div>
-                  <h3 className="text-2xl font-bold text-neutral-900 mb-6">Global Headquarters</h3>
+                  <h3 className="text-2xl font-bold text-neutral-900 mb-6">Our Offices</h3>
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 bg-primary-50 rounded-full flex items-center justify-center shrink-0 text-primary-600">
                         <MapPin className="w-6 h-6" />
                       </div>
                       <div>
-                        <h4 className="font-semibold text-neutral-900 mb-1">Office Location</h4>
-                        <p className="text-neutral-600">123 Enterprise Way, Suite 400<br/>Tech District, CA 94105</p>
+                        <h4 className="font-semibold text-neutral-900 mb-1">Head Office</h4>
+                        <p className="text-neutral-600 text-sm">7/3-49, VENKATESWARAPURAM,KADANGANERI,<br/>GANDHI NAGAR STREET, TENKASI 627854 TAMIL NADU</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-primary-50 rounded-full flex items-center justify-center shrink-0 text-primary-600">
+                        <MapPin className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-neutral-900 mb-1">Branch Office</h4>
+                        <p className="text-neutral-600 text-sm">10B/1H,15/1, THIRUMALAI NAMBI, COMPLEX,<br/>PALAYAMKOTTAI, 2ND FLOOR THIRUVANDURAM ROAD,<br/>TIRUNELVELI-627003, TAMIL NADU</p>
                       </div>
                     </div>
                     
@@ -58,7 +68,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-neutral-900 mb-1">Phone</h4>
-                        <p className="text-neutral-600">+1 (800) 123-4567</p>
+                        <p className="text-neutral-600">+91 7550068877</p>
                       </div>
                     </div>
                     
@@ -68,7 +78,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h4 className="font-semibold text-neutral-900 mb-1">Email</h4>
-                        <p className="text-neutral-600">hello@aescion.com</p>
+                        <p className="text-neutral-600">info@aesciontech.com</p>
                       </div>
                     </div>
                     
@@ -99,14 +109,16 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Map Placeholder */}
-      <div className="w-full h-96 bg-neutral-200 relative">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <MapPin className="w-12 h-12 text-neutral-400 mx-auto mb-2" />
-            <span className="text-neutral-500 font-medium">Interactive Map Integration</span>
-          </div>
-        </div>
+      {/* Interactive Map */}
+      <div className="w-full h-[450px] relative">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d920.3562340597733!2d77.72276134075794!3d8.728312641957759!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0411ff5689aa91%3A0x77874ccbd7fe72d8!2sAESCION%20EDTECH%20SOLUTIONS!5e1!3m2!1sen!2sin!4v1784521536139!5m2!1sen!2sin" 
+          className="w-full h-full"
+          style={{ border: 0 }} 
+          allowFullScreen={true} 
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
       </div>
     </>
   );

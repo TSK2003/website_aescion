@@ -13,11 +13,6 @@ export declare class BlogsRepository {
         take?: number;
     }): Promise<{
         data: ({
-            category: {
-                id: string;
-                slug: string;
-                name: string;
-            } | null;
             tags: ({
                 tag: {
                     id: string;
@@ -29,6 +24,11 @@ export declare class BlogsRepository {
                 tagId: string;
                 blogId: string;
             })[];
+            category: {
+                id: string;
+                slug: string;
+                name: string;
+            } | null;
             author: {
                 id: string;
                 lastName: string;
@@ -64,18 +64,6 @@ export declare class BlogsRepository {
         total: number;
     }>;
     findBySlug(slug: string): Promise<({
-        category: {
-            status: import("@prisma/client").$Enums.RecordStatus;
-            id: string;
-            tenantId: string;
-            slug: string;
-            description: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            order: number;
-            name: string;
-            icon: string | null;
-        } | null;
         tags: ({
             tag: {
                 status: import("@prisma/client").$Enums.RecordStatus;
@@ -91,6 +79,18 @@ export declare class BlogsRepository {
             tagId: string;
             blogId: string;
         })[];
+        category: {
+            description: string | null;
+            status: import("@prisma/client").$Enums.RecordStatus;
+            id: string;
+            tenantId: string;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            order: number;
+            name: string;
+            icon: string | null;
+        } | null;
         author: {
             id: string;
             lastName: string;
@@ -125,18 +125,6 @@ export declare class BlogsRepository {
         coverImage: string | null;
     }) | null>;
     findById(id: string): Promise<({
-        category: {
-            status: import("@prisma/client").$Enums.RecordStatus;
-            id: string;
-            tenantId: string;
-            slug: string;
-            description: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            order: number;
-            name: string;
-            icon: string | null;
-        } | null;
         tags: ({
             tag: {
                 status: import("@prisma/client").$Enums.RecordStatus;
@@ -152,6 +140,18 @@ export declare class BlogsRepository {
             tagId: string;
             blogId: string;
         })[];
+        category: {
+            description: string | null;
+            status: import("@prisma/client").$Enums.RecordStatus;
+            id: string;
+            tenantId: string;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            order: number;
+            name: string;
+            icon: string | null;
+        } | null;
         author: {
             id: string;
             lastName: string;
@@ -264,11 +264,11 @@ export declare class BlogsRepository {
     }>;
     setTags(blogId: string, tagIds: string[]): Promise<void>;
     findAllCategories(tenantId: string): Promise<{
+        description: string | null;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         slug: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         order: number;
@@ -276,11 +276,11 @@ export declare class BlogsRepository {
         icon: string | null;
     }[]>;
     createCategory(data: Prisma.CategoryCreateInput): Promise<{
+        description: string | null;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         slug: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         order: number;

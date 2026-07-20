@@ -20,6 +20,7 @@ export declare class CrmRepository {
                 firstName: string;
             } | null;
         } & {
+            tags: string[];
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
@@ -29,7 +30,6 @@ export declare class CrmRepository {
             createdBy: string | null;
             updatedBy: string | null;
             deletedBy: string | null;
-            tags: string[];
             stage: import("@prisma/client").$Enums.LeadPipelineStage;
             source: import("@prisma/client").$Enums.LeadSource;
             priority: import("@prisma/client").$Enums.LeadPriority;
@@ -55,8 +55,8 @@ export declare class CrmRepository {
             firstName: string;
         } | null;
         activities: {
-            id: string;
             description: string;
+            id: string;
             createdAt: Date;
             type: string;
             metadata: Prisma.JsonValue | null;
@@ -73,9 +73,9 @@ export declare class CrmRepository {
             isPinned: boolean;
         }[];
         tasks: {
+            description: string | null;
             id: string;
             title: string;
-            description: string | null;
             createdAt: Date;
             updatedAt: Date;
             priority: import("@prisma/client").$Enums.LeadPriority;
@@ -85,6 +85,7 @@ export declare class CrmRepository {
             completedAt: Date | null;
         }[];
     } & {
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -94,7 +95,6 @@ export declare class CrmRepository {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -111,6 +111,7 @@ export declare class CrmRepository {
         lastContactAt: Date | null;
     }) | null>;
     createLead(data: Prisma.LeadCreateInput): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -120,7 +121,6 @@ export declare class CrmRepository {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -137,6 +137,7 @@ export declare class CrmRepository {
         lastContactAt: Date | null;
     }>;
     updateLead(id: string, data: Prisma.LeadUpdateInput): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -146,7 +147,6 @@ export declare class CrmRepository {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -163,6 +163,7 @@ export declare class CrmRepository {
         lastContactAt: Date | null;
     }>;
     softDeleteLead(id: string, deletedBy: string): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -172,7 +173,6 @@ export declare class CrmRepository {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -189,8 +189,8 @@ export declare class CrmRepository {
         lastContactAt: Date | null;
     }>;
     addActivity(data: Prisma.LeadActivityCreateInput): Promise<{
-        id: string;
         description: string;
+        id: string;
         createdAt: Date;
         type: string;
         metadata: Prisma.JsonValue | null;
@@ -207,9 +207,9 @@ export declare class CrmRepository {
         isPinned: boolean;
     }>;
     addTask(data: Prisma.LeadTaskCreateInput): Promise<{
+        description: string | null;
         id: string;
         title: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -219,9 +219,9 @@ export declare class CrmRepository {
         completedAt: Date | null;
     }>;
     completeTask(taskId: string): Promise<{
+        description: string | null;
         id: string;
         title: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         priority: import("@prisma/client").$Enums.LeadPriority;

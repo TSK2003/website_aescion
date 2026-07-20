@@ -1,19 +1,25 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { cmsClient } from '@aescion/api-client';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumb } from '@/components/layout/breadcrumb';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
+import { blogsData } from '@/lib/cms/blogs-data';
 import { Calendar, User, Clock, ArrowLeft, Share2, Linkedin, Twitter } from 'lucide-react';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  return blogsData.map((blog) => ({
+    slug: blog.slug,
+  }));
+}
+
 export async function generateMetadata(props: BlogPostPageProps): Promise<Metadata> {
-  const params = await props.params;
-  const post = await cmsClient.blogs.getBySlug(params.slug);
+  const { slug } = await props.params;
+  const post = blogsData.find((p) => p.slug === slug);
   if (!post) return { title: 'Blog Post Not Found | AESCION' };
   return {
     title: `${post.title} | AESCION Blog`,
@@ -22,15 +28,15 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
       title: post.title,
       description: post.excerpt,
       type: 'article',
-      publishedTime: post.date,
-      authors: [post.author.name],
+      publishedTime: post.publishDate,
+      authors: [post.author],
     },
   };
 }
 
 export default async function BlogPostPage(props: BlogPostPageProps) {
-  const params = await props.params;
-  const post = await cmsClient.blogs.getBySlug(params.slug);
+  const { slug } = await props.params;
+  const post = blogsData.find((p) => p.slug === slug);
   if (!post) notFound();
 
   return (
@@ -56,15 +62,15 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
             <div className="flex items-center justify-between flex-wrap gap-4 py-6 border-t border-neutral-100">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold text-lg">
-                  {post.author.name.charAt(0)}
+                  {post.author.charAt(0)}
                 </div>
                 <div>
-                  <div className="font-semibold text-neutral-900">{post.author.name}</div>
-                  <div className="text-sm text-neutral-500">{post.author.role}</div>
+                  <div className="font-semibold text-neutral-900">{post.author}</div>
+                  <div className="text-sm text-neutral-500">Author</div>
                 </div>
               </div>
               <div className="flex items-center gap-6 text-sm text-neutral-500">
-                <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{post.date}</span>
+                <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" />{new Date(post.publishDate).toLocaleDateString()}</span>
                 <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" />8 min read</span>
               </div>
             </div>
@@ -120,11 +126,11 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
 
             {/* Article Content */}
             <div className="lg:col-span-9 bg-white rounded-2xl border border-neutral-200 p-8 md:p-12">
-              {post.content ? (
-                <MarkdownRenderer content={post.content} />
-              ) : (
-                <p>Content is empty.</p>
-              )}
+               <p className="text-lg text-neutral-700 leading-relaxed">
+                 {post.excerpt}
+                 <br/><br/>
+                 <em>(Full markdown content will be rendered here via the CMS in production).</em>
+               </p>
             </div>
           </div>
         </div>

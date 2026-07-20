@@ -4,7 +4,7 @@ import { PageHero } from '@/components/ui/page-hero';
 import { SectionHeader } from '@/components/ui/section-header';
 import { Users, Target, Shield, Zap, Building2, Globe2 } from 'lucide-react';
 import { FeatureGrid } from '@/components/ui/feature-grid';
-
+import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'About Us | AESCION',
   description: 'Learn about AESCION, our mission, vision, and the team building the future of enterprise software.',
@@ -18,10 +18,10 @@ const values = [
 ];
 
 const timeline = [
-  { year: '2023', title: 'AESCION Founded', description: 'Started with a vision to bring Silicon Valley engineering standards to enterprise organizations.' },
-  { year: '2024', title: 'Enterprise Expansion', description: 'Secured partnerships with Fortune 500 companies for cloud migration and custom ERP development.' },
-  { year: '2025', title: 'AI Integration Practice', description: 'Launched our dedicated AI consulting arm, integrating custom LLMs into enterprise workflows.' },
-  { year: '2026', title: 'Global Operations', description: 'Expanded our operations to support clients across North America, Europe, and Asia.' },
+  { year: 'Dec 2025', title: 'AESCION Founded', description: 'Started with a vision to bring Silicon Valley engineering standards to enterprise organizations.' },
+  { year: 'Feb 2026', title: 'Enterprise Expansion', description: 'Secured partnerships with Fortune 500 companies for cloud migration and custom ERP development.' },
+  { year: 'May 2026', title: 'AI Integration Practice', description: 'Launched our dedicated AI consulting arm, integrating custom LLMs into enterprise workflows.' },
+  { year: 'Jul 2026', title: 'Global Operations', description: 'Expanded our operations to support clients across North America, Europe, and Asia.' },
 ];
 
 export default function AboutPage() {
@@ -56,14 +56,16 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className="aspect-[4/5] bg-neutral-100 rounded-2xl overflow-hidden relative mt-8">
-                 <div className="absolute inset-0 bg-gradient-to-tr from-primary-900 to-primary-600 flex items-center justify-center p-6 text-center shadow-inner">
-                   <h3 className="text-white font-bold text-2xl">Modern Infrastructure</h3>
+              <div className="aspect-[4/5] bg-neutral-100 rounded-2xl overflow-hidden relative mt-8 border border-neutral-200">
+                 <Image src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600&h=750" alt="Modern Infrastructure" fill className="object-cover" />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                   <h3 className="text-white font-bold text-xl">Modern Infrastructure</h3>
                  </div>
               </div>
-              <div className="aspect-[4/5] bg-neutral-100 rounded-2xl overflow-hidden relative">
-                 <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 to-neutral-800 flex items-center justify-center p-6 text-center shadow-inner">
-                   <h3 className="text-white font-bold text-2xl">Elite Engineering</h3>
+              <div className="aspect-[4/5] bg-neutral-100 rounded-2xl overflow-hidden relative border border-neutral-200">
+                 <Image src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=600&h=750" alt="Elite Engineering" fill className="object-cover" />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6">
+                   <h3 className="text-white font-bold text-xl">Elite Engineering</h3>
                  </div>
               </div>
             </div>
@@ -106,14 +108,57 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Stats Section reused from homepage component conceptually */}
-      <section className="py-20 bg-primary-950 text-white relative overflow-hidden">
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x-0 md:divide-x md:divide-primary-800">
-            <div className="flex flex-col items-center"><div className="text-4xl md:text-5xl font-bold mb-2">50+</div><div className="text-primary-300 text-sm font-medium uppercase tracking-wider">Engineers</div></div>
-            <div className="flex flex-col items-center"><div className="text-4xl md:text-5xl font-bold mb-2">120+</div><div className="text-primary-300 text-sm font-medium uppercase tracking-wider">Projects Shipped</div></div>
-            <div className="flex flex-col items-center"><div className="text-4xl md:text-5xl font-bold mb-2">12</div><div className="text-primary-300 text-sm font-medium uppercase tracking-wider">Countries Served</div></div>
-            <div className="flex flex-col items-center"><div className="text-4xl md:text-5xl font-bold mb-2">100%</div><div className="text-primary-300 text-sm font-medium uppercase tracking-wider">Client Retention</div></div>
+      <section className="py-24 bg-neutral-50 border-t border-neutral-200">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <SectionHeader 
+            title="Team Of AESCION"
+            description="The engineering leaders driving our vision and shaping the future of enterprise software."
+          />
+          <div className="flex flex-wrap justify-center gap-8 mt-12">
+            <div className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] bg-white rounded-3xl overflow-hidden border border-neutral-200 hover:shadow-xl transition-shadow group">
+              <div className="aspect-[4/5] relative bg-neutral-100 overflow-hidden">
+                <Image src="/images/ceo.jpg" alt="CEO" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-neutral-900 mb-1">Company CEO</h3>
+                <p className="text-primary-600 font-medium text-sm mb-4">Founder & Chief Executive Officer</p>
+                <p className="text-neutral-600 text-sm leading-relaxed">Guiding AESCION's strategic vision and ensuring uncompromising engineering standards across all enterprise deliveries.</p>
+              </div>
+            </div>
+            <div className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] bg-white rounded-3xl overflow-hidden border border-neutral-200 hover:shadow-xl transition-shadow group">
+              <div className="aspect-[4/5] relative bg-neutral-100 overflow-hidden">
+                <Image src="/images/arokkia_selvam.jpeg" alt="Arokkia Selvam" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-neutral-900 mb-1">Arokkia Selvam</h3>
+                <p className="text-primary-600 font-medium text-sm mb-4">Full Stack Developer</p>
+                <p className="text-neutral-600 text-sm leading-relaxed">Building scalable web applications, robust APIs, and seamless user experiences for enterprise solutions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-12 bg-white border-t border-neutral-200">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl md:text-5xl font-extrabold mb-2 text-primary-600">50+</div>
+              <div className="text-neutral-600 font-semibold text-sm uppercase tracking-wider">Engineers</div>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-extrabold mb-2 text-primary-600">120+</div>
+              <div className="text-neutral-600 font-semibold text-sm uppercase tracking-wider">Projects Shipped</div>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-extrabold mb-2 text-primary-600">12</div>
+              <div className="text-neutral-600 font-semibold text-sm uppercase tracking-wider">Countries Served</div>
+            </div>
+            <div>
+              <div className="text-4xl md:text-5xl font-extrabold mb-2 text-primary-600">100%</div>
+              <div className="text-neutral-600 font-semibold text-sm uppercase tracking-wider">Client Retention</div>
+            </div>
           </div>
         </div>
       </section>

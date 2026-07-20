@@ -21,6 +21,7 @@ export declare class CrmService {
                 firstName: string;
             } | null;
         } & {
+            tags: string[];
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
@@ -30,7 +31,6 @@ export declare class CrmService {
             createdBy: string | null;
             updatedBy: string | null;
             deletedBy: string | null;
-            tags: string[];
             stage: import("@prisma/client").$Enums.LeadPipelineStage;
             source: import("@prisma/client").$Enums.LeadSource;
             priority: import("@prisma/client").$Enums.LeadPriority;
@@ -61,8 +61,8 @@ export declare class CrmService {
             firstName: string;
         } | null;
         activities: {
-            id: string;
             description: string;
+            id: string;
             createdAt: Date;
             type: string;
             metadata: import("@prisma/client/runtime/client").JsonValue | null;
@@ -79,9 +79,9 @@ export declare class CrmService {
             isPinned: boolean;
         }[];
         tasks: {
+            description: string | null;
             id: string;
             title: string;
-            description: string | null;
             createdAt: Date;
             updatedAt: Date;
             priority: import("@prisma/client").$Enums.LeadPriority;
@@ -91,6 +91,7 @@ export declare class CrmService {
             completedAt: Date | null;
         }[];
     } & {
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -100,7 +101,6 @@ export declare class CrmService {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -117,6 +117,7 @@ export declare class CrmService {
         lastContactAt: Date | null;
     }>;
     createLead(tenantId: string, dto: CreateLeadDto, userId: string): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -126,7 +127,6 @@ export declare class CrmService {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -143,6 +143,7 @@ export declare class CrmService {
         lastContactAt: Date | null;
     }>;
     updateLead(id: string, dto: UpdateLeadDto, userId: string): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -152,7 +153,6 @@ export declare class CrmService {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -169,6 +169,7 @@ export declare class CrmService {
         lastContactAt: Date | null;
     }>;
     deleteLead(id: string, userId: string): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -178,7 +179,6 @@ export declare class CrmService {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -202,8 +202,8 @@ export declare class CrmService {
             firstName: string;
         } | null;
         activities: {
-            id: string;
             description: string;
+            id: string;
             createdAt: Date;
             type: string;
             metadata: import("@prisma/client/runtime/client").JsonValue | null;
@@ -220,9 +220,9 @@ export declare class CrmService {
             isPinned: boolean;
         }[];
         tasks: {
+            description: string | null;
             id: string;
             title: string;
-            description: string | null;
             createdAt: Date;
             updatedAt: Date;
             priority: import("@prisma/client").$Enums.LeadPriority;
@@ -232,6 +232,7 @@ export declare class CrmService {
             completedAt: Date | null;
         }[];
     } & {
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -241,7 +242,6 @@ export declare class CrmService {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -267,9 +267,9 @@ export declare class CrmService {
         isPinned: boolean;
     }>;
     addTask(leadId: string, title: string, description: string, dueDate?: Date): Promise<{
+        description: string | null;
         id: string;
         title: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         priority: import("@prisma/client").$Enums.LeadPriority;

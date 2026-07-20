@@ -114,11 +114,11 @@ export default function InternshipPage() {
       </section>
 
       {/* What You'll Learn */}
-      <section className="py-24 bg-primary-950 text-white">
+      <section className="py-24 bg-neutral-950 text-white">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <SectionHeader badge="Learning Roadmap" title="What You'll Work On" align="left" />
+              <SectionHeader badge="Learning Roadmap" title="What You'll Work On" align="left" isDark />
               <ul className="space-y-5">
                 {[
                   'Real enterprise codebases with production-grade architecture',
@@ -135,8 +135,8 @@ export default function InternshipPage() {
                 ))}
               </ul>
             </div>
-            <div className="bg-primary-900 rounded-3xl p-8 border border-primary-800">
-              <div className="w-full h-8 bg-primary-950 rounded-t-lg flex items-center px-4 gap-2 mb-4">
+            <div className="bg-neutral-900 rounded-3xl p-8 border border-neutral-800 shadow-2xl">
+              <div className="w-full h-8 bg-neutral-950 rounded-t-lg flex items-center px-4 gap-2 mb-4">
                 <div className="w-3 h-3 rounded-full bg-rose-500"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>

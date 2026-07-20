@@ -7,11 +7,6 @@ export declare class BlogsController {
     constructor(blogsService: BlogsService);
     getPublicBlogs(page?: number, limit?: number, categoryId?: string, tagId?: string, search?: string): Promise<{
         items: ({
-            category: {
-                id: string;
-                slug: string;
-                name: string;
-            } | null;
             tags: ({
                 tag: {
                     id: string;
@@ -23,6 +18,11 @@ export declare class BlogsController {
                 tagId: string;
                 blogId: string;
             })[];
+            category: {
+                id: string;
+                slug: string;
+                name: string;
+            } | null;
             author: {
                 id: string;
                 lastName: string;
@@ -63,18 +63,6 @@ export declare class BlogsController {
         };
     }>;
     getPublicBlog(slug: string): Promise<{
-        category: {
-            status: import("@prisma/client").$Enums.RecordStatus;
-            id: string;
-            tenantId: string;
-            slug: string;
-            description: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            order: number;
-            name: string;
-            icon: string | null;
-        } | null;
         tags: ({
             tag: {
                 status: import("@prisma/client").$Enums.RecordStatus;
@@ -90,6 +78,18 @@ export declare class BlogsController {
             tagId: string;
             blogId: string;
         })[];
+        category: {
+            description: string | null;
+            status: import("@prisma/client").$Enums.RecordStatus;
+            id: string;
+            tenantId: string;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            order: number;
+            name: string;
+            icon: string | null;
+        } | null;
         author: {
             id: string;
             lastName: string;
@@ -125,11 +125,6 @@ export declare class BlogsController {
     }>;
     getAllBlogs(user: any, page?: number, limit?: number, status?: string): Promise<{
         items: ({
-            category: {
-                id: string;
-                slug: string;
-                name: string;
-            } | null;
             tags: ({
                 tag: {
                     id: string;
@@ -141,6 +136,11 @@ export declare class BlogsController {
                 tagId: string;
                 blogId: string;
             })[];
+            category: {
+                id: string;
+                slug: string;
+                name: string;
+            } | null;
             author: {
                 id: string;
                 lastName: string;
@@ -181,11 +181,11 @@ export declare class BlogsController {
         };
     }>;
     getCategories(user: any): Promise<{
+        description: string | null;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         slug: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         order: number;
@@ -193,11 +193,11 @@ export declare class BlogsController {
         icon: string | null;
     }[]>;
     createCategory(user: any, dto: CreateCategoryTagDto): Promise<{
+        description: string | null;
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         slug: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         order: number;
@@ -223,18 +223,6 @@ export declare class BlogsController {
         name: string;
     }>;
     getBlogById(id: string): Promise<{
-        category: {
-            status: import("@prisma/client").$Enums.RecordStatus;
-            id: string;
-            tenantId: string;
-            slug: string;
-            description: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            order: number;
-            name: string;
-            icon: string | null;
-        } | null;
         tags: ({
             tag: {
                 status: import("@prisma/client").$Enums.RecordStatus;
@@ -250,6 +238,18 @@ export declare class BlogsController {
             tagId: string;
             blogId: string;
         })[];
+        category: {
+            description: string | null;
+            status: import("@prisma/client").$Enums.RecordStatus;
+            id: string;
+            tenantId: string;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            order: number;
+            name: string;
+            icon: string | null;
+        } | null;
         author: {
             id: string;
             lastName: string;
@@ -283,18 +283,6 @@ export declare class BlogsController {
         coverImage: string | null;
     }>;
     createBlog(user: any, dto: CreateBlogDto): Promise<{
-        category: {
-            status: import("@prisma/client").$Enums.RecordStatus;
-            id: string;
-            tenantId: string;
-            slug: string;
-            description: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            order: number;
-            name: string;
-            icon: string | null;
-        } | null;
         tags: ({
             tag: {
                 status: import("@prisma/client").$Enums.RecordStatus;
@@ -310,6 +298,18 @@ export declare class BlogsController {
             tagId: string;
             blogId: string;
         })[];
+        category: {
+            description: string | null;
+            status: import("@prisma/client").$Enums.RecordStatus;
+            id: string;
+            tenantId: string;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            order: number;
+            name: string;
+            icon: string | null;
+        } | null;
         author: {
             id: string;
             lastName: string;
@@ -343,18 +343,6 @@ export declare class BlogsController {
         coverImage: string | null;
     }>;
     updateBlog(id: string, user: any, dto: UpdateBlogDto): Promise<{
-        category: {
-            status: import("@prisma/client").$Enums.RecordStatus;
-            id: string;
-            tenantId: string;
-            slug: string;
-            description: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            order: number;
-            name: string;
-            icon: string | null;
-        } | null;
         tags: ({
             tag: {
                 status: import("@prisma/client").$Enums.RecordStatus;
@@ -370,6 +358,18 @@ export declare class BlogsController {
             tagId: string;
             blogId: string;
         })[];
+        category: {
+            description: string | null;
+            status: import("@prisma/client").$Enums.RecordStatus;
+            id: string;
+            tenantId: string;
+            slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            order: number;
+            name: string;
+            icon: string | null;
+        } | null;
         author: {
             id: string;
             lastName: string;

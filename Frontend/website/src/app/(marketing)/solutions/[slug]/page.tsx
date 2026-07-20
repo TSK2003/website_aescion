@@ -1,5 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
+import Image from 'next/image';
 import { PageHero } from '@/components/ui/page-hero';
 import { SectionHeader } from '@/components/ui/section-header';
 import { DynamicAccordion } from '@/components/ui/dynamic-accordion';
@@ -103,11 +104,11 @@ export default async function SolutionDetailPage(props: SolutionDetailPageProps)
                 ))}
               </ul>
             </div>
-            <div className="bg-neutral-100 rounded-3xl aspect-video flex items-center justify-center">
-              <div className="text-center text-neutral-400">
-                <BarChart3 className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <span className="font-medium">Solution Architecture Diagram</span>
-              </div>
+            <div className="bg-neutral-100 rounded-3xl aspect-video relative overflow-hidden flex items-center justify-center border border-neutral-200">
+               <Image src="/images/solution_architecture.png" alt="Solution Architecture" fill className="object-cover" />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-6">
+                 <span className="text-white font-bold text-lg">System Architecture Overview</span>
+               </div>
             </div>
           </div>
         </div>

@@ -8,7 +8,6 @@ const CoreServices = dynamic(() => import('@/components/sections/core-services')
 const TechnologyExpertise = dynamic(() => import('@/components/sections/technology-expertise').then(mod => ({ default: mod.TechnologyExpertise })));
 const WhyChooseUs = dynamic(() => import('@/components/sections/why-choose-us').then(mod => ({ default: mod.WhyChooseUs })));
 const Testimonials = dynamic(() => import('@/components/sections/testimonials').then(mod => ({ default: mod.Testimonials })));
-const CallToAction = dynamic(() => import('@/components/sections/cta').then(mod => ({ default: mod.CallToAction })));
 
 export default function Home() {
   return (
@@ -20,7 +19,6 @@ export default function Home() {
       <TechnologyExpertise />
       <WhyChooseUs />
       <Testimonials />
-      <CallToAction />
     </>
   );
 }

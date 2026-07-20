@@ -1,15 +1,31 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, ChevronRight } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 
-const heroImage = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1920&h=1080";
+const heroImages = [
+  "/gallery/logo_hero.svg",
+];
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const slideVariants = {
+    enter: { x: '100%' },
+    center: { x: 0, transition: { duration: 1, ease: [0.4, 0, 0.2, 1] } },
+    exit: { x: '-100%', transition: { duration: 1, ease: [0.4, 0, 0.2, 1] } }
+  };
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -81,48 +97,71 @@ export function Hero() {
           </div>
         </motion.div>
 
-          <div className="absolute inset-0 z-20 pointer-events-none">
+        <div className="absolute inset-0 z-20 pointer-events-none">
             {/* Left Half Image */}
             <motion.div
               initial={{ x: 0 }}
               style={{
                 position: 'absolute',
                 inset: 0,
-                clipPath: 'inset(0 50% 0 0)',
+                clipPath: 'inset(0 49.5% 0 0)',
                 x: leftX,
                 opacity: doorOpacity,
               }}
-              className="z-20 overflow-hidden"
+              className="z-20 overflow-hidden bg-white"
             >
-              <Image 
-                src={heroImage} 
-                alt="Hero Left" 
-                fill 
-                priority 
-                className="object-cover"
-                sizes="100vw"
-              />
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={currentImageIndex}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0"
+                >
+                  <Image 
+                    src={heroImages[currentImageIndex]} 
+                    alt="Hero Left" 
+                    fill 
+                    priority 
+                    className="object-cover"
+                    sizes="100vw"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
+            
             {/* Right Half Image */}
             <motion.div
               initial={{ x: 0 }}
               style={{
                 position: 'absolute',
                 inset: 0,
-                clipPath: 'inset(0 0 0 50%)',
+                clipPath: 'inset(0 0 0 49.5%)',
                 x: rightX,
                 opacity: doorOpacity,
               }}
-              className="z-20 overflow-hidden"
+              className="z-20 overflow-hidden bg-white"
             >
-              <Image 
-                src={heroImage} 
-                alt="Hero Right" 
-                fill 
-                priority 
-                className="object-cover"
-                sizes="100vw"
-              />
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={currentImageIndex}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0"
+                >
+                  <Image 
+                    src={heroImages[currentImageIndex]} 
+                    alt="Hero Right" 
+                    fill 
+                    priority 
+                    className="object-cover"
+                    sizes="100vw"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
           </div>
         
@@ -135,12 +174,12 @@ export function Hero() {
           <div className="flex items-center h-2.5"></div>
 
           <div className="flex flex-col items-center gap-2 mt-4">
-            <span className="text-sm font-bold tracking-widest uppercase drop-shadow-md">Scroll to explore</span>
-            <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center p-1 shadow-lg">
+            <span className="text-sm font-bold tracking-widest uppercase drop-shadow-md text-black">Scroll to explore</span>
+            <div className="w-6 h-10 border-2 border-black rounded-full flex justify-center p-1 shadow-lg">
               <motion.div 
                 animate={{ y: [0, 12, 0] }} 
                 transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                className="w-1.5 h-1.5 bg-white rounded-full shadow-md"
+                className="w-1.5 h-1.5 bg-black rounded-full shadow-md"
               />
             </div>
           </div>

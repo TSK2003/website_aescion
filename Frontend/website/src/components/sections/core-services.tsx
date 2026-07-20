@@ -10,14 +10,14 @@ const services = [
     title: "Enterprise Software",
     description: "Custom ERP, CRM, and HRMS platforms built for massive scale and reliability.",
     icon: Code2,
-    href: "/services/software-development",
+    href: "/services/custom-software-development",
     color: "bg-blue-100/50 text-blue-600 ring-1 ring-blue-500/20"
   },
   {
     title: "AI Solutions",
     description: "Intelligent automation, predictive analytics, and custom LLM integrations.",
     icon: BrainCircuit,
-    href: "/services/ai-solutions",
+    href: "/services/ai-automation",
     color: "bg-purple-100/50 text-purple-600 ring-1 ring-purple-500/20"
   },
   {
@@ -31,7 +31,7 @@ const services = [
     title: "Process Automation",
     description: "Streamline workflows and eliminate manual tasks with smart RPA.",
     icon: Cpu,
-    href: "/services/automation",
+    href: "/services/erp-software-development",
     color: "bg-orange-100/50 text-orange-600 ring-1 ring-orange-500/20"
   },
   {

@@ -1,26 +1,17 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { PageHero } from '@/components/ui/page-hero';
-import { cmsClient } from '@aescion/api-client';
+import { servicesData } from '@/lib/cms/services-data';
 import Link from 'next/link';
-import { ArrowRight, Code, Cpu, Cloud, Smartphone, Layout, Wrench } from 'lucide-react';
+import * as Icons from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Enterprise Services | AESCION',
   description: 'Explore our enterprise software development, AI solutions, and cloud architecture services.',
 };
 
-const iconMap: Record<string, any> = {
-  'software-development': Code,
-  'ai-automation': Cpu,
-  'cloud-infrastructure': Cloud,
-  'mobile-applications': Smartphone,
-  'ui-ux-design': Layout,
-  'maintenance': Wrench,
-};
-
-export default async function ServicesPage() {
-  const services = await cmsClient.services.getAll();
+export default function ServicesPage() {
+  const services = servicesData;
 
   return (
     <>
@@ -35,7 +26,7 @@ export default async function ServicesPage() {
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service) => {
-              const Icon = iconMap[service.slug] || Code;
+              const Icon = (Icons as any)[service.icon] || Icons.Code;
               return (
                 <Link 
                   href={`/services/${service.slug}`} 
@@ -62,7 +53,7 @@ export default async function ServicesPage() {
                   </div>
 
                   <div className="inline-flex items-center gap-2 text-primary-600 font-semibold mt-auto group-hover:text-primary-700 transition-colors">
-                    Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    Explore Service <Icons.ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </Link>
               );

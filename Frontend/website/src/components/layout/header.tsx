@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Search, Menu, X } from 'lucide-react';
+import { Search, Menu, X, Icon } from 'lucide-react';
 import { MobileNav } from './mobile-nav';
 import { GlobalSearch } from '../ui/global-search';
 
@@ -15,6 +15,7 @@ const navLinks = [
   { label: 'Training', href: '/training' },
   { label: 'Internship', href: '/internship' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Gallery', href: '/gallery' },
 ];
 
 export function Header() {
@@ -79,15 +80,6 @@ export function Header() {
 
           {/* Right Actions */}
           <div className="hidden lg:flex items-center gap-4">
-            <button 
-              aria-label="Search" 
-              className="flex items-center gap-2 px-3 py-1.5 text-neutral-400 bg-neutral-100 hover:bg-neutral-200 rounded-lg transition-colors text-sm"
-              onClick={() => setSearchOpen(true)}
-            >
-              <Search className="w-4 h-4" />
-              <span className="hidden xl:inline">Search...</span>
-              <kbd className="hidden xl:inline-flex items-center px-1.5 py-0.5 bg-white border border-neutral-200 rounded text-[10px] font-mono text-neutral-400 ml-2">⌘K</kbd>
-            </button>
             <Link 
               href="/contact" 
               className="bg-primary-500 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-600 transition-colors shadow-sm"

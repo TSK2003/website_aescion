@@ -13,6 +13,7 @@ export declare class CrmController {
                 firstName: string;
             } | null;
         } & {
+            tags: string[];
             status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
@@ -22,7 +23,6 @@ export declare class CrmController {
             createdBy: string | null;
             updatedBy: string | null;
             deletedBy: string | null;
-            tags: string[];
             stage: import("@prisma/client").$Enums.LeadPipelineStage;
             source: import("@prisma/client").$Enums.LeadSource;
             priority: import("@prisma/client").$Enums.LeadPriority;
@@ -61,8 +61,8 @@ export declare class CrmController {
             firstName: string;
         } | null;
         activities: {
-            id: string;
             description: string;
+            id: string;
             createdAt: Date;
             type: string;
             metadata: import("@prisma/client/runtime/client").JsonValue | null;
@@ -79,9 +79,9 @@ export declare class CrmController {
             isPinned: boolean;
         }[];
         tasks: {
+            description: string | null;
             id: string;
             title: string;
-            description: string | null;
             createdAt: Date;
             updatedAt: Date;
             priority: import("@prisma/client").$Enums.LeadPriority;
@@ -91,6 +91,7 @@ export declare class CrmController {
             completedAt: Date | null;
         }[];
     } & {
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -100,7 +101,6 @@ export declare class CrmController {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -117,6 +117,7 @@ export declare class CrmController {
         lastContactAt: Date | null;
     }>;
     createLead(user: any, dto: CreateLeadDto): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -126,7 +127,6 @@ export declare class CrmController {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -143,6 +143,7 @@ export declare class CrmController {
         lastContactAt: Date | null;
     }>;
     updateLead(id: string, user: any, dto: UpdateLeadDto): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -152,7 +153,6 @@ export declare class CrmController {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -178,8 +178,8 @@ export declare class CrmController {
             firstName: string;
         } | null;
         activities: {
-            id: string;
             description: string;
+            id: string;
             createdAt: Date;
             type: string;
             metadata: import("@prisma/client/runtime/client").JsonValue | null;
@@ -196,9 +196,9 @@ export declare class CrmController {
             isPinned: boolean;
         }[];
         tasks: {
+            description: string | null;
             id: string;
             title: string;
-            description: string | null;
             createdAt: Date;
             updatedAt: Date;
             priority: import("@prisma/client").$Enums.LeadPriority;
@@ -208,6 +208,7 @@ export declare class CrmController {
             completedAt: Date | null;
         }[];
     } & {
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -217,7 +218,6 @@ export declare class CrmController {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;
@@ -245,6 +245,7 @@ export declare class CrmController {
         isPinned: boolean;
     }>;
     deleteLead(id: string, user: any): Promise<{
+        tags: string[];
         status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
@@ -254,7 +255,6 @@ export declare class CrmController {
         createdBy: string | null;
         updatedBy: string | null;
         deletedBy: string | null;
-        tags: string[];
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
         priority: import("@prisma/client").$Enums.LeadPriority;

@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { PageHero } from '@/components/ui/page-hero';
 import { SectionHeader } from '@/components/ui/section-header';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Calendar, User, Search, Tag } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ const featuredPost = {
   author: { name: 'Dr. Sarah Chen', role: 'Chief AI Officer' },
   category: 'AI & ML',
   readTime: '12 min read',
+  image: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=1200&h=800'
 };
 
 const posts = [
@@ -33,6 +35,7 @@ const posts = [
     author: { name: 'James Wilson', role: 'Cloud Architect' },
     category: 'Cloud & DevOps',
     readTime: '9 min read',
+    image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'security-modern-web',
@@ -42,6 +45,7 @@ const posts = [
     author: { name: 'Elena Rodriguez', role: 'Security Engineer' },
     category: 'Security',
     readTime: '8 min read',
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'nextjs-app-router-patterns',
@@ -51,6 +55,7 @@ const posts = [
     author: { name: 'Alex Kim', role: 'Frontend Architect' },
     category: 'Frontend',
     readTime: '11 min read',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'postgresql-performance',
@@ -60,6 +65,7 @@ const posts = [
     author: { name: 'Maria Santos', role: 'Database Architect' },
     category: 'Backend',
     readTime: '10 min read',
+    image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'building-design-systems',
@@ -69,6 +75,7 @@ const posts = [
     author: { name: 'David Park', role: 'UI/UX Lead' },
     category: 'Frontend',
     readTime: '7 min read',
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'kubernetes-production',
@@ -78,6 +85,7 @@ const posts = [
     author: { name: 'James Wilson', role: 'Cloud Architect' },
     category: 'Cloud & DevOps',
     readTime: '13 min read',
+    image: 'https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?auto=format&fit=crop&q=80&w=800&h=600'
   },
 ];
 
@@ -92,7 +100,7 @@ export default function BlogPage() {
       />
 
       {/* Category Filter */}
-      <section className="py-8 bg-white border-b border-neutral-100 sticky top-[72px] z-20">
+      <section className="py-4 bg-white/90 backdrop-blur-md border-b border-neutral-200 sticky top-[57px] md:top-[65px] z-40 shadow-sm">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-hide">
             {categories.map((cat, idx) => (
@@ -116,10 +124,8 @@ export default function BlogPage() {
         <div className="container mx-auto px-6 max-w-7xl">
           <Link href={`/blog/${featuredPost.slug}`} className="group block">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-neutral-50 rounded-3xl overflow-hidden border border-neutral-200 hover:shadow-xl transition-shadow">
-              <div className="aspect-[16/10] bg-neutral-200 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-200/30 to-neutral-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-700">
-                  <span className="text-neutral-400 font-medium">Featured Article Image</span>
-                </div>
+              <div className="aspect-[16/10] bg-neutral-200 relative overflow-hidden">
+                <Image src={featuredPost.image} alt={featuredPost.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute top-4 left-4 px-3 py-1 bg-primary-600 text-white text-xs font-bold rounded-full shadow">
                   Featured
                 </div>
@@ -159,7 +165,8 @@ export default function BlogPage() {
             {posts.map((post, idx) => (
               <article key={idx} className="group flex flex-col bg-white rounded-2xl border border-neutral-200 overflow-hidden hover:shadow-xl hover:border-primary-200 transition-all duration-300">
                 <div className="aspect-[16/10] bg-neutral-100 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-neutral-200 to-neutral-100 group-hover:scale-105 transition-transform duration-700"></div>
+                  <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <div className="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-primary-600 shadow-sm z-10">
                     {post.category}
                   </div>
@@ -206,25 +213,7 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Newsletter CTA */}
-      <section className="py-24 bg-primary-900 text-white text-center">
-        <div className="container mx-auto px-6 max-w-3xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Never miss an article</h2>
-          <p className="text-xl text-primary-100 mb-10">
-            Subscribe to our monthly engineering digest for architecture patterns, AI trends, and cloud best practices.
-          </p>
-          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-5 py-4 rounded-xl bg-primary-800 border border-primary-700 text-white placeholder-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
-            />
-            <button type="button" className="px-8 py-4 bg-white text-primary-900 font-bold rounded-xl hover:bg-neutral-100 transition-colors">
-              Subscribe
-            </button>
-          </form>
-        </div>
-      </section>
+      
     </>
   );
 }

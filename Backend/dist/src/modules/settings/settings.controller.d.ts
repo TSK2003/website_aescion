@@ -3,9 +3,9 @@ export declare class SettingsController {
     private readonly settingsService;
     constructor(settingsService: SettingsService);
     getPublicSettings(): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
@@ -15,9 +15,9 @@ export declare class SettingsController {
         isPublic: boolean;
     }[]>;
     getAllSettings(user: any): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
@@ -27,9 +27,9 @@ export declare class SettingsController {
         isPublic: boolean;
     }[]>;
     getSetting(group: string, key: string, user: any): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
@@ -43,9 +43,9 @@ export declare class SettingsController {
         isPublic?: boolean;
         description?: string;
     }): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
@@ -57,9 +57,9 @@ export declare class SettingsController {
     updateBulkSettings(user: any, body: {
         settings: any[];
     }): Promise<{
+        description: string | null;
         id: string;
         tenantId: string;
-        description: string | null;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;

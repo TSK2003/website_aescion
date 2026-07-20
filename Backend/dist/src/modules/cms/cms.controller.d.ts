@@ -16,12 +16,12 @@ export declare class CmsController {
             pageId: string;
         }[];
     } & {
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;
@@ -50,12 +50,12 @@ export declare class CmsController {
                 pageId: string;
             }[];
         } & {
+            description: string | null;
             status: import("@prisma/client").$Enums.ContentStatus;
             id: string;
             tenantId: string;
             title: string;
             slug: string;
-            description: string | null;
             publishedAt: Date | null;
             scheduledAt: Date | null;
             template: string | null;
@@ -99,12 +99,12 @@ export declare class CmsController {
             changeNote: string | null;
         }[];
     } & {
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;
@@ -132,12 +132,12 @@ export declare class CmsController {
             pageId: string;
         }[];
     } & {
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;
@@ -165,12 +165,12 @@ export declare class CmsController {
             pageId: string;
         }[];
     } & {
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;
@@ -187,12 +187,12 @@ export declare class CmsController {
         deletedBy: string | null;
     }>;
     deletePage(id: string, user: any): Promise<{
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;

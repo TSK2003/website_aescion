@@ -20,12 +20,12 @@ export declare class CmsRepository {
                 pageId: string;
             }[];
         } & {
+            description: string | null;
             status: import("@prisma/client").$Enums.ContentStatus;
             id: string;
             tenantId: string;
             title: string;
             slug: string;
-            description: string | null;
             publishedAt: Date | null;
             scheduledAt: Date | null;
             template: string | null;
@@ -55,12 +55,12 @@ export declare class CmsRepository {
             pageId: string;
         }[];
     } & {
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;
@@ -97,12 +97,12 @@ export declare class CmsRepository {
             changeNote: string | null;
         }[];
     } & {
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;
@@ -130,12 +130,12 @@ export declare class CmsRepository {
             pageId: string;
         }[];
     } & {
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;
@@ -163,12 +163,12 @@ export declare class CmsRepository {
             pageId: string;
         }[];
     } & {
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;
@@ -185,12 +185,12 @@ export declare class CmsRepository {
         deletedBy: string | null;
     }>;
     softDeletePage(id: string, deletedBy: string): Promise<{
+        description: string | null;
         status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
         title: string;
         slug: string;
-        description: string | null;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         template: string | null;

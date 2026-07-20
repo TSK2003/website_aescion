@@ -4,6 +4,7 @@ import { PageHero } from '@/components/ui/page-hero';
 import { SectionHeader } from '@/components/ui/section-header';
 import { FeatureGrid } from '@/components/ui/feature-grid';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   GraduationCap, Stethoscope, ShoppingCart, Factory, Building2, Landmark,
   ArrowRight, CheckCircle2, Target, BarChart3
@@ -22,6 +23,7 @@ const industries = [
     overview: 'Build next-generation learning platforms, student information systems, and campus management solutions for schools, colleges, and universities.',
     problems: ['Legacy LMS platforms with poor UX', 'No real-time analytics on student performance', 'Fragmented systems for admissions, grades, and finance'],
     solutions: ['Custom LMS with AI-powered recommendations', 'Unified student portal with mobile-first design', 'Automated assessment and grading workflows'],
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'healthcare',
@@ -30,6 +32,7 @@ const industries = [
     overview: 'HIPAA-compliant patient portals, telemedicine platforms, EHR systems, and clinical data analytics designed for healthcare institutions.',
     problems: ['Patient data siloed across departments', 'Manual clinical documentation workflows', 'Compliance complexity (HIPAA, GDPR, HL7)'],
     solutions: ['Interoperable EHR with FHIR standard', 'Telehealth platform with secure video and chat', 'AI-powered clinical decision support'],
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'finance',
@@ -38,6 +41,7 @@ const industries = [
     overview: 'Secure core banking systems, payment gateways, lending platforms, and regulatory compliance tools for financial institutions.',
     problems: ['Legacy core banking systems are slow and costly', 'Fraud detection relies on rule-based approaches', 'Regulatory reporting is manual and error-prone'],
     solutions: ['Cloud-native core banking microservices', 'ML-powered real-time fraud detection', 'Automated regulatory reporting pipelines'],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'retail',
@@ -46,6 +50,7 @@ const industries = [
     overview: 'Headless commerce platforms, inventory management systems, and omnichannel experiences for retail businesses.',
     problems: ['Monolithic e-commerce platforms cannot scale', 'Disconnected inventory across channels', 'Poor mobile conversion rates'],
     solutions: ['Headless commerce with Next.js storefront', 'Real-time inventory sync across all channels', 'AI-powered product recommendations'],
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'manufacturing',
@@ -54,6 +59,7 @@ const industries = [
     overview: 'Real-time dashboarding, supply chain tracking, predictive maintenance, and industrial IoT platforms.',
     problems: ['No visibility into production line status', 'Reactive maintenance leads to costly downtime', 'Supply chain disruptions are discovered too late'],
     solutions: ['IoT sensor data pipelines with real-time dashboards', 'ML-powered predictive maintenance models', 'Automated supply chain risk alerts'],
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800&h=600'
   },
   {
     slug: 'government',
@@ -62,6 +68,7 @@ const industries = [
     overview: 'Secure citizen portals, digital governance platforms, and public service automation for government bodies.',
     problems: ['Paper-based processes are slow and error-prone', 'Citizens cannot access services online', 'Data privacy and sovereignty concerns'],
     solutions: ['Secure citizen service portals with digital identity', 'Automated document processing with OCR and AI', 'On-premise or sovereign cloud deployments'],
+    image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800&h=600'
   },
 ];
 
@@ -124,12 +131,7 @@ export default function IndustriesPage() {
 
                 <div className={`${idx % 2 !== 0 ? 'lg:order-1' : ''}`}>
                   <div className="aspect-[4/3] bg-neutral-100 rounded-3xl overflow-hidden relative border border-neutral-200">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-neutral-100 flex items-center justify-center">
-                      <div className="text-center">
-                        <industry.icon className="w-16 h-16 text-primary-300 mx-auto mb-4" />
-                        <span className="text-neutral-400 font-medium">{industry.title} Case Study</span>
-                      </div>
-                    </div>
+                    <Image src={industry.image} alt={industry.title} fill className="object-cover hover:scale-105 transition-transform duration-700" />
                   </div>
                 </div>
               </div>
