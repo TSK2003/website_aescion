@@ -5,6 +5,8 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { Users, Target, Shield, Zap, Building2, Globe2 } from 'lucide-react';
 import { FeatureGrid } from '@/components/ui/feature-grid';
 import Image from 'next/image';
+import { MediaGallery, MediaItem } from '@/components/ui/media-gallery';
+
 export const metadata: Metadata = {
   title: 'About Us | AESCION',
   description: 'Learn about AESCION, our mission, vision, and the team building the future of enterprise software.',
@@ -22,6 +24,22 @@ const timeline = [
   { year: 'Feb 2026', title: 'Enterprise Expansion', description: 'Secured partnerships with Fortune 500 companies for cloud migration and custom ERP development.' },
   { year: 'May 2026', title: 'AI Integration Practice', description: 'Launched our dedicated AI consulting arm, integrating custom LLMs into enterprise workflows.' },
   { year: 'Jul 2026', title: 'Global Operations', description: 'Expanded our operations to support clients across North America, Europe, and Asia.' },
+];
+
+const mediaItems: MediaItem[] = [
+  { id: 'v1', type: 'video', src: '/gallery/Video_1.mp4', title: 'Corporate Event & Tech Workshop' },
+  { id: 'v2', type: 'video', src: '/gallery/Video_2.mp4', title: 'Enterprise Development Journey' },
+  { id: 'img1', type: 'image', src: '/gallery/1.jpeg', title: 'Advanced Architecture Planning' },
+  { id: 'img2', type: 'image', src: '/gallery/2.jpeg', title: 'Agile Team Collaboration' },
+  { id: 'img3', type: 'image', src: '/gallery/3.jpeg', title: 'Tech Mentorship Program' },
+  { id: 'img4', type: 'image', src: '/gallery/4.jpeg', title: 'Code Review Session' },
+  { id: 'img5', type: 'image', src: '/gallery/5.jpeg', title: 'Campus Training Hub' },
+  { id: 'img6', type: 'image', src: '/gallery/6.jpeg', title: 'Cloud Infrastructure Setup' },
+  { id: 'img7', type: 'image', src: '/gallery/7.jpeg', title: 'AI & Data Pipeline Workshop' },
+  { id: 'img8', type: 'image', src: '/gallery/8.jpeg', title: 'Internship Onboarding' },
+  { id: 'img9', type: 'image', src: '/gallery/9.jpeg', title: 'Client Requirement Analysis' },
+  { id: 'img10', type: 'image', src: '/gallery/10.jpeg', title: 'Product Launch Day' },
+  { id: 'img11', type: 'image', src: '/gallery/11.jpeg', title: 'Engineering Brainstorming' },
 ];
 
 export default function AboutPage() {
@@ -107,6 +125,17 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <section className="bg-neutral-950 pt-24 -mb-20 pb-4">
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          <SectionHeader 
+            title="Our Gallery"
+            description="A visual journey through our training programs, enterprise projects, and corporate culture."
+            isDark={true}
+          />
+        </div>
+      </section>
+      <MediaGallery items={mediaItems} />
 
       <section className="py-24 bg-neutral-50 border-t border-neutral-200">
         <div className="container mx-auto px-6 max-w-7xl">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Maximize2, X } from 'lucide-react';
 
@@ -130,10 +130,11 @@ export function MediaGallery({ items }: MediaGalleryProps) {
                 animate={style}
                 transition={{ type: 'spring', stiffness: 200, damping: 25, mass: 1 }}
                 onClick={() => {
-                  if (isActive) {
-                    setIsExpanded(true);
-                  } else {
+                  if (!isActive) {
                     setCurrentIndex(index);
+                  } else if (item.type === 'image') {
+                    // Only auto-expand images on click; videos should use their native controls
+                    setIsExpanded(true);
                   }
                 }}
               >
@@ -141,13 +142,10 @@ export function MediaGallery({ items }: MediaGalleryProps) {
                   <img src={item.src} alt={item.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="relative w-full h-full bg-black">
-                    <video 
+                    <GalleryVideo 
                       src={item.src} 
-                      className="w-full h-full object-contain"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
+                      isActive={isActive} 
+                      isExpanded={isExpanded} 
                     />
                     {!isActive && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30 pointer-events-none">
@@ -159,10 +157,18 @@ export function MediaGallery({ items }: MediaGalleryProps) {
                 
                 {/* Overlay for active item to click to expand */}
                 {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 md:p-10 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    <h3 className="text-white font-bold text-xl md:text-2xl mb-2">{item.title}</h3>
-                    <div className="flex items-center gap-2 text-primary-400 font-semibold text-sm">
-                      <Maximize2 className="w-4 h-4" /> Click to view full screen
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-transparent flex flex-col justify-start p-6 md:p-10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div className="pointer-events-auto">
+                      <h3 className="text-white font-bold text-xl md:text-2xl mb-2 drop-shadow-md">{item.title}</h3>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsExpanded(true);
+                        }}
+                        className="flex items-center gap-2 text-primary-400 hover:text-primary-300 font-semibold text-sm drop-shadow-md"
+                      >
+                        <Maximize2 className="w-4 h-4" /> Click to view full screen
+                      </button>
                     </div>
                   </div>
                 )}
@@ -225,13 +231,13 @@ export function MediaGallery({ items }: MediaGalleryProps) {
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                className="relative w-full max-w-6xl h-full flex items-center justify-center"
+                className="relative w-full max-w-5xl h-full max-h-[75vh] flex items-center justify-center"
               >
                 {items[currentIndex].type === 'image' ? (
                   <img 
                     src={items[currentIndex].src} 
                     alt={items[currentIndex].title} 
-                    className="max-w-full max-h-full object-contain rounded-xl shadow-2xl" 
+                    className="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl" 
                   />
                 ) : (
                   <video 
@@ -239,7 +245,7 @@ export function MediaGallery({ items }: MediaGalleryProps) {
                     controls 
                     autoPlay 
                     playsInline
-                    className="w-full h-full object-contain rounded-xl shadow-2xl bg-black"
+                    className="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl bg-black"
                   />
                 )}
               </motion.div>
@@ -257,5 +263,33 @@ export function MediaGallery({ items }: MediaGalleryProps) {
       </AnimatePresence>
 
     </div>
+  );
+}
+
+function GalleryVideo({ src, isActive, isExpanded }: { src: string; isActive: boolean; isExpanded: boolean }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isActive && !isExpanded) {
+        // Play the active video, but pause it if the full-screen modal is open
+        videoRef.current.play().catch(() => {});
+      } else {
+        // Pause inactive videos
+        videoRef.current.pause();
+      }
+    }
+  }, [isActive, isExpanded]);
+
+  return (
+    <video 
+      ref={videoRef}
+      src={src} 
+      className="w-full h-full object-contain"
+      muted
+      loop
+      playsInline
+      controls={isActive}
+    />
   );
 }

@@ -15,7 +15,6 @@ const navLinks = [
   { label: 'Training', href: '/training' },
   { label: 'Internship', href: '/internship' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Gallery', href: '/gallery' },
 ];
 
 export function Header() {
