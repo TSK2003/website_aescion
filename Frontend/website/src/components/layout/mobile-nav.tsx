@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { X, ChevronRight } from 'lucide-react';
 
 interface MobileNavProps {
@@ -33,10 +34,11 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
       {/* Drawer */}
       <div className="relative w-full max-w-sm bg-white h-full shadow-2xl flex flex-col transform transition-transform duration-300">
         <div className="flex items-center justify-between p-6 border-b border-neutral-100">
-          <Link href="/" className="flex items-center gap-2" onClick={onClose}>
-            <img src="/logo_with_name.png" alt="Aescion Logo" className="h-8 w-auto object-contain" />
+          <Link href="/" className="flex items-center gap-2" onClick={onClose} aria-label="Aescion Home">
+            <Image src="/logo_with_name.png" alt="Aescion Logo" width={160} height={40} className="h-8 w-auto object-contain" />
           </Link>
           <button 
+            aria-label="Close menu"
             onClick={onClose}
             className="p-2 -mr-2 text-neutral-500 hover:text-neutral-900 transition-colors"
           >

@@ -9,14 +9,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CrmModule = void 0;
 const common_1 = require("@nestjs/common");
 const crm_controller_1 = require("./crm.controller");
+const public_crm_controller_1 = require("./public-crm.controller");
 const crm_service_1 = require("./crm.service");
 const crm_repository_1 = require("./crm.repository");
+const email_module_1 = require("../email/email.module");
+const database_module_1 = require("../database/database.module");
 let CrmModule = class CrmModule {
 };
 exports.CrmModule = CrmModule;
 exports.CrmModule = CrmModule = __decorate([
     (0, common_1.Module)({
-        controllers: [crm_controller_1.CrmController],
+        imports: [email_module_1.EmailModule, database_module_1.DatabaseModule],
+        controllers: [crm_controller_1.CrmController, public_crm_controller_1.PublicCrmController],
         providers: [crm_service_1.CrmService, crm_repository_1.CrmRepository],
         exports: [crm_service_1.CrmService],
     })

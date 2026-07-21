@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Search, Menu, X, Icon } from 'lucide-react';
 import { MobileNav } from './mobile-nav';
@@ -64,8 +65,8 @@ export function Header() {
       >
         <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <img src="/logo_with_name.png" alt="Aescion Logo" className="h-8 md:h-10 w-auto object-contain" />
+          <Link href="/" className="flex items-center gap-2" aria-label="Aescion Home">
+            <Image src="/logo_with_name.png" alt="Aescion Logo" width={160} height={40} className="h-8 md:h-10 w-auto object-contain" priority />
           </Link>
 
           {/* Desktop Nav */}
@@ -97,6 +98,7 @@ export function Header() {
               <Search className="w-5 h-5" />
             </button>
             <button 
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               className="p-2 text-neutral-600"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >

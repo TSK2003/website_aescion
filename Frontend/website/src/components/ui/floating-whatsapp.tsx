@@ -50,10 +50,6 @@ export function FloatingWhatsApp() {
           whileHover={{ scale: 1.15 }}
           whileTap={{ scale: 0.9 }}
         >
-          <span className="absolute -top-1 -right-1 flex h-4 w-4">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-white"></span>
-          </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-8 h-8"

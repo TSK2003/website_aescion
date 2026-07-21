@@ -4,24 +4,24 @@ export declare class MediaService {
     constructor(mediaRepo: MediaRepository);
     getFolders(tenantId: string, parentId?: string): Promise<{
         path: string;
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
         createdBy: string | null;
-        name: string;
+        status: import("@prisma/client").$Enums.RecordStatus;
         parentId: string | null;
     }[]>;
     createFolder(tenantId: string, name: string, parentId?: string, userId?: string): Promise<{
         path: string;
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
         createdBy: string | null;
-        name: string;
+        status: import("@prisma/client").$Enums.RecordStatus;
         parentId: string | null;
     }>;
     getFiles(tenantId: string, options: {
@@ -33,14 +33,14 @@ export declare class MediaService {
     }): Promise<{
         items: {
             url: string;
-            status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
             createdAt: Date;
             updatedAt: Date;
-            deletedAt: Date | null;
             createdBy: string | null;
+            status: import("@prisma/client").$Enums.RecordStatus;
             metadata: import("@prisma/client/runtime/client").JsonValue | null;
+            deletedAt: Date | null;
             folderId: string | null;
             mediaType: import("@prisma/client").$Enums.MediaType;
             altText: string | null;
@@ -62,14 +62,14 @@ export declare class MediaService {
     }>;
     getFileById(id: string): Promise<{
         url: string;
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
-        deletedAt: Date | null;
         createdBy: string | null;
+        status: import("@prisma/client").$Enums.RecordStatus;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        deletedAt: Date | null;
         folderId: string | null;
         mediaType: import("@prisma/client").$Enums.MediaType;
         altText: string | null;
@@ -84,14 +84,14 @@ export declare class MediaService {
     }>;
     registerFile(tenantId: string, fileData: any, userId: string): Promise<{
         url: string;
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
-        deletedAt: Date | null;
         createdBy: string | null;
+        status: import("@prisma/client").$Enums.RecordStatus;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        deletedAt: Date | null;
         folderId: string | null;
         mediaType: import("@prisma/client").$Enums.MediaType;
         altText: string | null;
@@ -106,14 +106,14 @@ export declare class MediaService {
     }>;
     updateFile(id: string, updateData: any): Promise<{
         url: string;
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
-        deletedAt: Date | null;
         createdBy: string | null;
+        status: import("@prisma/client").$Enums.RecordStatus;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        deletedAt: Date | null;
         folderId: string | null;
         mediaType: import("@prisma/client").$Enums.MediaType;
         altText: string | null;
@@ -128,14 +128,14 @@ export declare class MediaService {
     }>;
     deleteFile(id: string, userId: string): Promise<{
         url: string;
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
-        deletedAt: Date | null;
         createdBy: string | null;
+        status: import("@prisma/client").$Enums.RecordStatus;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        deletedAt: Date | null;
         folderId: string | null;
         mediaType: import("@prisma/client").$Enums.MediaType;
         altText: string | null;

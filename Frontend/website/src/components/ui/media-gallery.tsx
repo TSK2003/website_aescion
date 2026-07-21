@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Maximize2, X } from 'lucide-react';
 
@@ -110,7 +111,7 @@ export function MediaGallery({ items }: MediaGalleryProps) {
       {/* Dynamic Background Blur */}
       <div className="absolute inset-0 z-0 overflow-hidden opacity-20 pointer-events-none">
         {items[currentIndex].type === 'image' ? (
-          <img src={items[currentIndex].src} className="w-full h-full object-cover blur-3xl scale-110 transition-all duration-1000" alt="bg" />
+          <Image src={items[currentIndex].src} fill sizes="100vw" className="object-cover blur-3xl scale-110 transition-all duration-1000" alt="bg" priority />
         ) : (
           <video src={items[currentIndex].src} className="w-full h-full object-cover blur-3xl scale-110 transition-all duration-1000" muted />
         )}
@@ -139,7 +140,7 @@ export function MediaGallery({ items }: MediaGalleryProps) {
                 }}
               >
                 {item.type === 'image' ? (
-                  <img src={item.src} alt={item.title} className="w-full h-full object-cover" />
+                  <Image src={item.src} alt={item.title} fill sizes="(max-width: 768px) 100vw, 700px" className="object-cover" priority={isActive} />
                 ) : (
                   <div className="relative w-full h-full bg-black">
                     <GalleryVideo 
@@ -181,6 +182,7 @@ export function MediaGallery({ items }: MediaGalleryProps) {
       {/* Navigation Controls */}
       <div className="relative z-20 mt-12 flex items-center gap-6">
         <button 
+          aria-label="Previous Slide"
           onClick={prevSlide}
           className="w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all hover:scale-110 active:scale-95"
         >
@@ -191,6 +193,7 @@ export function MediaGallery({ items }: MediaGalleryProps) {
           {items.map((_, idx) => (
             <button
               key={idx}
+              aria-label={`Go to slide ${idx + 1}`}
               onClick={() => setCurrentIndex(idx)}
               className={`h-2 rounded-full transition-all duration-500 ${
                 idx === currentIndex ? 'w-8 bg-primary-500' : 'w-2 bg-white/30 hover:bg-white/50'
@@ -200,6 +203,7 @@ export function MediaGallery({ items }: MediaGalleryProps) {
         </div>
 
         <button 
+          aria-label="Next Slide"
           onClick={nextSlide}
           className="w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all hover:scale-110 active:scale-95"
         >
@@ -218,6 +222,7 @@ export function MediaGallery({ items }: MediaGalleryProps) {
           >
             <div className="flex justify-end p-6">
               <button 
+                aria-label="Close full screen"
                 onClick={() => setIsExpanded(false)}
                 className="w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
               >
@@ -234,10 +239,13 @@ export function MediaGallery({ items }: MediaGalleryProps) {
                 className="relative w-full max-w-5xl h-full max-h-[75vh] flex items-center justify-center"
               >
                 {items[currentIndex].type === 'image' ? (
-                  <img 
+                  <Image 
                     src={items[currentIndex].src} 
                     alt={items[currentIndex].title} 
-                    className="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl" 
+                    fill
+                    sizes="100vw"
+                    className="object-contain rounded-xl shadow-2xl" 
+                    priority
                   />
                 ) : (
                   <video 
@@ -252,11 +260,11 @@ export function MediaGallery({ items }: MediaGalleryProps) {
             </div>
 
             <div className="absolute bottom-6 left-0 w-full flex justify-center items-center gap-8 px-6">
-              <button onClick={prevSlide} className="text-white/70 hover:text-white transition-colors p-2"><ChevronLeft className="w-8 h-8" /></button>
+              <button aria-label="Previous" onClick={prevSlide} className="text-white/70 hover:text-white transition-colors p-2"><ChevronLeft className="w-8 h-8" /></button>
               <h3 className="text-white text-xl font-medium tracking-wide hidden md:block">
                 {items[currentIndex].title} <span className="text-white/40 ml-4">{currentIndex + 1} / {items.length}</span>
               </h3>
-              <button onClick={nextSlide} className="text-white/70 hover:text-white transition-colors p-2"><ChevronRight className="w-8 h-8" /></button>
+              <button aria-label="Next" onClick={nextSlide} className="text-white/70 hover:text-white transition-colors p-2"><ChevronRight className="w-8 h-8" /></button>
             </div>
           </motion.div>
         )}

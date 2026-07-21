@@ -98,13 +98,43 @@ export function Hero() {
         </motion.div>
 
         <div className="absolute inset-0 z-20 pointer-events-none">
+            {/* Seamless Center Patch (Behind doors, patches the 1px seam) */}
+            <motion.div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: useTransform(scrollYProgress, [0.04, 0.05], [1, 0]),
+              }}
+              className="z-[15] bg-white"
+            >
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={currentImageIndex}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0"
+                >
+                  <Image 
+                    src={heroImages[currentImageIndex]} 
+                    alt="Hero Patch" 
+                    fill 
+                    priority 
+                    className="object-contain p-4 md:p-12"
+                    sizes="100vw"
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+
             {/* Left Half Image */}
             <motion.div
               initial={{ x: 0 }}
               style={{
                 position: 'absolute',
                 inset: 0,
-                clipPath: 'inset(0 49.5% 0 0)',
+                clipPath: 'inset(0 50% 0 0)',
                 x: leftX,
                 opacity: doorOpacity,
               }}
@@ -124,7 +154,7 @@ export function Hero() {
                     alt="Hero Left" 
                     fill 
                     priority 
-                    className="object-cover"
+                    className="object-contain p-4 md:p-12"
                     sizes="100vw"
                   />
                 </motion.div>
@@ -137,7 +167,7 @@ export function Hero() {
               style={{
                 position: 'absolute',
                 inset: 0,
-                clipPath: 'inset(0 0 0 49.5%)',
+                clipPath: 'inset(0 0 0 50%)',
                 x: rightX,
                 opacity: doorOpacity,
               }}
@@ -157,7 +187,7 @@ export function Hero() {
                     alt="Hero Right" 
                     fill 
                     priority 
-                    className="object-cover"
+                    className="object-contain p-4 md:p-12"
                     sizes="100vw"
                   />
                 </motion.div>

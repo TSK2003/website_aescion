@@ -16,29 +16,29 @@ export declare class CrmRepository {
             owner: {
                 id: string;
                 email: string;
-                lastName: string;
                 firstName: string;
+                lastName: string;
             } | null;
         } & {
             tags: string[];
-            status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
             createdAt: Date;
             updatedAt: Date;
-            deletedAt: Date | null;
             createdBy: string | null;
+            status: import("@prisma/client").$Enums.RecordStatus;
+            priority: import("@prisma/client").$Enums.LeadPriority;
+            email: string;
+            firstName: string;
+            lastName: string;
+            phone: string | null;
+            deletedAt: Date | null;
             updatedBy: string | null;
             deletedBy: string | null;
             stage: import("@prisma/client").$Enums.LeadPipelineStage;
             source: import("@prisma/client").$Enums.LeadSource;
-            priority: import("@prisma/client").$Enums.LeadPriority;
             ownerId: string | null;
             company: string | null;
-            email: string;
-            lastName: string;
-            firstName: string;
-            phone: string | null;
             designation: string | null;
             budget: string | null;
             requirement: string | null;
@@ -51,14 +51,14 @@ export declare class CrmRepository {
         owner: {
             id: string;
             email: string;
-            lastName: string;
             firstName: string;
+            lastName: string;
         } | null;
         activities: {
             description: string;
             id: string;
-            createdAt: Date;
             type: string;
+            createdAt: Date;
             metadata: Prisma.JsonValue | null;
             leadId: string;
             userId: string | null;
@@ -75,10 +75,10 @@ export declare class CrmRepository {
         tasks: {
             description: string | null;
             id: string;
-            title: string;
             createdAt: Date;
             updatedAt: Date;
             priority: import("@prisma/client").$Enums.LeadPriority;
+            title: string;
             dueDate: Date | null;
             leadId: string;
             isCompleted: boolean;
@@ -86,24 +86,24 @@ export declare class CrmRepository {
         }[];
     } & {
         tags: string[];
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
-        deletedAt: Date | null;
         createdBy: string | null;
+        status: import("@prisma/client").$Enums.RecordStatus;
+        priority: import("@prisma/client").$Enums.LeadPriority;
+        email: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        deletedAt: Date | null;
         updatedBy: string | null;
         deletedBy: string | null;
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
-        priority: import("@prisma/client").$Enums.LeadPriority;
         ownerId: string | null;
         company: string | null;
-        email: string;
-        lastName: string;
-        firstName: string;
-        phone: string | null;
         designation: string | null;
         budget: string | null;
         requirement: string | null;
@@ -112,24 +112,24 @@ export declare class CrmRepository {
     }) | null>;
     createLead(data: Prisma.LeadCreateInput): Promise<{
         tags: string[];
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
-        deletedAt: Date | null;
         createdBy: string | null;
+        status: import("@prisma/client").$Enums.RecordStatus;
+        priority: import("@prisma/client").$Enums.LeadPriority;
+        email: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        deletedAt: Date | null;
         updatedBy: string | null;
         deletedBy: string | null;
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
-        priority: import("@prisma/client").$Enums.LeadPriority;
         ownerId: string | null;
         company: string | null;
-        email: string;
-        lastName: string;
-        firstName: string;
-        phone: string | null;
         designation: string | null;
         budget: string | null;
         requirement: string | null;
@@ -138,24 +138,24 @@ export declare class CrmRepository {
     }>;
     updateLead(id: string, data: Prisma.LeadUpdateInput): Promise<{
         tags: string[];
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
-        deletedAt: Date | null;
         createdBy: string | null;
+        status: import("@prisma/client").$Enums.RecordStatus;
+        priority: import("@prisma/client").$Enums.LeadPriority;
+        email: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        deletedAt: Date | null;
         updatedBy: string | null;
         deletedBy: string | null;
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
-        priority: import("@prisma/client").$Enums.LeadPriority;
         ownerId: string | null;
         company: string | null;
-        email: string;
-        lastName: string;
-        firstName: string;
-        phone: string | null;
         designation: string | null;
         budget: string | null;
         requirement: string | null;
@@ -164,24 +164,24 @@ export declare class CrmRepository {
     }>;
     softDeleteLead(id: string, deletedBy: string): Promise<{
         tags: string[];
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
-        deletedAt: Date | null;
         createdBy: string | null;
+        status: import("@prisma/client").$Enums.RecordStatus;
+        priority: import("@prisma/client").$Enums.LeadPriority;
+        email: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        deletedAt: Date | null;
         updatedBy: string | null;
         deletedBy: string | null;
         stage: import("@prisma/client").$Enums.LeadPipelineStage;
         source: import("@prisma/client").$Enums.LeadSource;
-        priority: import("@prisma/client").$Enums.LeadPriority;
         ownerId: string | null;
         company: string | null;
-        email: string;
-        lastName: string;
-        firstName: string;
-        phone: string | null;
         designation: string | null;
         budget: string | null;
         requirement: string | null;
@@ -191,8 +191,8 @@ export declare class CrmRepository {
     addActivity(data: Prisma.LeadActivityCreateInput): Promise<{
         description: string;
         id: string;
-        createdAt: Date;
         type: string;
+        createdAt: Date;
         metadata: Prisma.JsonValue | null;
         leadId: string;
         userId: string | null;
@@ -209,10 +209,10 @@ export declare class CrmRepository {
     addTask(data: Prisma.LeadTaskCreateInput): Promise<{
         description: string | null;
         id: string;
-        title: string;
         createdAt: Date;
         updatedAt: Date;
         priority: import("@prisma/client").$Enums.LeadPriority;
+        title: string;
         dueDate: Date | null;
         leadId: string;
         isCompleted: boolean;
@@ -221,10 +221,10 @@ export declare class CrmRepository {
     completeTask(taskId: string): Promise<{
         description: string | null;
         id: string;
-        title: string;
         createdAt: Date;
         updatedAt: Date;
         priority: import("@prisma/client").$Enums.LeadPriority;
+        title: string;
         dueDate: Date | null;
         leadId: string;
         isCompleted: boolean;

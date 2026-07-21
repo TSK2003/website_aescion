@@ -16,8 +16,8 @@ export declare class BlogsRepository {
             tags: ({
                 tag: {
                     id: string;
-                    slug: string;
                     name: string;
+                    slug: string;
                 };
             } & {
                 id: string;
@@ -26,33 +26,33 @@ export declare class BlogsRepository {
             })[];
             category: {
                 id: string;
-                slug: string;
                 name: string;
+                slug: string;
             } | null;
             author: {
                 id: string;
-                lastName: string;
                 firstName: string;
+                lastName: string;
                 avatar: string | null;
             } | null;
         } & {
-            status: import("@prisma/client").$Enums.ContentStatus;
             id: string;
             tenantId: string;
-            title: string;
             slug: string;
+            createdAt: Date;
+            updatedAt: Date;
+            createdBy: string | null;
+            status: import("@prisma/client").$Enums.ContentStatus;
+            deletedAt: Date | null;
+            updatedBy: string | null;
+            deletedBy: string | null;
+            title: string;
             publishedAt: Date | null;
             scheduledAt: Date | null;
             metaTitle: string | null;
             metaDesc: string | null;
             ogImage: string | null;
             canonical: string | null;
-            createdAt: Date;
-            updatedAt: Date;
-            deletedAt: Date | null;
-            createdBy: string | null;
-            updatedBy: string | null;
-            deletedBy: string | null;
             content: string;
             categoryId: string | null;
             isFeatured: boolean;
@@ -66,13 +66,13 @@ export declare class BlogsRepository {
     findBySlug(slug: string): Promise<({
         tags: ({
             tag: {
-                status: import("@prisma/client").$Enums.RecordStatus;
                 id: string;
                 tenantId: string;
+                name: string;
                 slug: string;
                 createdAt: Date;
                 updatedAt: Date;
-                name: string;
+                status: import("@prisma/client").$Enums.RecordStatus;
             };
         } & {
             id: string;
@@ -81,41 +81,41 @@ export declare class BlogsRepository {
         })[];
         category: {
             description: string | null;
-            status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
+            name: string;
             slug: string;
             createdAt: Date;
             updatedAt: Date;
+            status: import("@prisma/client").$Enums.RecordStatus;
             order: number;
-            name: string;
             icon: string | null;
         } | null;
         author: {
             id: string;
-            lastName: string;
             firstName: string;
+            lastName: string;
             avatar: string | null;
             bio: string | null;
         } | null;
     } & {
-        status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
-        title: string;
         slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        createdBy: string | null;
+        status: import("@prisma/client").$Enums.ContentStatus;
+        deletedAt: Date | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        title: string;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         metaTitle: string | null;
         metaDesc: string | null;
         ogImage: string | null;
         canonical: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        deletedBy: string | null;
         content: string;
         categoryId: string | null;
         isFeatured: boolean;
@@ -127,13 +127,13 @@ export declare class BlogsRepository {
     findById(id: string): Promise<({
         tags: ({
             tag: {
-                status: import("@prisma/client").$Enums.RecordStatus;
                 id: string;
                 tenantId: string;
+                name: string;
                 slug: string;
                 createdAt: Date;
                 updatedAt: Date;
-                name: string;
+                status: import("@prisma/client").$Enums.RecordStatus;
             };
         } & {
             id: string;
@@ -142,40 +142,40 @@ export declare class BlogsRepository {
         })[];
         category: {
             description: string | null;
-            status: import("@prisma/client").$Enums.RecordStatus;
             id: string;
             tenantId: string;
+            name: string;
             slug: string;
             createdAt: Date;
             updatedAt: Date;
+            status: import("@prisma/client").$Enums.RecordStatus;
             order: number;
-            name: string;
             icon: string | null;
         } | null;
         author: {
             id: string;
-            lastName: string;
             firstName: string;
+            lastName: string;
             avatar: string | null;
         } | null;
     } & {
-        status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
-        title: string;
         slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        createdBy: string | null;
+        status: import("@prisma/client").$Enums.ContentStatus;
+        deletedAt: Date | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        title: string;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         metaTitle: string | null;
         metaDesc: string | null;
         ogImage: string | null;
         canonical: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        deletedBy: string | null;
         content: string;
         categoryId: string | null;
         isFeatured: boolean;
@@ -185,23 +185,23 @@ export declare class BlogsRepository {
         coverImage: string | null;
     }) | null>;
     create(data: Prisma.BlogCreateInput): Promise<{
-        status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
-        title: string;
         slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        createdBy: string | null;
+        status: import("@prisma/client").$Enums.ContentStatus;
+        deletedAt: Date | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        title: string;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         metaTitle: string | null;
         metaDesc: string | null;
         ogImage: string | null;
         canonical: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        deletedBy: string | null;
         content: string;
         categoryId: string | null;
         isFeatured: boolean;
@@ -211,23 +211,23 @@ export declare class BlogsRepository {
         coverImage: string | null;
     }>;
     update(id: string, data: Prisma.BlogUpdateInput): Promise<{
-        status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
-        title: string;
         slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        createdBy: string | null;
+        status: import("@prisma/client").$Enums.ContentStatus;
+        deletedAt: Date | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        title: string;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         metaTitle: string | null;
         metaDesc: string | null;
         ogImage: string | null;
         canonical: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        deletedBy: string | null;
         content: string;
         categoryId: string | null;
         isFeatured: boolean;
@@ -237,23 +237,23 @@ export declare class BlogsRepository {
         coverImage: string | null;
     }>;
     softDelete(id: string, deletedBy: string): Promise<{
-        status: import("@prisma/client").$Enums.ContentStatus;
         id: string;
         tenantId: string;
-        title: string;
         slug: string;
+        createdAt: Date;
+        updatedAt: Date;
+        createdBy: string | null;
+        status: import("@prisma/client").$Enums.ContentStatus;
+        deletedAt: Date | null;
+        updatedBy: string | null;
+        deletedBy: string | null;
+        title: string;
         publishedAt: Date | null;
         scheduledAt: Date | null;
         metaTitle: string | null;
         metaDesc: string | null;
         ogImage: string | null;
         canonical: string | null;
-        createdAt: Date;
-        updatedAt: Date;
-        deletedAt: Date | null;
-        createdBy: string | null;
-        updatedBy: string | null;
-        deletedBy: string | null;
         content: string;
         categoryId: string | null;
         isFeatured: boolean;
@@ -265,44 +265,44 @@ export declare class BlogsRepository {
     setTags(blogId: string, tagIds: string[]): Promise<void>;
     findAllCategories(tenantId: string): Promise<{
         description: string | null;
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
+        name: string;
         slug: string;
         createdAt: Date;
         updatedAt: Date;
+        status: import("@prisma/client").$Enums.RecordStatus;
         order: number;
-        name: string;
         icon: string | null;
     }[]>;
     createCategory(data: Prisma.CategoryCreateInput): Promise<{
         description: string | null;
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
+        name: string;
         slug: string;
         createdAt: Date;
         updatedAt: Date;
+        status: import("@prisma/client").$Enums.RecordStatus;
         order: number;
-        name: string;
         icon: string | null;
     }>;
     findAllTags(tenantId: string): Promise<{
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
+        name: string;
         slug: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
+        status: import("@prisma/client").$Enums.RecordStatus;
     }[]>;
     createTag(data: Prisma.TagCreateInput): Promise<{
-        status: import("@prisma/client").$Enums.RecordStatus;
         id: string;
         tenantId: string;
+        name: string;
         slug: string;
         createdAt: Date;
         updatedAt: Date;
-        name: string;
+        status: import("@prisma/client").$Enums.RecordStatus;
     }>;
 }

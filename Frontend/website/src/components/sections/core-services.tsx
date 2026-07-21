@@ -101,7 +101,7 @@ export function CoreServices() {
             <motion.div 
               key={idx} 
               variants={itemVariants}
-              className="group p-8 rounded-3xl border border-neutral-200/60 bg-white/60 backdrop-blur-sm hover:bg-white hover:border-primary-200 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-500 flex flex-col h-full"
+              className="group p-8 rounded-3xl border border-neutral-200/60 bg-white hover:border-primary-200 hover:shadow-2xl hover:shadow-primary-500/10 transition-all duration-500 flex flex-col h-full transform-gpu"
             >
               <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3 ${service.color}`}>
                 <service.icon className="w-7 h-7" />

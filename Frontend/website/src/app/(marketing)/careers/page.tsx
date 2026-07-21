@@ -5,6 +5,7 @@ import { SectionHeader } from '@/components/ui/section-header';
 import { FeatureGrid } from '@/components/ui/feature-grid';
 import { Heart, Laptop, Coffee, Globe, ArrowRight, TrendingUp, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Careers | AESCION',
@@ -45,18 +46,18 @@ export default function CareersPage() {
           />
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
-            <div className="aspect-video bg-neutral-100 rounded-2xl overflow-hidden relative">
-              <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply"></div>
-              <div className="absolute inset-0 flex items-center justify-center text-neutral-400 font-medium">Culture Image 1</div>
+            <div className="aspect-video bg-neutral-100 rounded-2xl overflow-hidden relative group">
+              <Image src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200" alt="Team Collaboration" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply transition-opacity group-hover:opacity-0 duration-500"></div>
             </div>
             <div className="grid grid-rows-2 gap-8">
-              <div className="bg-neutral-100 rounded-2xl overflow-hidden relative">
-                <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-neutral-400 font-medium">Culture Image 2</div>
+              <div className="bg-neutral-100 rounded-2xl overflow-hidden relative group">
+                <Image src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800" alt="Deep Work" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply transition-opacity group-hover:opacity-0 duration-500"></div>
               </div>
-              <div className="bg-neutral-100 rounded-2xl overflow-hidden relative">
-                <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply"></div>
-                <div className="absolute inset-0 flex items-center justify-center text-neutral-400 font-medium">Culture Image 3</div>
+              <div className="bg-neutral-100 rounded-2xl overflow-hidden relative group">
+                <Image src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800" alt="Modern Tech Stack" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-neutral-900/10 mix-blend-multiply transition-opacity group-hover:opacity-0 duration-500"></div>
               </div>
             </div>
           </div>

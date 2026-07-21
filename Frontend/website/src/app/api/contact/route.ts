@@ -3,8 +3,9 @@ import { z } from 'zod';
 
 const contactSchema = z.object({
   firstName: z.string().min(2, "First name is too short"),
-  lastName: z.string().min(2, "Last name is too short"),
+  lastName: z.string().min(1, "Last name is too short"),
   email: z.string().email("Invalid email address"),
+  phone: z.string().min(10, "Invalid phone number"),
   inquiryType: z.string().min(1, "Please select an inquiry type"),
   message: z.string().min(10, "Message must be at least 10 characters long"),
 });
@@ -23,13 +24,28 @@ export async function POST(request: Request) {
       );
     }
 
-    // Simulate network delay and CRM/Database integration
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1';
+    
+    const backendResponse = await fetch(`${backendUrl}/public/leads`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName: result.data.firstName,
+        lastName: result.data.lastName,
+        email: result.data.email,
+        phone: result.data.phone,
+        requirement: result.data.message,
+        source: 'WEBSITE',
+        priority: 'MEDIUM', // Optional default
+      }),
+    });
 
-    // Here we would typically:
-    // 1. Save to PostgreSQL database (Prisma)
-    // 2. Send email notification via SMTP (e.g., Resend or SendGrid)
-    // 3. Push to CRM (Hubspot/Salesforce)
+    if (!backendResponse.ok) {
+      console.error('Backend rejected contact form:', await backendResponse.text());
+      throw new Error('Failed to submit to CRM');
+    }
 
     console.log('Successfully processed contact form submission:', result.data);
 

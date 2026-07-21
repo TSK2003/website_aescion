@@ -8,11 +8,12 @@ import { Spinner } from '@/components/ui/spinner';
 import { useToast } from '@/components/ui/toast';
 
 const contactSchema = z.object({
-  firstName: z.string().min(2, "First name is required"),
-  lastName: z.string().min(2, "Last name is required"),
-  email: z.string().email("Please enter a valid email address"),
-  inquiryType: z.string().min(1, "Please select an inquiry type"),
-  message: z.string().min(10, "Message must be at least 10 characters long"),
+  firstName: z.string().trim().min(2, "First name is required"),
+  lastName: z.string().trim().min(1, "Last name is required"),
+  email: z.string().trim().email("Please enter a valid email address"),
+  phone: z.string().trim().min(10, "Please enter a valid phone number"),
+  inquiryType: z.string().trim().min(1, "Please select an inquiry type"),
+  message: z.string().trim().min(10, "Message must be at least 10 characters long"),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -78,16 +79,29 @@ export function ContactForm() {
         </div>
       </div>
       
-      <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-medium text-neutral-900">Work Email</label>
-        <input 
-          {...register('email')}
-          type="email" 
-          id="email" 
-          className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-neutral-200'}`} 
-          placeholder="john@company.com" 
-        />
-        {errors.email && <p className="text-red-500 text-xs font-medium mt-1">{errors.email.message}</p>}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-sm font-medium text-neutral-900">Work Email</label>
+          <input 
+            {...register('email')}
+            type="email" 
+            id="email" 
+            className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-neutral-200'}`} 
+            placeholder="john@company.com" 
+          />
+          {errors.email && <p className="text-red-500 text-xs font-medium mt-1">{errors.email.message}</p>}
+        </div>
+        <div className="space-y-2">
+          <label htmlFor="phone" className="text-sm font-medium text-neutral-900">Mobile Number</label>
+          <input 
+            {...register('phone')}
+            type="tel" 
+            id="phone" 
+            className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow ${errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-neutral-200'}`} 
+            placeholder="+91 9875457890" 
+          />
+          {errors.phone && <p className="text-red-500 text-xs font-medium mt-1">{errors.phone.message}</p>}
+        </div>
       </div>
       
       <div className="space-y-2">

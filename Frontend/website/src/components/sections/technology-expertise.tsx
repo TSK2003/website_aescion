@@ -59,7 +59,7 @@ export function TechnologyExpertise() {
             <motion.div 
               variants={itemVariants}
               key={idx} 
-              className="bg-white backdrop-blur-sm border border-neutral-200 rounded-2xl p-6 hover:bg-neutral-50 hover:border-primary-300 transition-all duration-300 group shadow-sm hover:shadow-md"
+              className="bg-white border border-neutral-200 rounded-2xl p-6 hover:bg-neutral-50 hover:border-primary-300 transition-all duration-300 group shadow-sm hover:shadow-md transform-gpu"
             >
               <h3 className="text-lg font-bold text-neutral-900 mb-5 pb-4 border-b border-neutral-200 group-hover:border-primary-300 transition-colors flex items-center gap-2">
                 {tech.category}

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export function Footer() {
@@ -11,8 +12,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 mb-12">
           {/* Brand Col */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-6">
-              <img src="/logo_with_name.png" alt="Aescion Logo" className="h-10 w-auto object-contain" />
+            <Link href="/" className="flex items-center gap-2 mb-6" aria-label="Aescion Home">
+              <Image src="/logo_with_name.png" alt="Aescion Logo" width={160} height={40} className="h-10 w-auto object-contain" />
             </Link>
             <p className="text-neutral-500 mb-6 max-w-sm leading-relaxed">
               Premium enterprise software development, AI solutions, automation, and corporate training for modern organizations.
