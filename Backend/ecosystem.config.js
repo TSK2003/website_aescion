@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'aescion-api',
-      script: 'dist/main.js',
+      script: 'dist/src/main.js',
       cwd: './',
       instances: 1,
       exec_mode: 'fork',
@@ -33,8 +33,8 @@ module.exports = {
         PORT: 3000,
       },
       log_date_format: 'YYYY-MM-DD HH:mm Z',
-      error_file: '../Frontend/website/logs/website-error.log',
-      out_file: '../Frontend/website/logs/website-out.log',
+      error_file: './logs/website-error.log',
+      out_file: './logs/website-out.log',
       merge_logs: true,
     }
   ],
