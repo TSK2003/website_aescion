@@ -23,6 +23,9 @@ jobs:
             # Navigate to the project directory
             cd ~/aescion-project
             
+            # Stash any local changes (generated files like dist/, package-lock.json)
+            git stash --include-untracked
+            
             # Pull the latest changes from GitHub
             git pull origin main
             
