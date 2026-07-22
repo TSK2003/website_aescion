@@ -36,7 +36,7 @@ jobs:
             # --------------------------
             # 2. Update & Restart Frontend
             # --------------------------
-            cd ../Frontend/website
+            cd ../Frontend
             npm install
-            npm run build
+            npm run build:website
             pm2 restart aescion-frontend
