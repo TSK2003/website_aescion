@@ -18,6 +18,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -e
+            
             # Navigate to the project directory
             cd ~/aescion-project
             
@@ -38,5 +40,9 @@ jobs:
             # --------------------------
             cd ../Frontend
             npm install
+            
+            # Clean old build cache to prevent stale builds
+            rm -rf website/.next
+            
             npm run build:website
-            pm2 restart aescion-frontend
+            pm2 restart aescion-website
