@@ -17,48 +17,57 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          command_timeout: 20m
           script: |
             set -e
-            
+
+            echo "=== Starting Deployment ==="
+
             # Navigate to the project directory
             cd ~/aescion-project
-            
-            # Stash any local changes (generated files like dist/, package-lock.json)
+
+            # Stash any local changes (generated files)
             git stash --include-untracked || true
-            
+
             # Pull the latest changes from GitHub
             git pull origin main
-            
+            echo "=== Git pull complete ==="
+
             # --------------------------
-            # 1. Update & Restart Backend
+            # 1. Update & Build Backend
             # --------------------------
             cd Backend
             npm install
             npx prisma generate
             npm run build
-            pm2 restart ecosystem.config.js
-            
+            echo "=== Backend build complete ==="
+
             # --------------------------
-            # 2. Update & Restart Frontend
+            # 2. Update & Build Frontend
             # --------------------------
             cd ../Frontend
-            
-            # Clean everything for a fresh build
-            rm -rf node_modules
-            rm -rf website/.next
-            rm -rf website/node_modules
+
+            # Clean old dependencies and build cache
+            rm -rf node_modules website/node_modules website/.next
             npm install
-            
+
             # Build the website
             npm run build:website
-            
-            # Verify build output exists
-            if [ ! -d "website/.next" ]; then
-              echo "ERROR: Build failed - .next directory not found!"
-              exit 1
-            fi
-            
-            # Restart the frontend (stop first, then start fresh)
-            pm2 delete aescion-website || true
-            cd website
-            pm2 start npm --name "aescion-website" -- start
+            echo "=== Frontend build complete ==="
+
+            # Verify build output
+            ls -la website/.next/ || { echo "ERROR: .next directory missing!"; exit 1; }
+            echo "Build ID:"
+            cat website/.next/BUILD_ID
+
+            # --------------------------
+            # 3. Restart all services via ecosystem config
+            # --------------------------
+            cd ../Backend
+            pm2 delete all || true
+            pm2 start ecosystem.config.js
+            pm2 save
+            echo "=== PM2 restart complete ==="
+
+            # Show PM2 status for verification
+            pm2 list
