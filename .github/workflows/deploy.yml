@@ -24,7 +24,7 @@ jobs:
             cd ~/aescion-project
             
             # Stash any local changes (generated files like dist/, package-lock.json)
-            git stash --include-untracked
+            git stash --include-untracked || true
             
             # Pull the latest changes from GitHub
             git pull origin main
@@ -42,10 +42,23 @@ jobs:
             # 2. Update & Restart Frontend
             # --------------------------
             cd ../Frontend
+            
+            # Clean everything for a fresh build
+            rm -rf node_modules
+            rm -rf website/.next
+            rm -rf website/node_modules
             npm install
             
-            # Clean old build cache to prevent stale builds
-            rm -rf website/.next
-            
+            # Build the website
             npm run build:website
-            pm2 restart aescion-website
+            
+            # Verify build output exists
+            if [ ! -d "website/.next" ]; then
+              echo "ERROR: Build failed - .next directory not found!"
+              exit 1
+            fi
+            
+            # Restart the frontend (stop first, then start fresh)
+            pm2 delete aescion-website || true
+            cd website
+            pm2 start npm --name "aescion-website" -- start
