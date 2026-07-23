@@ -104,8 +104,7 @@ export function Sidebar({ className }: { className?: string }) {
   return (
     <div className={cn('flex flex-col w-56 h-full bg-white border-r border-gray-200', className)}>
       <div className="flex items-center h-12 px-4 border-b border-gray-200">
-        <span className="text-base font-bold text-primary tracking-tight">AESCION</span>
-        <span className="ml-1 text-[10px] font-medium text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">OS</span>
+        <span className="text-sm font-bold text-primary tracking-tight">AESCION Admin Panel</span>
       </div>
 
       <div className="px-3 pt-3 pb-2">

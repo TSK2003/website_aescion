@@ -12,9 +12,9 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 async function main() {
     console.log('🌱 Starting Enterprise Database Seeding...\n');
-    const email = process.env.SUPER_ADMIN_EMAIL || 'admin@aescion.com';
-    const passwordRaw = process.env.SUPER_ADMIN_PASSWORD || 'Admin@123456';
-    const name = process.env.SUPER_ADMIN_NAME || 'Super Admin';
+    const email = process.env.SUPER_ADMIN_EMAIL || 'contact.aescion@gmail.com';
+    const passwordRaw = process.env.SUPER_ADMIN_PASSWORD || 'Aescion#@2025';
+    const name = process.env.SUPER_ADMIN_NAME || 'AESCION SUPER ADMIN';
     const roleName = process.env.SUPER_ADMIN_ROLE || 'Super Admin';
     let tenant = await prisma.tenant.findFirst({ where: { name: 'AESCION HQ' } });
     if (!tenant) {
@@ -40,22 +40,23 @@ async function main() {
         });
         console.log(`✅ Created Role: ${roleName}`);
     }
-    let user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-        const hashedPassword = await bcrypt.hash(passwordRaw, 10);
-        user = await prisma.user.create({
-            data: {
-                email,
-                password: hashedPassword,
-                firstName: name,
-                lastName: 'User',
-                status: 'ACTIVE',
-                roleId: role.id,
-                tenantId: tenant.id,
-            },
-        });
-        console.log(`✅ Created Super Admin User: ${email}`);
-    }
+    const hashedPassword = await bcrypt.hash(passwordRaw, 10);
+    let user = await prisma.user.upsert({
+        where: { email },
+        create: {
+            email,
+            password: hashedPassword,
+            firstName: name,
+            lastName: 'User',
+            status: 'ACTIVE',
+            roleId: role.id,
+            tenantId: tenant.id,
+        },
+        update: {
+            password: hashedPassword,
+        },
+    });
+    console.log(`✅ Seeded Super Admin User: ${email}`);
     await prisma.systemSetting.upsert({
         where: {
             tenantId_group_key: {
