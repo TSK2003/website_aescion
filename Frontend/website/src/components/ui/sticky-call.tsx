@@ -2,11 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { PhoneCall } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function StickyCallButton() {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
   const phoneNumber = '+917550068877'; 
+
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {

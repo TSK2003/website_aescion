@@ -69,12 +69,10 @@
   }
 }
 
-/* Force Next.js dev overlay indicator to the top right */
-nextjs-portal {
-  position: fixed !important;
-  top: 16px !important;
-  bottom: auto !important;
-  right: 16px !important;
-  left: auto !important;
-  z-index: 9999 !important;
+/* Completely hide Next.js dev portal & floating badges */
+nextjs-portal, [data-nextjs-dialog-overlay], [data-nextjs-toast] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }

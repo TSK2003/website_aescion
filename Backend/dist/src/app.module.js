@@ -33,6 +33,8 @@ const hrms_module_1 = require("./modules/hrms/hrms.module");
 const lms_module_1 = require("./modules/lms/lms.module");
 const ai_module_1 = require("./modules/ai/ai.module");
 const integrations_module_1 = require("./modules/integrations/integrations.module");
+const services_module_1 = require("./modules/services/services.module");
+const solutions_module_1 = require("./modules/solutions/solutions.module");
 const health_module_1 = require("./modules/health/health.module");
 let AppModule = class AppModule {
 };
@@ -60,6 +62,8 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UsersModule,
             roles_module_1.RolesModule,
             cms_module_1.CmsModule,
+            services_module_1.ServicesModule,
+            solutions_module_1.SolutionsModule,
             crm_module_1.CrmModule,
             media_module_1.MediaModule,
             applications_module_1.ApplicationsModule,

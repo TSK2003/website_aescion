@@ -8,6 +8,10 @@ export function FloatingWhatsApp() {
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
 
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   useEffect(() => {
     // If not on home page, show immediately
     if (pathname !== '/') {

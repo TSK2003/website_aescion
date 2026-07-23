@@ -2,9 +2,9 @@
 
 import React from 'react';
 import {
-  LayoutDashboard, Users, FileText, Settings, BarChart2, Bell, FolderTree,
-  FileSignature, GraduationCap, Briefcase, UserCheck, Building2, Search as SearchIcon,
-  Shield, Activity, Monitor, Globe, BookOpen, ChevronDown, ChevronRight
+  LayoutDashboard, Users, FileText, Settings, FolderTree,
+  FileSignature, GraduationCap, Briefcase, UserCheck, Search as SearchIcon,
+  Globe, BookOpen, Cpu, Layers, ChevronDown, ChevronRight, LogOut
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -18,45 +18,37 @@ type MenuItem = {
 };
 
 const menus: MenuItem[] = [
-  { name: 'Dashboard', icon: LayoutDashboard, href: '/' },
+  { name: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
   {
-    name: 'Users & Roles', icon: Users, children: [
-      { name: 'Users', href: '/users' },
-      { name: 'Roles', href: '/roles' },
+    name: 'CMS Management', icon: FileText, children: [
+      { name: 'Pages', href: '/admin/cms' },
+      { name: 'Header & Nav', href: '/admin/cms/navigation' },
+      { name: 'Footer Settings', href: '/admin/cms/footer' },
     ]
   },
-  { name: 'Organizations', icon: Building2, href: '/organizations' },
-  {
-    name: 'CMS', icon: FileText, children: [
-      { name: 'Pages', href: '/cms' },
-      { name: 'Components', href: '/cms/components' },
-      { name: 'Navigation', href: '/cms/navigation' },
-    ]
-  },
+  { name: 'Services', icon: Cpu, href: '/admin/services' },
+  { name: 'Solutions', icon: Layers, href: '/admin/solutions' },
   {
     name: 'Blogs', icon: BookOpen, children: [
-      { name: 'Articles', href: '/blogs' },
-      { name: 'Categories', href: '/blogs/categories' },
-      { name: 'Tags', href: '/blogs/tags' },
+      { name: 'Articles', href: '/admin/blogs' },
+      { name: 'Categories', href: '/admin/blogs/categories' },
     ]
   },
-  { name: 'CRM', icon: UserCheck, href: '/crm' },
-  { name: 'Applications', icon: FileSignature, href: '/applications' },
-  { name: 'Training', icon: GraduationCap, href: '/training' },
-  { name: 'Internships', icon: Briefcase, href: '/internships' },
-  { name: 'Media Library', icon: FolderTree, href: '/media' },
-  { name: 'SEO Center', icon: Globe, href: '/seo' },
-  { name: 'Analytics', icon: BarChart2, href: '/analytics' },
-  { name: 'Notifications', icon: Bell, href: '/notifications' },
-  { name: 'Audit Logs', icon: Activity, href: '/audit-logs' },
-  { name: 'System Monitor', icon: Monitor, href: '/system' },
-  { name: 'Settings', icon: Settings, href: '/settings' },
+  { name: 'CRM & Leads', icon: UserCheck, href: '/admin/crm' },
+  { name: 'Applications', icon: FileSignature, href: '/admin/applications' },
+  { name: 'Training', icon: GraduationCap, href: '/admin/training' },
+  { name: 'Internships', icon: Briefcase, href: '/admin/internships' },
+  { name: 'Media Library', icon: FolderTree, href: '/admin/media' },
+  { name: 'SEO Center', icon: Globe, href: '/admin/seo' },
+  { name: 'System Settings', icon: Settings, href: '/admin/settings' },
 ];
 
 function NavItem({ item }: { item: MenuItem }) {
   const pathname = usePathname();
-  const [open, setOpen] = React.useState(false);
-  const isActive = item.href ? pathname === item.href : item.children?.some(c => pathname.startsWith(c.href));
+  const isActive = item.href 
+    ? (item.href === '/admin' ? pathname === '/admin' : pathname.startsWith(item.href))
+    : item.children?.some(c => pathname.startsWith(c.href));
+  const [open, setOpen] = React.useState(Boolean(isActive));
 
   if (item.children) {
     return (
@@ -65,7 +57,7 @@ function NavItem({ item }: { item: MenuItem }) {
           onClick={() => setOpen(!open)}
           className={cn(
             'w-full flex items-center justify-between gap-2 px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors',
-            isActive ? 'text-primary bg-primary/5' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+            isActive ? 'text-primary bg-primary/5 font-semibold' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
           )}
         >
           <span className="flex items-center gap-2.5">
@@ -82,7 +74,7 @@ function NavItem({ item }: { item: MenuItem }) {
                 href={child.href}
                 className={cn(
                   'block px-2 py-1 text-[13px] rounded-md transition-colors',
-                  pathname === child.href ? 'text-primary font-medium bg-primary/5' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                  pathname === child.href ? 'text-primary font-semibold bg-primary/5' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
                 )}
               >
                 {child.name}
@@ -99,7 +91,7 @@ function NavItem({ item }: { item: MenuItem }) {
       href={item.href!}
       className={cn(
         'flex items-center gap-2.5 px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors',
-        isActive ? 'text-primary bg-primary/5' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+        isActive ? 'text-primary bg-primary/5 font-semibold' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
       )}
     >
       <item.icon className="w-4 h-4 flex-shrink-0" />
@@ -127,14 +119,25 @@ export function Sidebar({ className }: { className?: string }) {
         {menus.map(item => <NavItem key={item.name} item={item} />)}
       </nav>
 
-      <div className="p-3 border-t border-gray-200">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">A</div>
+      <div className="p-3 border-t border-gray-200 flex items-center justify-between">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold shrink-0">A</div>
           <div className="flex flex-col min-w-0">
             <span className="text-xs font-semibold text-gray-900 truncate">Admin User</span>
             <span className="text-[10px] text-gray-400 truncate">Super Admin</span>
           </div>
         </div>
+        <button
+          onClick={() => {
+            localStorage.removeItem('aescion-admin-auth');
+            localStorage.removeItem('accessToken');
+            window.location.href = '/admin/login';
+          }}
+          className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+          title="Sign Out"
+        >
+          <LogOut className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );

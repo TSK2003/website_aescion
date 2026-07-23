@@ -63,21 +63,20 @@ cp Backend/.env.example Backend/.env
 Ensure your PostgreSQL connection string in `Backend/.env` (`DATABASE_URL`) is properly set.
 
 ## Database Commands
-From the `Backend/` directory, perform database migrations and generate the Prisma client:
+From the `Backend/` directory, sync database schema and seed initial required data:
 ```bash
 cd Backend
 npx prisma generate
-npx prisma migrate reset
-npx prisma migrate dev --name init
+npx prisma db push
 npx prisma db seed
 npx prisma studio
 ```
 
 ## Seed Commands
-From the `Backend/` directory, seed the database with initial required data (e.g., Super Admin):
+From the `Backend/` directory, push schema and seed required enterprise data:
 ```bash
 cd Backend
-npx prisma migrate reset
+npx prisma db push
 npx prisma db seed
 npx prisma studio
 ```
