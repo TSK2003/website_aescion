@@ -1,5 +1,5 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { AnalyticsService } from './analytics.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -16,7 +16,13 @@ export class AnalyticsController {
   @Get('traffic')
   @Roles('SUPER_ADMIN', 'ADMIN')
   @ApiOperation({ summary: 'Get website traffic statistics' })
-  async getTraffic(@CurrentUser() user: any) {
-    return this.analyticsService.getTrafficStats(user.tenantId);
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  async getTraffic(
+    @CurrentUser() user: any,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    return this.analyticsService.getTrafficStats(user.tenantId, startDate, endDate);
   }
 }

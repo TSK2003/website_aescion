@@ -7,4 +7,11 @@ export declare class AppController {
         status: string;
         timestamp: string;
     };
+    search(query: string): Promise<{
+        id: string;
+        title: string;
+        href: string;
+        category: string;
+        description: string | null;
+    }[]>;
 }

@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Put,
+  Patch,
   Delete,
   Body,
   Param,
@@ -72,6 +73,8 @@ export class ApplicationsController {
   }
 
   @Put(':id/status')
+  @Patch(':id/status')
+  @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('SUPER_ADMIN', 'ADMIN', 'HR')
   @ApiBearerAuth()

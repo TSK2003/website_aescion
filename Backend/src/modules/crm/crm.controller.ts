@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Put,
+  Patch,
   Delete,
   Body,
   Param,
@@ -24,7 +25,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 @ApiTags('CRM - Leads')
-@Controller('leads')
+@Controller(['crm/leads', 'leads'])
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth()
 export class CrmController {
@@ -98,6 +99,7 @@ export class CrmController {
   }
 
   @Put(':id/stage')
+  @Patch(':id/stage')
   @Roles('SUPER_ADMIN', 'ADMIN', 'MANAGER')
   @ApiOperation({ summary: 'Update lead pipeline stage' })
   async updateStage(

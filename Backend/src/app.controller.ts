@@ -1,6 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('System')
 @Controller()
@@ -20,5 +20,12 @@ export class AppController {
       status: 'ok',
       timestamp: new Date().toISOString(),
     };
+  }
+
+  @Get('search')
+  @ApiOperation({ summary: 'Global text search across blogs, services, and pages' })
+  @ApiQuery({ name: 'query', required: true })
+  async search(@Query('query') query: string) {
+    return this.appService.search(query);
   }
 }

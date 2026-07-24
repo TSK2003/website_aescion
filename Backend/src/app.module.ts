@@ -27,6 +27,8 @@ import { IntegrationsModule } from './modules/integrations/integrations.module';
 import { ServicesModule } from './modules/services/services.module';
 import { SolutionsModule } from './modules/solutions/solutions.module';
 import { HealthModule } from './modules/health/health.module';
+import { NewsletterModule } from './modules/newsletter/newsletter.module';
+import { AuditLogsModule } from './modules/audit-logs/audit-logs.module';
 
 @Module({
   imports: [
@@ -69,6 +71,8 @@ import { HealthModule } from './modules/health/health.module';
     AiModule,
     IntegrationsModule,
     HealthModule,
+    NewsletterModule,
+    AuditLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -42,6 +42,9 @@ let BlogsController = class BlogsController {
     async getPublicBlog(slug) {
         return this.blogsService.getBySlug(slug);
     }
+    async getBlogBySlugPublic(slug) {
+        return this.blogsService.getBySlug(slug);
+    }
     async getAllBlogs(user, page, limit, status) {
         return this.blogsService.getAll(user.tenantId, { page, limit, status });
     }
@@ -96,6 +99,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], BlogsController.prototype, "getPublicBlog", null);
+__decorate([
+    (0, common_1.Get)('slug/:slug'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get a published blog by slug' }),
+    __param(0, (0, common_1.Param)('slug')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], BlogsController.prototype, "getBlogBySlugPublic", null);
 __decorate([
     (0, common_1.Get)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),

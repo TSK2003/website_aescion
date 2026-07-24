@@ -5,11 +5,11 @@ export declare class NotificationsRepository {
     getUserNotifications(tenantId: string, userId: string): Promise<{
         id: string;
         tenantId: string;
-        type: string;
-        createdAt: Date;
-        status: import("@prisma/client").$Enums.NotificationStatus;
-        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         title: string;
+        status: import("@prisma/client").$Enums.NotificationStatus;
+        createdAt: Date;
+        type: string;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         message: string;
         userId: string;
         channel: import("@prisma/client").$Enums.NotificationChannel;
@@ -19,11 +19,11 @@ export declare class NotificationsRepository {
     markAsRead(tenantId: string, id: string): Promise<{
         id: string;
         tenantId: string;
-        type: string;
-        createdAt: Date;
-        status: import("@prisma/client").$Enums.NotificationStatus;
-        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         title: string;
+        status: import("@prisma/client").$Enums.NotificationStatus;
+        createdAt: Date;
+        type: string;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         message: string;
         userId: string;
         channel: import("@prisma/client").$Enums.NotificationChannel;

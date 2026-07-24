@@ -8,25 +8,28 @@ export declare class JwtStrategy extends JwtStrategy_base {
     constructor(prisma: PrismaService);
     validate(payload: any): Promise<{
         role: {
-            description: string | null;
             id: string;
             tenantId: string | null;
-            name: string;
+            status: import("@prisma/client").$Enums.RecordStatus;
             createdAt: Date;
             updatedAt: Date;
-            createdBy: string | null;
-            status: import("@prisma/client").$Enums.RecordStatus;
             deletedAt: Date | null;
+            createdBy: string | null;
             updatedBy: string | null;
             deletedBy: string | null;
+            description: string | null;
+            name: string;
             isSystem: boolean;
         } | null;
         id: string;
         tenantId: string;
+        status: import("@prisma/client").$Enums.RecordStatus;
         createdAt: Date;
         updatedAt: Date;
+        deletedAt: Date | null;
         createdBy: string | null;
-        status: import("@prisma/client").$Enums.RecordStatus;
+        updatedBy: string | null;
+        deletedBy: string | null;
         email: string;
         resetToken: string | null;
         firstName: string;
@@ -41,9 +44,6 @@ export declare class JwtStrategy extends JwtStrategy_base {
         isLocked: boolean;
         isVerified: boolean;
         resetTokenExpiry: Date | null;
-        deletedAt: Date | null;
-        updatedBy: string | null;
-        deletedBy: string | null;
         roleId: string | null;
     }>;
 }

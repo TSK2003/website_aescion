@@ -3,60 +3,60 @@ export declare class SettingsService {
     private readonly settingsRepo;
     constructor(settingsRepo: SettingsRepository);
     getAllSettings(tenantId: string): Promise<{
-        description: string | null;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
+        description: string | null;
         group: string;
         key: string;
         value: import("@prisma/client/runtime/client").JsonValue;
         isPublic: boolean;
     }[]>;
     getPublicSettings(tenantId: string): Promise<{
-        description: string | null;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
+        description: string | null;
         group: string;
         key: string;
         value: import("@prisma/client/runtime/client").JsonValue;
         isPublic: boolean;
     }[]>;
     getSetting(tenantId: string, group: string, key: string): Promise<{
-        description: string | null;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
+        description: string | null;
         group: string;
         key: string;
         value: import("@prisma/client/runtime/client").JsonValue;
         isPublic: boolean;
     }>;
     updateSetting(tenantId: string, group: string, key: string, value: any, isPublic: boolean, description: string, userId: string): Promise<{
-        description: string | null;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
+        description: string | null;
         group: string;
         key: string;
         value: import("@prisma/client/runtime/client").JsonValue;
         isPublic: boolean;
     }>;
     updateBulkSettings(tenantId: string, settings: any[], userId: string): Promise<{
-        description: string | null;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
+        description: string | null;
         group: string;
         key: string;
         value: import("@prisma/client/runtime/client").JsonValue;

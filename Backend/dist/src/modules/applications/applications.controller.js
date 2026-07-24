@@ -91,6 +91,8 @@ __decorate([
 ], ApplicationsController.prototype, "getApplicationById", null);
 __decorate([
     (0, common_1.Put)(':id/status'),
+    (0, common_1.Patch)(':id/status'),
+    (0, common_1.Patch)(':id'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('SUPER_ADMIN', 'ADMIN', 'HR'),
     (0, swagger_1.ApiBearerAuth)(),

@@ -11,6 +11,14 @@ interface SolutionDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export function generateStaticParams() {
+  return [
+    { slug: 'enterprise-core' },
+    { slug: 'ai-agent-engine' },
+    { slug: 'education-lms' },
+  ];
+}
+
 // Mock data — will be replaced by CMS in production
 const SOLUTIONS_DATA: Record<string, {
   title: string;

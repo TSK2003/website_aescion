@@ -7,29 +7,29 @@ export declare class EmailService {
     getTemplates(tenantId: string): Promise<{
         id: string;
         tenantId: string;
-        name: string;
         slug: string;
-        subject: string;
-        body: string;
-        variables: string[];
-        type: string;
-        isActive: boolean;
         createdAt: Date;
         updatedAt: Date;
         createdBy: string | null;
+        name: string;
+        type: string;
+        subject: string;
+        body: string;
+        variables: string[];
+        isActive: boolean;
     }[]>;
     getLogs(tenantId: string): Promise<{
         id: string;
         tenantId: string;
-        subject: string;
-        body: string;
+        status: import("@prisma/client").$Enums.EmailStatus;
         createdAt: Date;
         updatedAt: Date;
+        subject: string;
+        body: string;
         templateId: string | null;
         to: string;
         cc: string | null;
         bcc: string | null;
-        status: import("@prisma/client").$Enums.EmailStatus;
         attempts: number;
         sentAt: Date | null;
         errorMessage: string | null;

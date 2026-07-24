@@ -134,6 +134,7 @@ __decorate([
 ], CrmController.prototype, "updateLead", null);
 __decorate([
     (0, common_1.Put)(':id/stage'),
+    (0, common_1.Patch)(':id/stage'),
     (0, roles_decorator_1.Roles)('SUPER_ADMIN', 'ADMIN', 'MANAGER'),
     (0, swagger_1.ApiOperation)({ summary: 'Update lead pipeline stage' }),
     __param(0, (0, common_1.Param)('id')),
@@ -166,7 +167,7 @@ __decorate([
 ], CrmController.prototype, "deleteLead", null);
 exports.CrmController = CrmController = __decorate([
     (0, swagger_1.ApiTags)('CRM - Leads'),
-    (0, common_1.Controller)('leads'),
+    (0, common_1.Controller)(['crm/leads', 'leads']),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, swagger_1.ApiBearerAuth)(),
     __metadata("design:paramtypes", [crm_service_1.CrmService])

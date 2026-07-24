@@ -25,8 +25,8 @@ let AnalyticsController = class AnalyticsController {
     constructor(analyticsService) {
         this.analyticsService = analyticsService;
     }
-    async getTraffic(user) {
-        return this.analyticsService.getTrafficStats(user.tenantId);
+    async getTraffic(user, startDate, endDate) {
+        return this.analyticsService.getTrafficStats(user.tenantId, startDate, endDate);
     }
 };
 exports.AnalyticsController = AnalyticsController;
@@ -34,9 +34,13 @@ __decorate([
     (0, common_1.Get)('traffic'),
     (0, roles_decorator_1.Roles)('SUPER_ADMIN', 'ADMIN'),
     (0, swagger_1.ApiOperation)({ summary: 'Get website traffic statistics' }),
+    (0, swagger_1.ApiQuery)({ name: 'startDate', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'endDate', required: false }),
     __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Query)('startDate')),
+    __param(2, (0, common_1.Query)('endDate')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, String, String]),
     __metadata("design:returntype", Promise)
 ], AnalyticsController.prototype, "getTraffic", null);
 exports.AnalyticsController = AnalyticsController = __decorate([

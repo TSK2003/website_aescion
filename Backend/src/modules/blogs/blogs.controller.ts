@@ -64,6 +64,12 @@ export class BlogsController {
     return this.blogsService.getBySlug(slug);
   }
 
+  @Get('slug/:slug')
+  @ApiOperation({ summary: 'Get a published blog by slug' })
+  async getBlogBySlugPublic(@Param('slug') slug: string) {
+    return this.blogsService.getBySlug(slug);
+  }
+
   // ==================== ADMIN ====================
 
   @Get()

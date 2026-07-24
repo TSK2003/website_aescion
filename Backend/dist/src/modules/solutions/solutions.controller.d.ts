@@ -8,36 +8,36 @@ export declare class SolutionsController {
     getPublicSolutionBySlug(slug: string): Promise<any>;
     getAllSolutions(user: any): Promise<any[]>;
     createSolution(user: any, dto: CreateSolutionDto): Promise<{
-        description: string | null;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
+        description: string | null;
         group: string;
         key: string;
         value: import("@prisma/client/runtime/client").JsonValue;
         isPublic: boolean;
     }>;
     updateSolution(slug: string, user: any, dto: UpdateSolutionDto): Promise<{
-        description: string | null;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
+        description: string | null;
         group: string;
         key: string;
         value: import("@prisma/client/runtime/client").JsonValue;
         isPublic: boolean;
     }>;
     deleteSolution(slug: string, user: any): Promise<{
-        description: string | null;
         id: string;
         tenantId: string;
         createdAt: Date;
         updatedAt: Date;
         updatedBy: string | null;
+        description: string | null;
         group: string;
         key: string;
         value: import("@prisma/client/runtime/client").JsonValue;

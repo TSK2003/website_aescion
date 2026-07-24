@@ -36,6 +36,8 @@ const integrations_module_1 = require("./modules/integrations/integrations.modul
 const services_module_1 = require("./modules/services/services.module");
 const solutions_module_1 = require("./modules/solutions/solutions.module");
 const health_module_1 = require("./modules/health/health.module");
+const newsletter_module_1 = require("./modules/newsletter/newsletter.module");
+const audit_logs_module_1 = require("./modules/audit-logs/audit-logs.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -80,6 +82,8 @@ exports.AppModule = AppModule = __decorate([
             ai_module_1.AiModule,
             integrations_module_1.IntegrationsModule,
             health_module_1.HealthModule,
+            newsletter_module_1.NewsletterModule,
+            audit_logs_module_1.AuditLogsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

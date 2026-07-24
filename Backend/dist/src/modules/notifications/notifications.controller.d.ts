@@ -5,11 +5,11 @@ export declare class NotificationsController {
     getMyNotifications(user: any): Promise<{
         id: string;
         tenantId: string;
-        type: string;
-        createdAt: Date;
-        status: import("@prisma/client").$Enums.NotificationStatus;
-        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         title: string;
+        status: import("@prisma/client").$Enums.NotificationStatus;
+        createdAt: Date;
+        type: string;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         message: string;
         userId: string;
         channel: import("@prisma/client").$Enums.NotificationChannel;
@@ -19,11 +19,11 @@ export declare class NotificationsController {
     markAsRead(id: string, user: any): Promise<{
         id: string;
         tenantId: string;
-        type: string;
-        createdAt: Date;
-        status: import("@prisma/client").$Enums.NotificationStatus;
-        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         title: string;
+        status: import("@prisma/client").$Enums.NotificationStatus;
+        createdAt: Date;
+        type: string;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
         message: string;
         userId: string;
         channel: import("@prisma/client").$Enums.NotificationChannel;

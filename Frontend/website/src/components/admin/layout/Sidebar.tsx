@@ -1,143 +1,217 @@
 'use client';
 
-import React from 'react';
-import {
-  LayoutDashboard, Users, FileText, Settings, FolderTree,
-  FileSignature, GraduationCap, Briefcase, UserCheck, Search as SearchIcon,
-  Globe, BookOpen, Cpu, Layers, ChevronDown, ChevronRight, LogOut
-} from 'lucide-react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import {
+  LayoutDashboard,
+  BarChart3,
+  UserCheck,
+  FileSignature,
+  Briefcase,
+  GraduationCap,
+  BookOpen,
+  Cpu,
+  Layers,
+  FileText,
+  Globe,
+  FolderTree,
+  Activity,
+  Settings,
+  ShieldAlert,
+  LogOut,
+  ChevronLeft,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type MenuItem = {
-  name: string;
-  icon: React.ElementType;
-  href?: string;
-  children?: { name: string; href: string }[];
+type NavSection = {
+  title: string;
+  items: {
+    name: string;
+    href: string;
+    icon: React.ElementType;
+    badge?: string;
+  }[];
 };
 
-const menus: MenuItem[] = [
-  { name: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
+const navSections: NavSection[] = [
   {
-    name: 'CMS Management', icon: FileText, children: [
-      { name: 'Pages', href: '/admin/cms' },
-      { name: 'Header & Nav', href: '/admin/cms/navigation' },
-      { name: 'Footer Settings', href: '/admin/cms/footer' },
-    ]
+    title: 'Overview',
+    items: [
+      { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+      { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
+    ],
   },
-  { name: 'Services', icon: Cpu, href: '/admin/services' },
-  { name: 'Solutions', icon: Layers, href: '/admin/solutions' },
   {
-    name: 'Blogs', icon: BookOpen, children: [
-      { name: 'Articles', href: '/admin/blogs' },
-      { name: 'Categories', href: '/admin/blogs/categories' },
-    ]
+    title: 'CRM & Leads',
+    items: [
+      { name: 'CRM Pipeline', href: '/admin/crm', icon: UserCheck, badge: 'Live' },
+      { name: 'Applications', href: '/admin/applications', icon: FileSignature },
+      { name: 'Internships', href: '/admin/internships', icon: Briefcase },
+      { name: 'Training', href: '/admin/training', icon: GraduationCap },
+    ],
   },
-  { name: 'CRM & Leads', icon: UserCheck, href: '/admin/crm' },
-  { name: 'Applications', icon: FileSignature, href: '/admin/applications' },
-  { name: 'Training', icon: GraduationCap, href: '/admin/training' },
-  { name: 'Internships', icon: Briefcase, href: '/admin/internships' },
-  { name: 'Media Library', icon: FolderTree, href: '/admin/media' },
-  { name: 'SEO Center', icon: Globe, href: '/admin/seo' },
-  { name: 'System Settings', icon: Settings, href: '/admin/settings' },
+  {
+    title: 'Content',
+    items: [
+      { name: 'Blogs & News', href: '/admin/blogs', icon: BookOpen },
+      { name: 'Services', href: '/admin/services', icon: Cpu },
+      { name: 'Solutions', href: '/admin/solutions', icon: Layers },
+      { name: 'CMS Pages', href: '/admin/cms', icon: FileText },
+      { name: 'SEO Engine', href: '/admin/seo', icon: Globe },
+    ],
+  },
+  {
+    title: 'Media & Assets',
+    items: [{ name: 'Media Library', href: '/admin/media', icon: FolderTree }],
+  },
+  {
+    title: 'System',
+    items: [
+      { name: 'Audit Logs', href: '/admin/audit-logs', icon: Activity },
+      { name: 'System Health', href: '/admin/system', icon: ShieldAlert },
+      { name: 'Settings', href: '/admin/settings', icon: Settings },
+    ],
+  },
 ];
 
-function NavItem({ item }: { item: MenuItem }) {
+export function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname();
-  const isActive = item.href 
-    ? (item.href === '/admin' ? pathname === '/admin' : pathname.startsWith(item.href))
-    : item.children?.some(c => pathname.startsWith(c.href));
-  const [open, setOpen] = React.useState(Boolean(isActive));
-
-  if (item.children) {
-    return (
-      <div>
-        <button
-          onClick={() => setOpen(!open)}
-          className={cn(
-            'w-full flex items-center justify-between gap-2 px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors',
-            isActive ? 'text-primary bg-primary/5 font-semibold' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-          )}
-        >
-          <span className="flex items-center gap-2.5">
-            <item.icon className="w-4 h-4 flex-shrink-0" />
-            {item.name}
-          </span>
-          {open ? <ChevronDown className="w-3.5 h-3.5 opacity-50" /> : <ChevronRight className="w-3.5 h-3.5 opacity-50" />}
-        </button>
-        {open && (
-          <div className="ml-6 mt-0.5 space-y-0.5 border-l border-gray-200 pl-2.5">
-            {item.children.map(child => (
-              <Link
-                key={child.href}
-                href={child.href}
-                className={cn(
-                  'block px-2 py-1 text-[13px] rounded-md transition-colors',
-                  pathname === child.href ? 'text-primary font-semibold bg-primary/5' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
-                )}
-              >
-                {child.name}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Link
-      href={item.href!}
+    <aside
       className={cn(
-        'flex items-center gap-2.5 px-3 py-1.5 text-[13px] font-medium rounded-md transition-colors',
-        isActive ? 'text-primary bg-primary/5 font-semibold' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+        'flex flex-col h-full bg-slate-900 text-slate-300 border-r border-slate-800 transition-all duration-300 z-30 select-none',
+        collapsed ? 'w-20' : 'w-64',
+        className
       )}
     >
-      <item.icon className="w-4 h-4 flex-shrink-0" />
-      {item.name}
-    </Link>
-  );
-}
+      {/* AESCION Official Logo Header */}
+      <div
+        className={cn(
+          'border-b border-slate-800/80 bg-slate-950/50 transition-all',
+          collapsed ? 'py-3 px-2 flex flex-col items-center gap-2' : 'h-16 px-4 flex items-center justify-between'
+        )}
+      >
+        <Link href="/admin" className="flex items-center justify-center overflow-hidden">
+          {collapsed ? (
+            <div className="relative w-9 h-9 shrink-0 bg-white/10 rounded-xl p-1 flex items-center justify-center">
+              <Image
+                src="/logo.png"
+                alt="AESCION Logo"
+                width={32}
+                height={32}
+                priority
+                className="object-contain"
+              />
+            </div>
+          ) : (
+            <div className="relative w-40 h-10 shrink-0 bg-white/5 rounded-xl px-2 py-1 flex items-center justify-start border border-white/10">
+              <Image
+                src="/logo_with_name.png"
+                alt="AESCION Enterprise Logo"
+                fill
+                priority
+                className="object-contain p-1"
+              />
+            </div>
+          )}
+        </Link>
 
-export function Sidebar({ className }: { className?: string }) {
-  return (
-    <div className={cn('flex flex-col w-56 h-full bg-white border-r border-gray-200', className)}>
-      <div className="flex items-center h-12 px-4 border-b border-gray-200">
-        <span className="text-sm font-bold text-primary tracking-tight">AESCION Admin Panel</span>
-      </div>
-
-      <div className="px-3 pt-3 pb-2">
-        <div className="flex items-center bg-gray-50 rounded-md px-2.5 py-1.5 border border-gray-200">
-          <SearchIcon className="w-3.5 h-3.5 text-gray-400 mr-2" />
-          <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-xs w-full placeholder:text-gray-400" />
-        </div>
-      </div>
-
-      <nav className="flex-1 px-2 pb-4 space-y-0.5 overflow-y-auto">
-        {menus.map(item => <NavItem key={item.name} item={item} />)}
-      </nav>
-
-      <div className="p-3 border-t border-gray-200 flex items-center justify-between">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold shrink-0">A</div>
-          <div className="flex flex-col min-w-0">
-            <span className="text-xs font-semibold text-gray-900 truncate">Admin User</span>
-            <span className="text-[10px] text-gray-400 truncate">Super Admin</span>
-          </div>
-        </div>
         <button
-          onClick={() => {
-            localStorage.removeItem('aescion-admin-auth');
-            localStorage.removeItem('accessToken');
-            window.location.href = '/admin/login';
-          }}
-          className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
-          title="Sign Out"
+          onClick={() => setCollapsed(!collapsed)}
+          className={cn(
+            'p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors border border-slate-800',
+            collapsed && 'mt-1'
+          )}
+          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          <LogOut className="w-4 h-4" />
+          <ChevronLeft className={cn('w-4 h-4 transition-transform', collapsed && 'rotate-180')} />
         </button>
       </div>
-    </div>
+
+      {/* Nav List */}
+      <nav className="flex-1 px-3 py-4 space-y-6 overflow-y-auto scrollbar-thin">
+        {navSections.map((sec) => (
+          <div key={sec.title} className="space-y-1">
+            {!collapsed && (
+              <h3 className="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                {sec.title}
+              </h3>
+            )}
+            {sec.items.map((item) => {
+              const isActive =
+                item.href === '/admin'
+                  ? pathname === '/admin'
+                  : pathname.startsWith(item.href);
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  title={collapsed ? item.name : undefined}
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group relative',
+                    collapsed && 'justify-center px-0',
+                    isActive
+                      ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/30 font-bold border-l-4 border-white'
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
+                  )}
+                >
+                  <item.icon
+                    className={cn(
+                      'w-4 h-4 shrink-0 transition-colors',
+                      isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'
+                    )}
+                  />
+                  {!collapsed && <span className="truncate flex-1">{item.name}</span>}
+                  {!collapsed && item.badge && (
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
+      </nav>
+
+      {/* User Footer */}
+      <div
+        className={cn(
+          'p-3 border-t border-slate-800/80 bg-slate-950/40 flex items-center',
+          collapsed ? 'justify-center' : 'justify-between'
+        )}
+      >
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-8 h-8 rounded-xl bg-primary-600/20 border border-primary-500/30 text-primary-400 flex items-center justify-center font-bold text-xs shrink-0">
+            A
+          </div>
+          {!collapsed && (
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-semibold text-white truncate">Administrator</span>
+              <span className="text-[10px] text-slate-400 truncate">Super Admin</span>
+            </div>
+          )}
+        </div>
+
+        {!collapsed && (
+          <button
+            onClick={() => {
+              localStorage.removeItem('aescion-admin-auth');
+              localStorage.removeItem('accessToken');
+              window.location.href = '/admin/login';
+            }}
+            className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
+            title="Sign Out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+    </aside>
   );
 }

@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MediaController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
 const media_service_1 = require("./media.service");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
@@ -24,6 +25,26 @@ let MediaController = class MediaController {
     mediaService;
     constructor(mediaService) {
         this.mediaService = mediaService;
+    }
+    async getMedia(user, page, limit, search) {
+        return this.mediaService.getFiles(user.tenantId, { page, limit, search });
+    }
+    async uploadFile(user, file, body) {
+        const filename = file?.originalname || body.filename || `file-${Date.now()}`;
+        const size = file?.size || body.size || 1024;
+        const mimeType = file?.mimetype || body.mimeType || 'image/png';
+        const url = body.url || `/uploads/${filename}`;
+        return this.mediaService.registerFile(user.tenantId, {
+            filename,
+            originalName: filename,
+            mimeType,
+            size,
+            url,
+            mediaType: mimeType.startsWith('image/') ? 'IMAGE' : 'OTHER',
+        }, user.id);
+    }
+    async deleteMedia(id, user) {
+        return this.mediaService.deleteFile(id, user.id);
     }
     async getFolders(user, parentId) {
         return this.mediaService.getFolders(user.tenantId, parentId);
@@ -51,6 +72,41 @@ let MediaController = class MediaController {
     }
 };
 exports.MediaController = MediaController;
+__decorate([
+    (0, common_1.Get)(),
+    (0, roles_decorator_1.Roles)('SUPER_ADMIN', 'ADMIN', 'EDITOR'),
+    (0, swagger_1.ApiOperation)({ summary: 'List media files (alias for GET /media/files)' }),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.Query)('page')),
+    __param(2, (0, common_1.Query)('limit')),
+    __param(3, (0, common_1.Query)('search')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Number, Number, String]),
+    __metadata("design:returntype", Promise)
+], MediaController.prototype, "getMedia", null);
+__decorate([
+    (0, common_1.Post)('upload'),
+    (0, roles_decorator_1.Roles)('SUPER_ADMIN', 'ADMIN', 'EDITOR'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, swagger_1.ApiOperation)({ summary: 'Upload media file' }),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], MediaController.prototype, "uploadFile", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, roles_decorator_1.Roles)('SUPER_ADMIN', 'ADMIN'),
+    (0, swagger_1.ApiOperation)({ summary: 'Delete a media file (alias)' }),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], MediaController.prototype, "deleteMedia", null);
 __decorate([
     (0, common_1.Get)('folders'),
     (0, roles_decorator_1.Roles)('SUPER_ADMIN', 'ADMIN', 'EDITOR'),

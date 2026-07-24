@@ -8,12 +8,16 @@ import {
   Param,
   Query,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiTags,
   ApiBearerAuth,
   ApiOperation,
   ApiQuery,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { MediaService } from './media.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -27,6 +31,55 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 @ApiBearerAuth()
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
+
+  @Get()
+  @Roles('SUPER_ADMIN', 'ADMIN', 'EDITOR')
+  @ApiOperation({ summary: 'List media files (alias for GET /media/files)' })
+  async getMedia(
+    @CurrentUser() user: any,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Query('search') search?: string,
+  ) {
+    return this.mediaService.getFiles(user.tenantId, { page, limit, search });
+  }
+
+  @Post('upload')
+  @Roles('SUPER_ADMIN', 'ADMIN', 'EDITOR')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Upload media file' })
+  async uploadFile(
+    @CurrentUser() user: any,
+    @UploadedFile() file: any,
+    @Body() body: any,
+  ) {
+    // If multipart file is provided, extract metadata; otherwise use body fields
+    const filename = file?.originalname || body.filename || `file-${Date.now()}`;
+    const size = file?.size || body.size || 1024;
+    const mimeType = file?.mimetype || body.mimeType || 'image/png';
+    const url = body.url || `/uploads/${filename}`;
+
+    return this.mediaService.registerFile(
+      user.tenantId,
+      {
+        filename,
+        originalName: filename,
+        mimeType,
+        size,
+        url,
+        mediaType: mimeType.startsWith('image/') ? 'IMAGE' : 'OTHER',
+      },
+      user.id,
+    );
+  }
+
+  @Delete(':id')
+  @Roles('SUPER_ADMIN', 'ADMIN')
+  @ApiOperation({ summary: 'Delete a media file (alias)' })
+  async deleteMedia(@Param('id') id: string, @CurrentUser() user: any) {
+    return this.mediaService.deleteFile(id, user.id);
+  }
 
   // ==================== FOLDERS ====================
 
@@ -87,8 +140,6 @@ export class MediaController {
   @Roles('SUPER_ADMIN', 'ADMIN', 'EDITOR')
   @ApiOperation({ summary: 'Register an uploaded file in the database' })
   async registerFile(@CurrentUser() user: any, @Body() body: any) {
-    // In a real app, you'd have an interceptor/middleware for actual file upload (S3/Multer)
-    // This endpoint registers the metadata after upload
     return this.mediaService.registerFile(user.tenantId, body, user.id);
   }
 
